@@ -34,5 +34,8 @@ information.
 
 This program depends on the following software and libraries.
 
+*   __OpenCV 2.4.6__<br />
+    <[http://opencv.org/](http://opencv.org/)>
+
 *   __libgnomonic__<br />
     <[https://github.com/FoxelSA/libgnomonic](https://github.com/FoxelSA/libgnomonic)>

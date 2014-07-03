@@ -1,35 +1,55 @@
 
 #
-#   make - Names
+#   make - Configuration
 #
 
-    MAKE_NAME=norama-gnomo2eqr
+	MAKE_NAME=norama-gnomo2eqr
+	MAKE_CODE=c
+	MAKE_TYPE=application
 
 #
-#   make - Directories
+#   make - Structure
 #
 
-    MAKE_BINARY=bin
-    MAKE_DOCUME=doc
-    MAKE_OBJECT=obj
-    MAKE_SOURCE=src
+	MAKE_BINARY=bin
+	MAKE_DOCUME=doc
+	MAKE_OBJECT=obj
+	MAKE_SOURCE=src
 
 #
-#   make - Files
+#   make - Source
 #
 
-    MAKE_SCC=$(wildcard $(MAKE_SOURCE)/*.c)
-    MAKE_OBC=$(addprefix $(MAKE_OBJECT)/, $(addsuffix .o, $(notdir $(basename $(MAKE_SCC)))))
+	MAKE_SRCFILE=$(wildcard $(MAKE_SOURCE)/*.$(MAKE_CODE))
+	MAKE_OBJFILE=$(addprefix $(MAKE_OBJECT)/, $(addsuffix .o, $(notdir $(basename $(MAKE_SRCFILE)))))
 
 #
-#   make - Constants
+#   make - Compilation and linkage
 #
 
-    MAKE_CCC=gcc
-    MAKE_LKD=gcc
-    MAKE_OPC=-Wall -c -funsigned-char -std=c99
-    MAKE_LOP=-lgnomonic `pkg-config --cflags --libs opencv`
-    MAKE_DOC=doxygen
+ifeq ($(MAKE_CODE),c)
+	MAKE_SRCCOMP=gcc
+else
+ifeq ($(MAKE_CODE),cpp)
+	MAKE_SRCCOMP=g++
+endif
+endif
+ifeq ($(MAKE_TYPE),application)
+	MAKE_OBJCOMP=$(MAKE_SRCCOMP)
+else
+ifeq ($(MAKE_TYPE),libstatic)
+	MAKE_OBJCOMP=ar
+endif
+endif
+	MAKE_DOCCOMP=doxygen
+ifeq ($(MAKE_CODE),c)
+	MAKE_SRCOPTN=-Wall -funsigned-char -std=gnu99 -O3
+else
+ifeq ($(MAKE_CODE),cpp)
+	MAKE_SRCOPTN=-Wall -funsigned-char -std=c++11 -O3
+endif
+endif
+	MAKE_OBJOPTN=-lm -lgnomonic `pkg-config --cflags --libs opencv`
 
 #
 #   make - All
@@ -41,22 +61,28 @@
 #   make - Binaries
 #
 
-    $(MAKE_NAME):$(MAKE_OBC) $(MAKE_OBP)
-	$(MAKE_LKD) -o $(MAKE_BINARY)/$(MAKE_NAME) $^ $(MAKE_LOP)
+    $(MAKE_NAME):$(MAKE_OBJFILE)
+ifeq ($(MAKE_TYPE),application)
+	$(MAKE_OBJCOMP) -o $(MAKE_BINARY)/$(MAKE_NAME) $^ $(MAKE_OBJOPTN)
+else
+ifeq ($(MAKE_TYPE),libstatic)
+	$(MAKE_OBJCOMP) rcs $(MAKE_BINARY)/$(MAKE_NAME).a $^
+endif
+endif
 
 #
 #   make - Objects
 #
 
-    $(MAKE_OBJECT)/%.o:$(MAKE_SOURCE)/%.c
-	$(MAKE_CCC) $(MAKE_OPC) -o $@ $<
+    $(MAKE_OBJECT)/%.o:$(MAKE_SOURCE)/%.$(MAKE_CODE)
+	$(MAKE_SRCCOMP) -c -o $@ $< $(MAKE_SRCOPTN)
 
 #
 #   make - Documentation
 #
 
-    documentation:directories clean-doc
-	rm $(MAKE_DOCUME)/html -rf && $(MAKE_DOC)
+    documentation:directories
+	rm $(MAKE_DOCUME)/html -rf && $(MAKE_DOCCOMP)
 
 #
 #   make - Directories
@@ -68,12 +94,10 @@
 	mkdir -p $(MAKE_OBJECT)
 
 #
-#   make - Clean
+#   make - Cleaning
 #
 
     clean:
 	rm $(MAKE_BINARY)/* -f
 	rm $(MAKE_OBJECT)/*.o -f
-
-	
 
