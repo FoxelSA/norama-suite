@@ -1,0 +1,5 @@
+bin/
+src/*/bin
+src/*/dev
+src/*/doc/html
+src/*/obj
