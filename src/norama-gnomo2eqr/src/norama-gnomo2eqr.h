@@ -36,6 +36,10 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    //! @file   norama-gnomo2eqr.h
+    //! @author Nils Hamel (nils.hamel@foxel.ch)
+    //! 
+    //! Software main header.
 
 /* 
     Header - Include guard
@@ -61,10 +65,16 @@
     # include <gnomonic-all.h>
     # include <opencv/cv.h>
     # include <opencv/highgui.h>
+    # include "common-stdap.h"
 
 /* 
     Header - Preprocessor definitions
  */
+
+    /* Standard help */
+    # define NG_HELP "norama-gnomo2eqr - norama-suite\n" \
+                     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n" \
+                     "See https://github.com/FoxelSA/norama-suite for more information\n"
 
 /* 
     Header - Preprocessor macros
@@ -82,7 +92,15 @@
     Header - Function prototypes
  */
 
-    void ng_gnomo2eqr_usage ( void );
+    //! The main function starts with parameters initialization and parameters 
+    //! reading. It then import the equirectangular mapping and the associated
+    //! grayscale mask. The inverted gnomonic projection is performed on the
+    //! equirectangular directly using libgnomonic. The results is then exported.
+    //! 
+    //! @param argc Standard main parameters
+    //! @param argv Standard main parameters
+
+    int main ( int argc, char ** argv );
 
 /* 
     Header - C/C++ compatibility

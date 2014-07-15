@@ -36,6 +36,10 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
+    //! @file   norama-eqr2gnomo.h
+    //! @author Nils Hamel (nils.hamel@foxel.ch)
+    //! 
+    //! Software main header.
 
 /* 
     Header - Include guard
@@ -88,7 +92,15 @@
     Header - Function prototypes
  */
 
-    void ng_eqr2gnomo_usage ( void );
+    //! The main function starts with parameters initialization and parameters 
+    //! reading. It then import the input image and create, through OpenCV,
+    //! the rectilinear image. The libgnomonic is then called to perform the
+    //! gnomonic reprojection. The rectilinear image is then saved.
+    //! 
+    //! @param argc Standard main parameters
+    //! @param argv Standard main parameters
+
+    int main ( int argc, char ** argv );
 
 /* 
     Header - C/C++ compatibility

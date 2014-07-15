@@ -58,7 +58,7 @@
         char ngOpath[256] = "output.png";
 
         /* Interpolation descriptor variables */
-        char ngInterpol[256] = "bicubic";
+        char ngMethod[256] = "bicubic";
 
         /* Image parameters variables */
         int ngOwidth  = 512;
@@ -75,19 +75,19 @@
 
         /* Search in parameters */
         stdp( stda( argc, argv,  "--equirectangular"     , "-e" ), argv,   ngIpath    , __STDP_STRING );
-        stdp( stda( argc, argv,  "--gnomonic"            , "-g" ), argv,   ngOpath    , __STDP_STRING );
+        stdp( stda( argc, argv,  "--rectilinear"         , "-r" ), argv,   ngOpath    , __STDP_STRING );
         stdp( stda( argc, argv,  "--width"               , "-w" ), argv, & ngOwidth   , __STDP_INT    );
         stdp( stda( argc, argv,  "--height"              , "-t" ), argv, & ngOheight  , __STDP_INT    );
         stdp( stda( argc, argv,  "--nadir-horizontal"    , "-u" ), argv, & ngNadir_hor, __STDP_FLOAT  );
         stdp( stda( argc, argv,  "--nadir-vertical"      , "-v" ), argv, & ngNadir_ver, __STDP_FLOAT  );
         stdp( stda( argc, argv,  "--apperture-horizontal", "-a" ), argv, & ngApper_hor, __STDP_FLOAT  );
         stdp( stda( argc, argv,  "--apperture-vertical"  , "-b" ), argv, & ngApper_ver, __STDP_FLOAT  );
-        stdp( stda( argc, argv,  "--interpolation"       , "-i" ), argv,   ngInterpol , __STDP_STRING );
+        stdp( stda( argc, argv,  "--interpolation"       , "-i" ), argv,   ngMethod   , __STDP_STRING );
 
         /* Sepcify interpolation method */
-        if ( strcmp( ngInterpol, "bilinear" ) == 0 ) ngInter = gnomonic_interp_bilinearf;
-        if ( strcmp( ngInterpol, "bicubic"  ) == 0 ) ngInter = gnomonic_interp_bicubicf;
-        if ( strcmp( ngInterpol, "bipentic" ) == 0 ) ngInter = gnomonic_interp_bipenticf;
+        if ( strcmp( ngMethod, "bilinear" ) == 0 ) ngInter = gnomonic_interp_bilinearf;
+        if ( strcmp( ngMethod, "bicubic"  ) == 0 ) ngInter = gnomonic_interp_bicubicf;
+        if ( strcmp( ngMethod, "bipentic" ) == 0 ) ngInter = gnomonic_interp_bipenticf;
 
         /* Convert angles to radian */
         ngNadir_hor *= ( GNOMONIC_PI / 180.0 );

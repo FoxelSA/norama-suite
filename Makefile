@@ -11,6 +11,7 @@
 #
 
     MAKE_BINARY=bin
+    MAKE_DOCUME=doc
     MAKE_SOURCE=src
 
 #
@@ -30,11 +31,21 @@
 	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_INVER) clean && $(MAKE) -C $(MAKE_SOURCE)/$(MAKE_INVER) all && cp $(MAKE_SOURCE)/$(MAKE_INVER)/$(MAKE_BINARY)/$(MAKE_INVER) $(MAKE_BINARY)/
 
 #
+#   make - Documentation
+#
+
+    documentation:directories
+	mkdir -p $(MAKE_DOCUME)/html && rm $(MAKE_DOCUME)/html/* -f
+	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_GNOMO) documentation && cd $(MAKE_DOCUME)/html/ && ln -s ../../$(MAKE_SOURCE)/$(MAKE_GNOMO)/$(MAKE_DOCUME)/html $(MAKE_GNOMO) && cd -
+	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_INVER) documentation && cd $(MAKE_DOCUME)/html/ && ln -s ../../$(MAKE_SOURCE)/$(MAKE_INVER)/$(MAKE_DOCUME)/html $(MAKE_INVER) && cd -
+
+#
 #   make - Directories
 #
 
     directories:
 	mkdir -p $(MAKE_BINARY)
+	mkdir -p $(MAKE_DOCUME)
 
 #
 #   make - Cleaning builds

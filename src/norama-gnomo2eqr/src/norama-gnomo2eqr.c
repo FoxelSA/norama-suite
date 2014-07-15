@@ -49,144 +49,102 @@
 
     int main ( int argc, char ** argv ) {
 
-        /* Argument reading index */
-        int        ngArgs       = 1;
-
         /* Image variables */
-        IplImage * ngIimage     = NULL;
-        IplImage * ngMimage     = NULL;
-        IplImage * ngOimage     = NULL;
+        IplImage * ngIimage = NULL;
+        IplImage * ngMimage = NULL;
+        IplImage * ngOimage = NULL;
 
         /* Image path variables */
-        char       ngIpath[256] = "input.png";
-        char       ngMpath[256] = "mask.png";
-        char       ngEpath[256] = "eqr.png";
-        char       ngOpath[256] = "output.png";
+        char ngIpath[256] = "input.png";
+        char ngMpath[256] = "mask.png";
+        char ngEpath[256] = "eqr.png";
+        char ngOpath[256] = "output.png";
+
+        /* Interpolation descriptor variables */
+        char ngMethod[256] = "bicubic";
 
         /* Gnomonic projection variables */
-        double     ngNadir_hor  = 0.0;
-        double     ngNadir_ver  = 0.0;
-        double     ngApper_hor  = 40.0 * ( GNOMONIC_PI / 180.0 );
-        double     ngApper_ver  = 40.0 * ( GNOMONIC_PI / 180.0 );
+        float ngNadir_hor  = 0.0;
+        float ngNadir_ver  = 0.0;
+        float ngApper_hor  = 45.0;
+        float ngApper_ver  = 45.0;
 
         /* Interpolation method variables */
-        interp      ngInter      = gnomonic_interp_bicubicf;
+        interp ngInter = gnomonic_interp_bicubicf;
 
-        /* Argument reading */
-        while ( ngArgs < argc ) {
+        /* Search in parameters */
+        stdp( stda( argc, argv,  "--equirectangular"     , "-e" ), argv,   ngEpath    , __STDP_STRING );
+        stdp( stda( argc, argv,  "--mask"                , "-m" ), argv,   ngMpath    , __STDP_STRING );
+        stdp( stda( argc, argv,  "--rectilinear"         , "-r" ), argv,   ngIpath    , __STDP_STRING );
+        stdp( stda( argc, argv,  "--output"              , "-o" ), argv,   ngOpath    , __STDP_STRING );
+        stdp( stda( argc, argv,  "--nadir-horizontal"    , "-u" ), argv, & ngNadir_hor, __STDP_FLOAT  );
+        stdp( stda( argc, argv,  "--nadir-vertical"      , "-v" ), argv, & ngNadir_ver, __STDP_FLOAT  );
+        stdp( stda( argc, argv,  "--apperture-horizontal", "-a" ), argv, & ngApper_hor, __STDP_FLOAT  );
+        stdp( stda( argc, argv,  "--apperture-vertical"  , "-b" ), argv, & ngApper_ver, __STDP_FLOAT  );
+        stdp( stda( argc, argv,  "--interpolation"       , "-i" ), argv,   ngMethod   , __STDP_STRING );
 
-            /* Verify help */
-            if ( strcmp( argv[ngArgs], "--help" ) == 0 ) {
+        /* Sepcify interpolation method */
+        if ( strcmp( ngMethod, "bilinear" ) == 0 ) ngInter = gnomonic_interp_bilinearf;
+        if ( strcmp( ngMethod, "bicubic"  ) == 0 ) ngInter = gnomonic_interp_bicubicf;
+        if ( strcmp( ngMethod, "bipentic" ) == 0 ) ngInter = gnomonic_interp_bipenticf;
 
-                /* Display help */
-                ng_gnomo2eqr_usage();
+        /* Convert angles to radian */
+        ngNadir_hor *= ( GNOMONIC_PI / 180.0 );
+        ngNadir_ver *= ( GNOMONIC_PI / 180.0 );
+        ngApper_hor *= ( GNOMONIC_PI / 180.0 );
+        ngApper_ver *= ( GNOMONIC_PI / 180.0 );
 
-                /* Return to system */
-                return( EXIT_SUCCESS );
+        /* Software swicth */
+        if ( stda( argc, argv, "--help", "-h" ) ) {
 
-            } else {
+            /* Display usage */
+            fprintf( stdout, NG_HELP );
 
-                /* Verify argument format */
-                if ( ( ngArgs+1 ) < argc ) {
+        } else {
 
-                    /* Read argument and parameter */
-                    if ( strcmp( argv[ngArgs], "--gnomo"     ) == 0 ) strcpy( ngIpath, argv[ngArgs+1] );
-                    if ( strcmp( argv[ngArgs], "--mask"      ) == 0 ) strcpy( ngMpath, argv[ngArgs+1] );
-                    if ( strcmp( argv[ngArgs], "--equirect"  ) == 0 ) strcpy( ngEpath, argv[ngArgs+1] );
-                    if ( strcmp( argv[ngArgs], "--output"    ) == 0 ) strcpy( ngOpath, argv[ngArgs+1] );
-                    if ( strcmp( argv[ngArgs], "--nadir-hor" ) == 0 ) ngNadir_hor = atof( argv[ngArgs+1] ) * ( GNOMONIC_PI / 180.0 );
-                    if ( strcmp( argv[ngArgs], "--nadir-ver" ) == 0 ) ngNadir_ver = atof( argv[ngArgs+1] ) * ( GNOMONIC_PI / 180.0 );
-                    if ( strcmp( argv[ngArgs], "--apper-hor" ) == 0 ) ngApper_hor = atof( argv[ngArgs+1] ) * ( GNOMONIC_PI / 180.0 );
-                    if ( strcmp( argv[ngArgs], "--apper-ver" ) == 0 ) ngApper_ver = atof( argv[ngArgs+1] ) * ( GNOMONIC_PI / 180.0 );
-                    if ( strcmp( argv[ngArgs], "--interpol"  ) == 0 ) {
+            /* Import input image */
+            ngIimage = cvLoadImage( ngIpath, CV_LOAD_IMAGE_COLOR     );
+            ngMimage = cvLoadImage( ngMpath, CV_LOAD_IMAGE_GRAYSCALE );
+            ngOimage = cvLoadImage( ngEpath, CV_LOAD_IMAGE_COLOR     );
 
-                        /* Read parameter */
-                        if ( strcmp( argv[ngArgs+1], "bilinear" ) == 0 ) ngInter = gnomonic_interp_bilinearf;
-                        if ( strcmp( argv[ngArgs+1], "bicubic"  ) == 0 ) ngInter = gnomonic_interp_bicubicf;
-                        if ( strcmp( argv[ngArgs+1], "bipentic" ) == 0 ) ngInter = gnomonic_interp_bipenticf;
+            /*  Verify input image reading */
+            if ( ( ngIimage != NULL ) && ( ngMimage != NULL ) && ( ngOimage != NULL ) ) {
 
-                    }
-                
+                /* Gnomonic reprojection */
+                gnomonic_gte_blend(
 
-                } else {
+                    ( unsigned char * ) ngOimage->imageData,
+                    ngOimage->width, 
+                    ngOimage->height, 
+                    ngOimage->nChannels, 
+                    ( unsigned char * ) ngIimage->imageData,
+                    ( unsigned char * ) ngMimage->imageData,
+                    ngIimage->width, 
+                    ngIimage->height,
+                    ngIimage->nChannels,
+                    ngNadir_hor,
+                    ngNadir_ver,
+                    ngApper_hor,
+                    ngApper_ver,
+                    ngInter
+
+                );
+
+                /* Export output image */
+                if ( cvSaveImage( ngOpath, ngOimage, NULL ) == 0 ) {
 
                     /* Display message */
-                    fprintf( stdout, "Error : Arguments and parameters format\n" );
-
-                    /* Return to system */
-                    return( EXIT_SUCCESS );
+                    fprintf( stdout, "Error : Unable to write output image\n" );
 
                 }
 
-            }
-
-            /* Increment reading */
-            ngArgs += 2;
+            /* Display message */
+            } else { fprintf( stdout, "Error : Unable to read input image(s)\n" ); }
 
         }
 
-        /* Import input image */
-        ngIimage = cvLoadImage( ngIpath, CV_LOAD_IMAGE_COLOR     );
-        ngMimage = cvLoadImage( ngMpath, CV_LOAD_IMAGE_GRAYSCALE );
-        ngOimage = cvLoadImage( ngEpath, CV_LOAD_IMAGE_COLOR     );
-
-        /*  Verify input image reading */
-        if ( ( ngIimage != NULL ) && ( ngMimage != NULL ) && ( ngOimage != NULL ) ) {
-
-            /* Gnomonic reprojection */
-            gnomonic_gte_blend(
-
-                ( unsigned char * ) ngOimage->imageData,
-                ngOimage->width, 
-                ngOimage->height, 
-                ngOimage->nChannels, 
-                ( unsigned char * ) ngIimage->imageData,
-                ( unsigned char * ) ngMimage->imageData,
-                ngIimage->width, 
-                ngIimage->height,
-                ngIimage->nChannels,
-                ngNadir_hor,
-                ngNadir_ver,
-                ngApper_hor,
-                ngApper_ver,
-                ngInter
-
-            );
-
-            /* Export output image */
-            if ( cvSaveImage( ngOpath, ngOimage, NULL ) == 0 ) {
-
-                /* Display message */
-                fprintf( stdout, "Error : Unable to write output image\n" );
-
-            }
-
-        /* Display message */
-        } else { fprintf( stdout, "Error : Unable to read input image(s)\n" ); }
-
         /* Return to system */
         return( EXIT_SUCCESS );
-
-    }
-
-    void ng_gnomo2eqr_usage ( void ) {
-
-        /* Display help */
-        printf( "NAME\n\n\tnorama-gnomo2eqr - Inverted gnomonic projection\n\n"                  );
-        printf( "SYNOPSIS\n\n\tnorama-gnomo2eqr [OPTIONS]...\n\n"                                );
-        printf( "DESCRIPTION\n\n\tReproject the gnomonic image into equirectangular mapping\n\n" );
-        printf( "\t--gnomo \tPath to the gnomonic image\n"                                       );
-        printf( "\t--equirect\tPath to equirectangular image\n"                                  );
-        printf( "\t--mask  \tPath to gnomonic greyscale mask image\n"                            );
-        printf( "\t--output\tPath to the output equirectangular result image\n"                  );
-        printf( "\t--nadir-hor\tHorizontal angular position of the line of sight [0,2PI[\n"      );
-        printf( "\t--nadir-ver\tVertical angular position of the line of sight [-PI/2,+PI/2]\n"  );
-        printf( "\t--apper-hor\tHalf horizontal angular apperture of the gnomonic projection\n"  );
-        printf( "\t--apper-ver\tHalf vertical angular apperture of the gnomonic projection\n"    );
-        printf( "\t--interpol\tInterpolation method : bilinear/bicubic/bipentic\n\n"             );
-        printf( "AUTHOR\n\n\tWritten by Nils Hamel <nils.hamel@foxel.ch>\n\n"                    );
-        printf( "COPYRIGHT\n\n\tCopyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n\t"          );
-        printf( "GNU AGPLv3 - Please read <http://foxel.ch/license> for more information\n\n"    );
 
     }
 
