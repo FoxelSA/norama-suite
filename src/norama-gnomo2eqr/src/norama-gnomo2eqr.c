@@ -1,5 +1,5 @@
 /*
- * feature suite - Panorama tools suite
+ * norama suite - Panorama tools suite
  *
  * Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch
  * Please read <http://foxel.ch/license> for more information.

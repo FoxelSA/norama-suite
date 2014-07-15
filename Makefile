@@ -17,16 +17,16 @@
 #   make - All
 #
 
-    all:$(MAKE_GNOMO) $(MAKE_INVER)
+    all:directories $(MAKE_GNOMO) $(MAKE_INVER)
 
 #
 #   make - Suite
 #
 
-    $(MAKE_GNOMO):directories
+    $(MAKE_GNOMO):
 	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_GNOMO) clean && $(MAKE) -C $(MAKE_SOURCE)/$(MAKE_GNOMO) all && cp $(MAKE_SOURCE)/$(MAKE_GNOMO)/$(MAKE_BINARY)/$(MAKE_GNOMO) $(MAKE_BINARY)/
 
-    $(MAKE_INVER):directories
+    $(MAKE_INVER):
 	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_INVER) clean && $(MAKE) -C $(MAKE_SOURCE)/$(MAKE_INVER) all && cp $(MAKE_SOURCE)/$(MAKE_INVER)/$(MAKE_BINARY)/$(MAKE_INVER) $(MAKE_BINARY)/
 
 #

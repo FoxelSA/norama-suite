@@ -1,5 +1,5 @@
 /*
- * feature suite - Panorama tools suite
+ * norama suite - Panorama tools suite
  *
  * Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch
  * Please read <http://foxel.ch/license> for more information.
@@ -61,10 +61,16 @@
     # include <gnomonic-all.h>
     # include <opencv/cv.h>
     # include <opencv/highgui.h>
+    # include "common-stdap.h"
 
 /* 
     Header - Preprocessor definitions
  */
+
+    /* Standard help */
+    # define NG_HELP "norama-eqr2gnomo - norama-suite\n" \
+                     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n" \
+                     "See https://github.com/FoxelSA/norama-suite for more information\n"
 
 /* 
     Header - Preprocessor macros
