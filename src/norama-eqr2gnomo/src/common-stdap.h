@@ -109,6 +109,7 @@
     //! @param argv Standard main parameters
     //! @param ltag Long-form argument string (--argument)
     //! @param stag Short-form argument string (-a)
+    //! @return Index of parameter in argv
 
     int  stda ( int argc, char ** argv, const char * const ltag, const char * const stag );
 
