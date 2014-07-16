@@ -82,9 +82,9 @@
         if ( strcmp( ngMethod, "bipentic" ) == 0 ) ngInter = gnomonic_interp_bipenticf;
 
         /* Convert angles to radian */
-        ngAngleX *= ( M_PI / 180.0 );
-        ngAngleY *= ( M_PI / 180.0 );
-        ngAngleZ *= ( M_PI / 180.0 );
+        ngAngleX *= - ( M_PI / 180.0 );
+        ngAngleY *= - ( M_PI / 180.0 );
+        ngAngleZ *= - ( M_PI / 180.0 );
 
         /* Software swicth */
         if ( stda( argc, argv, "--help", "-h" ) ) {
