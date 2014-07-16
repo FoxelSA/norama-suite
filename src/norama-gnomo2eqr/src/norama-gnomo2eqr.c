@@ -110,33 +110,38 @@
             /*  Verify input image reading */
             if ( ( ngIimage != NULL ) && ( ngMimage != NULL ) && ( ngOimage != NULL ) ) {
 
-                /* Gnomonic reprojection */
-                gnomonic_gte_blend(
+                /* Verify rectilinear image and mask consistency */
+                if ( ( ngIimage->width == ngMimage->width ) && ( ngIimage->height == ngMimage->height ) ) {
 
-                    ( unsigned char * ) ngOimage->imageData,
-                    ngOimage->width, 
-                    ngOimage->height, 
-                    ngOimage->nChannels, 
-                    ( unsigned char * ) ngIimage->imageData,
-                    ( unsigned char * ) ngMimage->imageData,
-                    ngIimage->width, 
-                    ngIimage->height,
-                    ngIimage->nChannels,
-                    ngNadir_hor,
-                    ngNadir_ver,
-                    ngApper_hor,
-                    ngApper_ver,
-                    ngInter
+                    /* Gnomonic reprojection */
+                    gnomonic_gte_blend(
 
-                );
+                        ( unsigned char * ) ngOimage->imageData,
+                        ngOimage->width, 
+                        ngOimage->height, 
+                        ngOimage->nChannels, 
+                        ( unsigned char * ) ngIimage->imageData,
+                        ( unsigned char * ) ngMimage->imageData,
+                        ngIimage->width, 
+                        ngIimage->height,
+                        ngIimage->nChannels,
+                        ngNadir_hor,
+                        ngNadir_ver,
+                        ngApper_hor,
+                        ngApper_ver,
+                        ngInter
 
-                /* Export output image */
-                if ( cvSaveImage( ngOpath, ngOimage, NULL ) == 0 ) {
+                    );
 
-                    /* Display message */
-                    fprintf( stdout, "Error : Unable to write output image\n" );
+                    /* Export output image */
+                    if ( cvSaveImage( ngOpath, ngOimage, NULL ) == 0 ) {
 
-                }
+                        /* Display message */
+                        fprintf( stdout, "Error : Unable to write output image\n" );
+
+                    }
+
+                } else { fprintf( stdout, "Error : Rectilinear image and its mask have different size\n" ); }
 
             /* Display message */
             } else { fprintf( stdout, "Error : Unable to read input image(s)\n" ); }

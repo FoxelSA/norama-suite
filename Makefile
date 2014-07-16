@@ -5,6 +5,7 @@
 
     MAKE_GNOMO=norama-eqr2gnomo
     MAKE_INVER=norama-gnomo2eqr
+    MAKE_ROTAT=norama-rotate
 
 #
 #   make - Directories
@@ -18,7 +19,7 @@
 #   make - All
 #
 
-    all:directories $(MAKE_GNOMO) $(MAKE_INVER)
+    all:directories $(MAKE_GNOMO) $(MAKE_INVER) $(MAKE_ROTAT)
 
 #
 #   make - Suite
@@ -30,6 +31,9 @@
     $(MAKE_INVER):
 	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_INVER) clean && $(MAKE) -C $(MAKE_SOURCE)/$(MAKE_INVER) all && cp $(MAKE_SOURCE)/$(MAKE_INVER)/$(MAKE_BINARY)/$(MAKE_INVER) $(MAKE_BINARY)/
 
+    $(MAKE_ROTAT):
+	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_ROTAT) clean && $(MAKE) -C $(MAKE_SOURCE)/$(MAKE_ROTAT) all && cp $(MAKE_SOURCE)/$(MAKE_ROTAT)/$(MAKE_BINARY)/$(MAKE_ROTAT) $(MAKE_BINARY)/
+
 #
 #   make - Documentation
 #
@@ -38,6 +42,7 @@
 	mkdir -p $(MAKE_DOCUME)/html && rm $(MAKE_DOCUME)/html/* -f
 	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_GNOMO) documentation && cd $(MAKE_DOCUME)/html/ && ln -s ../../$(MAKE_SOURCE)/$(MAKE_GNOMO)/$(MAKE_DOCUME)/html $(MAKE_GNOMO) && cd -
 	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_INVER) documentation && cd $(MAKE_DOCUME)/html/ && ln -s ../../$(MAKE_SOURCE)/$(MAKE_INVER)/$(MAKE_DOCUME)/html $(MAKE_INVER) && cd -
+	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_ROTAT) documentation && cd $(MAKE_DOCUME)/html/ && ln -s ../../$(MAKE_SOURCE)/$(MAKE_ROTAT)/$(MAKE_DOCUME)/html $(MAKE_ROTAT) && cd -
 
 #
 #   make - Directories
