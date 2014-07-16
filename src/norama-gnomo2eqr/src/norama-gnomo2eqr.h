@@ -39,7 +39,7 @@
     //! @file   norama-gnomo2eqr.h
     //! @author Nils Hamel (nils.hamel@foxel.ch)
     //! 
-    //! Software main header.
+    //! Software main header (single function software)
 
 /* 
     Header - Include guard
@@ -92,10 +92,12 @@
     Header - Function prototypes
  */
 
-    //! The main function starts with parameters initialization and parameters 
-    //! reading. It then import the equirectangular mapping and the associated
-    //! grayscale mask. The inverted gnomonic projection is performed on the
-    //! equirectangular directly using libgnomonic. The results is then exported.
+    //! Software main function (single function software)
+
+    //! The main function frame follows : parameters are initialized and read.
+    //! The input images are read and the inverted gnomonic projection is
+    //! performed. The result is written in the input equirectangular image
+    //! allocation. The result image is the exported.
     //! 
     //! @param argc Standard main parameters
     //! @param argv Standard main parameters

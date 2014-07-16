@@ -39,7 +39,7 @@
     //! @file   norama-rotate.h
     //! @author Nils Hamel (nils.hamel@foxel.ch)
     //! 
-    //! Software main header.
+    //! Software main header (single function software)
 
 /* 
     Header - Include guard
@@ -97,10 +97,11 @@
     Header - Function prototypes
  */
 
-    //! The main function starts with parameters initialization and reading. It then load the
-    //! input image and create the allocation for the output image. The output image is
-    //! parsed pixel by pixel and the desired rotation is applied. The output image, that
-    //! containt the result, is exported.
+    //! Software main function (single function software)
+
+    //! The main function frame follows : parameters are initialized and read. The
+    //! input image is loaded and the output image allocation is created. The transform
+    //! is applied and the result is exported.
     //! 
     //! @param argc Standard main parameters
     //! @param argv Standard main parameters

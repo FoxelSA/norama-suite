@@ -39,7 +39,7 @@
     //! @file   norama-eqr2gnomo.h
     //! @author Nils Hamel (nils.hamel@foxel.ch)
     //! 
-    //! Software main header.
+    //! Software main header (single function software)
 
 /* 
     Header - Include guard
@@ -92,10 +92,11 @@
     Header - Function prototypes
  */
 
-    //! The main function starts with parameters initialization and parameters 
-    //! reading. It then import the input image and create, through OpenCV,
-    //! the rectilinear image. The libgnomonic is then called to perform the
-    //! gnomonic reprojection. The rectilinear image is then saved.
+    //! Software main function (single function software)
+
+    //! The main function frame follows : parameters are initialized and read.
+    //! The input image is loaded and the output image is allocated. The gnomonic
+    //! projection is performed and the output image is exported.
     //! 
     //! @param argc Standard main parameters
     //! @param argv Standard main parameters

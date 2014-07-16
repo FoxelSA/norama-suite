@@ -1,7 +1,7 @@
 
 ## norama-suite<br />Panorama tools suite
 
-This software suite offers tools for numerical panoramas manipulation. Mainly based on equirectangular mapping, the norama-suite tools are each designed to solve a single task on panoramas, in order to maintain a good modularity of the suite. A typical example is given by rectilinear mapping extraction from a entire equirectangular mapped image.
+This software suite offers tools for numerical panoramas manipulation. Mainly based on equirectangular mappings, the norama-suite tools are each designed to solve a single task on panoramas, in order to maintain a good modularity of the suite. A typical example is given by rectilinear mappings extraction from a entire equirectangular mapped image.
 
 
 ### Documentation
