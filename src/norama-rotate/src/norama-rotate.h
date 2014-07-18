@@ -37,7 +37,7 @@
  */
 
     //! @file   norama-rotate.h
-    //! @author Nils Hamel (nils.hamel@foxel.ch)
+    //! @author Nils Hamel (n.hamel@foxel.ch)
     //! 
     //! Software main header (single function software)
 
