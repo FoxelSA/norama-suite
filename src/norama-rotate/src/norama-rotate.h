@@ -72,8 +72,7 @@
  */
 
     /* Standard help */
-    # define NG_HELP "norama-rotate - norama-suite\n" \
-                     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n" \
+    # define NG_HELP "norama-rotate - norama-suite\nCopyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n" \
                      "See https://github.com/FoxelSA/norama-suite for more information\n"
 
     /* Define pi constante */
@@ -100,11 +99,11 @@
     //! Software main function (single function software)
 
     //! The main function frame follows : parameters are initialized and read. The
-    //! input image is loaded and the output image allocation is created. The transform
-    //! is applied and the result is exported.
+    //! input image is loaded and the output image allocation is created. The
+    //! transformation is applied and the result is exported.
     //! 
-    //! @param argc Standard main parameters
-    //! @param argv Standard main parameters
+    //! @param argc Standard main parameter
+    //! @param argv Standard main parameter
 
     int main ( int argc, char ** argv );
 

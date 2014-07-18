@@ -64,10 +64,10 @@
         char ngMethod[256] = "bicubic";
 
         /* Gnomonic projection variables */
-        float ngNadir_hor  = 0.0;
-        float ngNadir_ver  = 0.0;
-        float ngApper_hor  = 45.0;
-        float ngApper_ver  = 45.0;
+        float ngNadir_hor = 0.0;
+        float ngNadir_ver = 0.0;
+        float ngApper_hor = 45.0;
+        float ngApper_ver = 45.0;
 
         /* Interpolation method variables */
         interp ngInter = gnomonic_interp_bicubicf;

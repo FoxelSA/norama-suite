@@ -72,8 +72,7 @@
  */
 
     /* Standard help */
-    # define NG_HELP "norama-eqr2gnomo - norama-suite\n" \
-                     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n" \
+    # define NG_HELP "norama-eqr2gnomo - norama-suite\nCopyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n" \
                      "See https://github.com/FoxelSA/norama-suite for more information\n"
 
 /* 
@@ -94,12 +93,12 @@
 
     //! Software main function (single function software)
 
-    //! The main function frame follows : parameters are initialized and read.
-    //! The input image is loaded and the output image is allocated. The gnomonic
+    //! The main function frame follows : parameters are initialized and read. The
+    //! input image is loaded and the output image is allocated. The gnomonic
     //! projection is performed and the output image is exported.
     //! 
-    //! @param argc Standard main parameters
-    //! @param argv Standard main parameters
+    //! @param argc Standard main parameter
+    //! @param argv Standard main parameter
 
     int main ( int argc, char ** argv );
 

@@ -72,8 +72,7 @@
  */
 
     /* Standard help */
-    # define NG_HELP "norama-gnomo2eqr - norama-suite\n" \
-                     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n" \
+    # define NG_HELP "norama-gnomo2eqr - norama-suite\nCopyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n" \
                      "See https://github.com/FoxelSA/norama-suite for more information\n"
 
 /* 
@@ -99,8 +98,8 @@
     //! performed. The result is written in the input equirectangular image
     //! allocation. The result image is the exported.
     //! 
-    //! @param argc Standard main parameters
-    //! @param argv Standard main parameters
+    //! @param argc Standard main parameter
+    //! @param argv Standard main parameter
 
     int main ( int argc, char ** argv );
 
