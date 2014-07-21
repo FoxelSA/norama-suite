@@ -66,7 +66,7 @@
         float ngAngleZ = 0.0;
 
         /* Interpolation method variables */
-        interp ngInter = gnomonic_interp_bicubicf;
+        inter_Method_t ngInter = inter_bicubicf;
 
         /* Search in parameters */
         stdp( stda( argc, argv,  "--input"        , "-n" ), argv,   ngIpath , __STDP_STRING );
@@ -77,9 +77,9 @@
         stdp( stda( argc, argv,  "--interpolation", "-i" ), argv,   ngMethod, __STDP_STRING );
 
         /* Sepcify interpolation method */
-        if ( strcmp( ngMethod, "bilinear" ) == 0 ) ngInter = gnomonic_interp_bilinearf;
-        if ( strcmp( ngMethod, "bicubic"  ) == 0 ) ngInter = gnomonic_interp_bicubicf;
-        if ( strcmp( ngMethod, "bipentic" ) == 0 ) ngInter = gnomonic_interp_bipenticf;
+        if ( strcmp( ngMethod, "bilinear" ) == 0 ) ngInter = inter_bilinearf;
+        if ( strcmp( ngMethod, "bicubic"  ) == 0 ) ngInter = inter_bicubicf;
+        if ( strcmp( ngMethod, "bipentic" ) == 0 ) ngInter = inter_bipenticf;
 
         /* Convert angles to radian */
         ngAngleX *= - ( M_PI / 180.0 );
@@ -106,109 +106,20 @@
                 /* Verify allocation creation */
                 if ( ngOimage != NULL ) {
 
-                    /* Position angles */
-                    float ngAngH = 0.0, ngAngV = 0.0;
+                    /* Apply equirectangular transform */
+                    gnomonic_transform_rotate( 
 
-                    /* Positionning variables */
-                    float ngPX = 0, ngPY = 0;
+                        ( inter_C8_t * ) ngIimage->imageData,
+                        ( inter_C8_t * ) ngOimage->imageData,
+                        ngIimage->width,
+                        ngIimage->height,
+                        ngIimage->nChannels,
+                        ngAngleX,
+                        ngAngleY,
+                        ngAngleZ,
+                        ngInter
 
-                    /* Parsing variable */
-                    int ngX = 0, ngY = 0;
-
-                    /* Rotation matrix */
-                    float ngMatrix[3][3] = {
-
-                        { 
-                            + cos( ngAngleZ ) * cos( ngAngleY ), 
-                            + sin( ngAngleZ ) * cos( ngAngleX ) + cos( ngAngleZ ) * sin( ngAngleY ) * sin( ngAngleX ), 
-                            + sin( ngAngleZ ) * sin( ngAngleX ) - cos( ngAngleZ ) * sin( ngAngleY ) * cos( ngAngleX ) 
-                        },
-                        { 
-                            - sin( ngAngleZ ) * cos( ngAngleY ), 
-                            + cos( ngAngleZ ) * cos( ngAngleX ) - sin( ngAngleZ ) * sin( ngAngleY ) * sin( ngAngleX ), 
-                            + cos( ngAngleZ ) * sin( ngAngleX ) + sin( ngAngleZ ) * sin( ngAngleY ) * cos( ngAngleX ) 
-                        },
-                        { 
-                            + sin( ngAngleY ), 
-                            - cos( ngAngleY ) * sin( ngAngleX ), 
-                            + cos( ngAngleY ) * cos( ngAngleX ) 
-                        }
-
-                    };
-
-                    /* Sphere point vectors */
-                    float ngVectori[3] = { 0.0, 0.0, 0.0 };
-                    float ngVectorf[3] = { 0.0, 0.0, 0.0 };
-
-                    /* Processing loop on y */
-                    for ( ngY = 0; ngY < ngIimage->height; ngY ++ ) {
-
-                        /* Processing loop on x */
-                        for ( ngX = 0; ngX < ngIimage->width; ngX ++ ) {
-
-                            /* Retrive position angles from pixels */
-                            ngAngH = ( ( ( float ) ngX / ( ngIimage->width  - 1 ) ) * 2.0 ) * M_PI;
-                            ngAngV = ( ( ( float ) ngY / ( ngIimage->height - 1 ) ) - 0.5 ) * M_PI;
-
-                            /* Retrieve initial vector on sphere */
-                            ngVectori[0] = cos( ngAngH ) * cos( ngAngV );
-                            ngVectori[1] = sin( ngAngH ) * cos( ngAngV );
-                            ngVectori[2] = sin( ngAngV );
-
-                            /* Apply rotation transform */
-                            ngVectorf[0] = ngMatrix[0][0] * ngVectori[0] + ngMatrix[0][1] * ngVectori[1] + ngMatrix[0][2] * ngVectori[2];
-                            ngVectorf[1] = ngMatrix[1][0] * ngVectori[0] + ngMatrix[1][1] * ngVectori[1] + ngMatrix[1][2] * ngVectori[2];
-                            ngVectorf[2] = ngMatrix[2][0] * ngVectori[0] + ngMatrix[2][1] * ngVectori[1] + ngMatrix[2][2] * ngVectori[2];
-
-                            /* Retrieve rotated position angles - horizontal */
-                            ngAngH = ngVectorf[0] / sqrt( ngVectorf[0] * ngVectorf[0] + ngVectorf[1] * ngVectorf[1] );
-
-                            /* Case study */
-                            if ( ngAngH >= 1.0 ) {
-
-                                /* Assign horizontal angle */
-                                ngAngH = 0.0;
-
-                            } else if ( ngAngH <= - 1.0 ) {
-
-                                /* Assign horizontal angle */
-                                ngAngH = M_PI;
-
-                            } else {
-
-                                /* Case study */
-                                if ( ngVectorf[1] < 0.0 ) {
-
-                                    /* Assign horizontal angle */
-                                    ngAngH = 2.0 * M_PI - acos( ngAngH );
-
-                                } else {
-
-                                    /* Assign horizontal angle */
-                                    ngAngH = acos( ngAngH );
-
-                                }
-
-                            }
-
-                            /* Retrieve rotated position angles - vertical */
-                            ngAngV = asin( ngVectorf[2] );
-
-                            /* Retrieve pixel components */
-                            ngPX = ( ngAngH / ( 2.0 * M_PI ) ) * ( ngOimage->width  - 1 );
-                            ngPY = ( ( ngAngV / M_PI ) + 0.5 ) * ( ngOimage->height - 1 );
-
-                            /* Assign pixel value */
-                            * ( ngOimage->imageData + ngOimage->nChannels * ( ngOimage->width * ngY + ngX )     ) = 
-                            ngInter( ( unsigned char * ) ngIimage->imageData, ngIimage->width, ngIimage->height, ngIimage->nChannels, 0, ngPX, ngPY );
-                            * ( ngOimage->imageData + ngOimage->nChannels * ( ngOimage->width * ngY + ngX ) + 1 ) = 
-                            ngInter( ( unsigned char * ) ngIimage->imageData, ngIimage->width, ngIimage->height, ngIimage->nChannels, 1, ngPX, ngPY );
-                            * ( ngOimage->imageData + ngOimage->nChannels * ( ngOimage->width * ngY + ngX ) + 2 ) = 
-                            ngInter( ( unsigned char * ) ngIimage->imageData, ngIimage->width, ngIimage->height, ngIimage->nChannels, 2, ngPX, ngPY );
-
-                        }
-
-                    }
+                    );
 
                     /* Export output image */
                     if ( cvSaveImage( ngOpath, ngOimage, NULL ) == 0 ) {

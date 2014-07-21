@@ -71,7 +71,7 @@
         float ngApper_ver = 45.0;
 
         /* Interpolation method variables */
-        interp ngInter = gnomonic_interp_bicubicf;
+        inter_Method_t ngInter = inter_bicubicf;
 
         /* Search in parameters */
         stdp( stda( argc, argv,  "--equirectangular"     , "-e" ), argv,   ngIpath    , __STDP_STRING );
@@ -85,9 +85,9 @@
         stdp( stda( argc, argv,  "--interpolation"       , "-i" ), argv,   ngMethod   , __STDP_STRING );
 
         /* Sepcify interpolation method */
-        if ( strcmp( ngMethod, "bilinear" ) == 0 ) ngInter = gnomonic_interp_bilinearf;
-        if ( strcmp( ngMethod, "bicubic"  ) == 0 ) ngInter = gnomonic_interp_bicubicf;
-        if ( strcmp( ngMethod, "bipentic" ) == 0 ) ngInter = gnomonic_interp_bipenticf;
+        if ( strcmp( ngMethod, "bilinear" ) == 0 ) ngInter = inter_bilinearf;
+        if ( strcmp( ngMethod, "bicubic"  ) == 0 ) ngInter = inter_bicubicf;
+        if ( strcmp( ngMethod, "bipentic" ) == 0 ) ngInter = inter_bipenticf;
 
         /* Convert angles to radian */
         ngNadir_hor *= ( GNOMONIC_PI / 180.0 );
@@ -118,11 +118,11 @@
                     /* Gnomonic reprojection */
                     gnomonic_etg(
 
-                        ( unsigned char * ) ngIimage->imageData,
+                        ( inter_C8_t * ) ngIimage->imageData,
                         ngIimage->width, 
                         ngIimage->height, 
                         ngIimage->nChannels, 
-                        ( unsigned char * ) ngOimage->imageData, 
+                        ( inter_C8_t * ) ngOimage->imageData, 
                         ngOimage->width, 
                         ngOimage->height,
                         ngOimage->nChannels,

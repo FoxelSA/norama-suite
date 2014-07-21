@@ -13,13 +13,14 @@
 
     MAKE_BINARY=bin
     MAKE_DOCUME=doc
+	MAKE_LIBRAR=lib
     MAKE_SOURCE=src
 
 #
 #   make - All
 #
 
-    all:directories $(MAKE_GNOMO) $(MAKE_INVER) $(MAKE_ROTAT)
+    all:libraries directories $(MAKE_GNOMO) $(MAKE_INVER) $(MAKE_ROTAT)
 
 #
 #   make - Suite
@@ -33,6 +34,13 @@
 
     $(MAKE_ROTAT):
 	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_ROTAT) clean && $(MAKE) -C $(MAKE_SOURCE)/$(MAKE_ROTAT) all && cp $(MAKE_SOURCE)/$(MAKE_ROTAT)/$(MAKE_BINARY)/$(MAKE_ROTAT) $(MAKE_BINARY)/
+
+#
+#   make - Libraries
+#
+
+    libraries:
+	$(MAKE) -C $(MAKE_LIBRAR)/libgnomonic clean && $(MAKE) -C $(MAKE_LIBRAR)/libgnomonic all
 
 #
 #   make - Documentation
