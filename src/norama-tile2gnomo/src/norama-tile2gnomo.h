@@ -36,7 +36,7 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    //! @file   norama-eqr2gnomo.h
+    //! @file   norama-tile2gnomo.h
     //! @author Nils Hamel (n.hamel@foxel.ch)
     //! 
     //! Software main header (single function software)

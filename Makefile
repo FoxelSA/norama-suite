@@ -1,64 +1,55 @@
 
 #
-#   make - Names
+#   make - Configuration - Directories
 #
 
-    MAKE_GNOMO=norama-eqr2gnomo
-    MAKE_TILEG=norama-tile2gnomo
-    MAKE_INVER=norama-gnomo2eqr
-    MAKE_ROTAT=norama-rotate
+    MAKE_BINARY:=bin
+    MAKE_DOCUME:=doc
+    MAKE_LIBRAR:=lib
+    MAKE_SOURCE:=src
 
 #
-#   make - Directories
+#   make - Configuration - Units
 #
 
-    MAKE_BINARY=bin
-    MAKE_DOCUME=doc
-	MAKE_LIBRAR=lib
-    MAKE_SOURCE=src
+    MAKE_SOFTS:=$(notdir $(wildcard $(MAKE_SOURCE)/*) )
 
 #
-#   make - All
+#   make - Configuration - Libraries
 #
 
-    all:libraries directories $(MAKE_GNOMO) $(MAKE_TILEG) $(MAKE_INVER) $(MAKE_ROTAT)
+    MAKE_DEPENDS:=$(MAKE_LIBRAR)/libgnomonic
 
 #
-#   make - Suite
+#   make - Build - Default
 #
 
-    $(MAKE_GNOMO):
-	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_GNOMO) clean && $(MAKE) -C $(MAKE_SOURCE)/$(MAKE_GNOMO) all && cp $(MAKE_SOURCE)/$(MAKE_GNOMO)/$(MAKE_BINARY)/$(MAKE_GNOMO) $(MAKE_BINARY)/
-
-    $(MAKE_TILEG):
-	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_TILEG) clean && $(MAKE) -C $(MAKE_SOURCE)/$(MAKE_TILEG) all && cp $(MAKE_SOURCE)/$(MAKE_TILEG)/$(MAKE_BINARY)/$(MAKE_TILEG) $(MAKE_BINARY)/
-
-    $(MAKE_INVER):
-	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_INVER) clean && $(MAKE) -C $(MAKE_SOURCE)/$(MAKE_INVER) all && cp $(MAKE_SOURCE)/$(MAKE_INVER)/$(MAKE_BINARY)/$(MAKE_INVER) $(MAKE_BINARY)/
-
-    $(MAKE_ROTAT):
-	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_ROTAT) clean && $(MAKE) -C $(MAKE_SOURCE)/$(MAKE_ROTAT) all && cp $(MAKE_SOURCE)/$(MAKE_ROTAT)/$(MAKE_BINARY)/$(MAKE_ROTAT) $(MAKE_BINARY)/
+    all:directories libraries units
 
 #
-#   make - Libraries
+#   make - Build - Stack
+#
+
+    units:
+	@$(foreach SOFT, $(MAKE_SOFTS), $(MAKE) -C $(MAKE_SOURCE)/$(SOFT) clean && $(MAKE) -C $(MAKE_SOURCE)/$(SOFT) all && cp $(MAKE_SOURCE)/$(SOFT)/$(MAKE_BINARY)/$(SOFT) $(MAKE_BINARY)/ && ) true
+
+#
+#   make - Build - Libraries
 #
 
     libraries:
-	$(MAKE) -C $(MAKE_LIBRAR)/libgnomonic clean && $(MAKE) -C $(MAKE_LIBRAR)/libgnomonic all
+	@$(foreach LIB, $(MAKE_DEPENDS), $(MAKE) -C $(LIB) clean && $(MAKE) -C $(LIB) all && ) true
 
 #
-#   make - Documentation
+#   make - Build - Documentation
 #
 
     documentation:directories
 	mkdir -p $(MAKE_DOCUME)/html && rm $(MAKE_DOCUME)/html/* -f
-	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_GNOMO) documentation && cd $(MAKE_DOCUME)/html/ && ln -s ../../$(MAKE_SOURCE)/$(MAKE_GNOMO)/$(MAKE_DOCUME)/html $(MAKE_GNOMO) && cd -
-	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_TILEG) documentation && cd $(MAKE_DOCUME)/html/ && ln -s ../../$(MAKE_SOURCE)/$(MAKE_TILEG)/$(MAKE_DOCUME)/html $(MAKE_TILEG) && cd -
-	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_INVER) documentation && cd $(MAKE_DOCUME)/html/ && ln -s ../../$(MAKE_SOURCE)/$(MAKE_INVER)/$(MAKE_DOCUME)/html $(MAKE_INVER) && cd -
-	$(MAKE) -C $(MAKE_SOURCE)/$(MAKE_ROTAT) documentation && cd $(MAKE_DOCUME)/html/ && ln -s ../../$(MAKE_SOURCE)/$(MAKE_ROTAT)/$(MAKE_DOCUME)/html $(MAKE_ROTAT) && cd -
+	@$(foreach DOC, $(MAKE_SOFTS), $(MAKE) -C $(MAKE_SOURCE)/$(DOC) documentation && cd $(MAKE_DOCUME)/html/ && ln -s ../../$(MAKE_SOURCE)/$(DOC)/$(MAKE_DOCUME)/html $(DOC) && cd - && ) true
 
 #
-#   make - Directories
+#   make - Management - Directories
 #
 
     directories:
@@ -66,7 +57,7 @@
 	mkdir -p $(MAKE_DOCUME)
 
 #
-#   make - Cleaning builds
+#   make - Management - Cleaning builds
 #
 
     clean:
