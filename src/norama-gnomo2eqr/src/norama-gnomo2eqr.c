@@ -55,13 +55,13 @@
         IplImage * ngOimage = NULL;
 
         /* Image path variables */
-        char ngIpath[256] = "input.png";
-        char ngMpath[256] = "mask.png";
-        char ngEpath[256] = "eqr.png";
-        char ngOpath[256] = "output.png";
+        char ngIpath[256] = { 0 };
+        char ngMpath[256] = { 0 };
+        char ngEpath[256] = { 0 };
+        char ngOpath[256] = { 0 };
 
         /* Interpolation descriptor variables */
-        char ngMethod[256] = "bicubic";
+        char ngMethod[256] = { 0 };
 
         /* Gnomonic projection variables */
         float ngNadir_hor = 0.0;

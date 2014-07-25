@@ -54,11 +54,11 @@
         IplImage * ngOimage = NULL;
 
         /* Image path variables */
-        char ngIpath[256] = "input.png";
-        char ngOpath[256] = "output.png";
+        char ngIpath[256] = { 0 };
+        char ngOpath[256] = { 0 };
 
         /* Interpolation descriptor variables */
-        char ngMethod[256] = "bicubic";
+        char ngMethod[256] = { 0 };
 
         /* Rotation angles variables */
         float ngAngleX = 0.0;
