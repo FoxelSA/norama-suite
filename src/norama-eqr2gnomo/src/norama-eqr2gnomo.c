@@ -50,50 +50,50 @@
     int main ( int argc, char ** argv ) {
 
         /* Image variables */
-        IplImage * ngIimage = NULL;
-        IplImage * ngOimage = NULL;
+        IplImage * nrIImage = NULL;
+        IplImage * nrOImage = NULL;
 
         /* Image path variables */
-        char ngIpath[256] = { 0 };
-        char ngOpath[256] = { 0 };
+        char nrIPath[256] = { 0 };
+        char nrOPath[256] = { 0 };
 
         /* Interpolation descriptor variables */
-        char ngMethod[256] = { 0 };
+        char nrMethod[256] = { 0 };
 
         /* Image parameters variables */
-        int ngOwidth  = 512;
-        int ngOheight = 512;
+        int nrOWidth  = 512;
+        int nrOHeight = 512;
 
         /* Gnomonic projection variables */
-        float ngNadir_hor = 0.0;
-        float ngNadir_ver = 0.0;
-        float ngApper_hor = 45.0;
-        float ngApper_ver = 45.0;
+        float nrNadirHor = 0.0;
+        float nrNadirVer = 0.0;
+        float nrApperHor = 45.0;
+        float nrApperVer = 45.0;
 
         /* Interpolation method variables */
-        inter_Method_t ngInter = inter_bicubicf;
+        inter_Method_t nrInter = inter_bicubicf;
 
         /* Search in parameters */
-        stdp( stda( argc, argv,  "--equirectangular"     , "-e" ), argv,   ngIpath    , __STDP_STRING );
-        stdp( stda( argc, argv,  "--rectilinear"         , "-r" ), argv,   ngOpath    , __STDP_STRING );
-        stdp( stda( argc, argv,  "--width"               , "-w" ), argv, & ngOwidth   , __STDP_INT    );
-        stdp( stda( argc, argv,  "--height"              , "-t" ), argv, & ngOheight  , __STDP_INT    );
-        stdp( stda( argc, argv,  "--nadir-horizontal"    , "-u" ), argv, & ngNadir_hor, __STDP_FLOAT  );
-        stdp( stda( argc, argv,  "--nadir-vertical"      , "-v" ), argv, & ngNadir_ver, __STDP_FLOAT  );
-        stdp( stda( argc, argv,  "--apperture-horizontal", "-a" ), argv, & ngApper_hor, __STDP_FLOAT  );
-        stdp( stda( argc, argv,  "--apperture-vertical"  , "-b" ), argv, & ngApper_ver, __STDP_FLOAT  );
-        stdp( stda( argc, argv,  "--interpolation"       , "-i" ), argv,   ngMethod   , __STDP_STRING );
+        stdp( stda( argc, argv,  "--equirectangular"     , "-e" ), argv,   nrIPath   , __STDP_STRING );
+        stdp( stda( argc, argv,  "--rectilinear"         , "-r" ), argv,   nrOPath   , __STDP_STRING );
+        stdp( stda( argc, argv,  "--width"               , "-w" ), argv, & nrOWidth  , __STDP_INT    );
+        stdp( stda( argc, argv,  "--height"              , "-t" ), argv, & nrOHeight , __STDP_INT    );
+        stdp( stda( argc, argv,  "--nadir-horizontal"    , "-u" ), argv, & nrNadirHor, __STDP_FLOAT  );
+        stdp( stda( argc, argv,  "--nadir-vertical"      , "-v" ), argv, & nrNadirVer, __STDP_FLOAT  );
+        stdp( stda( argc, argv,  "--apperture-horizontal", "-a" ), argv, & nrApperHor, __STDP_FLOAT  );
+        stdp( stda( argc, argv,  "--apperture-vertical"  , "-b" ), argv, & nrApperVer, __STDP_FLOAT  );
+        stdp( stda( argc, argv,  "--interpolation"       , "-i" ), argv,   nrMethod  , __STDP_STRING );
 
         /* Sepcify interpolation method */
-        if ( strcmp( ngMethod, "bilinear" ) == 0 ) ngInter = inter_bilinearf;
-        if ( strcmp( ngMethod, "bicubic"  ) == 0 ) ngInter = inter_bicubicf;
-        if ( strcmp( ngMethod, "bipentic" ) == 0 ) ngInter = inter_bipenticf;
+        if ( strcmp( nrMethod, "bilinear" ) == 0 ) nrInter = inter_bilinearf;
+        if ( strcmp( nrMethod, "bicubic"  ) == 0 ) nrInter = inter_bicubicf;
+        if ( strcmp( nrMethod, "bipentic" ) == 0 ) nrInter = inter_bipenticf;
 
         /* Convert angles to radian */
-        ngNadir_hor *= ( GNOMONIC_PI / 180.0 );
-        ngNadir_ver *= ( GNOMONIC_PI / 180.0 );
-        ngApper_hor *= ( GNOMONIC_PI / 180.0 );
-        ngApper_ver *= ( GNOMONIC_PI / 180.0 );
+        nrNadirHor *= ( GNOMONIC_PI / 180.0 );
+        nrNadirVer *= ( GNOMONIC_PI / 180.0 );
+        nrApperHor *= ( GNOMONIC_PI / 180.0 );
+        nrApperVer *= ( GNOMONIC_PI / 180.0 );
 
         /* Software swicth */
         if ( stda( argc, argv, "--help", "-h" ) ) {
@@ -104,38 +104,38 @@
         } else {
 
             /* Import input image */
-            ngIimage = cvLoadImage( ngIpath, CV_LOAD_IMAGE_COLOR );
+            nrIImage = cvLoadImage( nrIPath, CV_LOAD_IMAGE_COLOR );
 
             /*  Verify input image reading */
-            if ( ngIimage != NULL ) {
+            if ( nrIImage != NULL ) {
 
                 /* Initialize output image structure */
-                ngOimage = cvCreateImage( cvSize( ngOwidth, ngOheight ), IPL_DEPTH_8U , ngIimage->nChannels );
+                nrOImage = cvCreateImage( cvSize( nrOWidth, nrOHeight ), IPL_DEPTH_8U , nrIImage->nChannels );
 
                 /* Verify output image creation */
-                if ( ngOimage != NULL ) {
+                if ( nrOImage != NULL ) {
 
                     /* Gnomonic reprojection */
                     gnomonic_etg(
 
-                        ( inter_C8_t * ) ngIimage->imageData,
-                        ngIimage->width, 
-                        ngIimage->height, 
-                        ngIimage->nChannels, 
-                        ( inter_C8_t * ) ngOimage->imageData, 
-                        ngOimage->width, 
-                        ngOimage->height,
-                        ngOimage->nChannels,
-                        ngNadir_hor,
-                        ngNadir_ver,
-                        ngApper_hor,
-                        ngApper_ver,
-                        ngInter
+                        ( inter_C8_t * ) nrIImage->imageData,
+                        nrIImage->width, 
+                        nrIImage->height, 
+                        nrIImage->nChannels, 
+                        ( inter_C8_t * ) nrOImage->imageData, 
+                        nrOImage->width, 
+                        nrOImage->height,
+                        nrOImage->nChannels,
+                        nrNadirHor,
+                        nrNadirVer,
+                        nrApperHor,
+                        nrApperVer,
+                        nrInter
 
                     );
 
                     /* Export output image */
-                    if ( cvSaveImage( ngOpath, ngOimage, NULL ) == 0 ) {
+                    if ( cvSaveImage( nrOPath, nrOImage, NULL ) == 0 ) {
 
                         /* Display message */
                         fprintf( stdout, "Error : Unable to write gnomonic image\n" );

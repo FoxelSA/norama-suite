@@ -50,41 +50,41 @@
     int main ( int argc, char ** argv ) {
 
         /* Image variables */
-        IplImage * ngIimage = NULL;
-        IplImage * ngOimage = NULL;
+        IplImage * nrIImage = NULL;
+        IplImage * nrOImage = NULL;
 
         /* Image path variables */
-        char ngIpath[256] = { 0 };
-        char ngOpath[256] = { 0 };
+        char nrIPath[256] = { 0 };
+        char nrOPath[256] = { 0 };
 
         /* Interpolation descriptor variables */
-        char ngMethod[256] = { 0 };
+        char nrMethod[256] = { 0 };
 
         /* Rotation angles variables */
-        float ngAngleX = 0.0;
-        float ngAngleY = 0.0;
-        float ngAngleZ = 0.0;
+        float nrAngleX = 0.0;
+        float nrAngleY = 0.0;
+        float nrAngleZ = 0.0;
 
         /* Interpolation method variables */
-        inter_Method_t ngInter = inter_bicubicf;
+        inter_Method_t nrInter = inter_bicubicf;
 
         /* Search in parameters */
-        stdp( stda( argc, argv,  "--input"        , "-n" ), argv,   ngIpath , __STDP_STRING );
-        stdp( stda( argc, argv,  "--output"       , "-o" ), argv,   ngOpath , __STDP_STRING );
-        stdp( stda( argc, argv,  "--angle-x"      , "-x" ), argv, & ngAngleX, __STDP_FLOAT  );
-        stdp( stda( argc, argv,  "--angle-y"      , "-y" ), argv, & ngAngleY, __STDP_FLOAT  );
-        stdp( stda( argc, argv,  "--angle-z"      , "-z" ), argv, & ngAngleZ, __STDP_FLOAT  );
-        stdp( stda( argc, argv,  "--interpolation", "-i" ), argv,   ngMethod, __STDP_STRING );
+        stdp( stda( argc, argv,  "--input"        , "-n" ), argv,   nrIPath , __STDP_STRING );
+        stdp( stda( argc, argv,  "--output"       , "-o" ), argv,   nrOPath , __STDP_STRING );
+        stdp( stda( argc, argv,  "--angle-x"      , "-x" ), argv, & nrAngleX, __STDP_FLOAT  );
+        stdp( stda( argc, argv,  "--angle-y"      , "-y" ), argv, & nrAngleY, __STDP_FLOAT  );
+        stdp( stda( argc, argv,  "--angle-z"      , "-z" ), argv, & nrAngleZ, __STDP_FLOAT  );
+        stdp( stda( argc, argv,  "--interpolation", "-i" ), argv,   nrMethod, __STDP_STRING );
 
         /* Sepcify interpolation method */
-        if ( strcmp( ngMethod, "bilinear" ) == 0 ) ngInter = inter_bilinearf;
-        if ( strcmp( ngMethod, "bicubic"  ) == 0 ) ngInter = inter_bicubicf;
-        if ( strcmp( ngMethod, "bipentic" ) == 0 ) ngInter = inter_bipenticf;
+        if ( strcmp( nrMethod, "bilinear" ) == 0 ) nrInter = inter_bilinearf;
+        if ( strcmp( nrMethod, "bicubic"  ) == 0 ) nrInter = inter_bicubicf;
+        if ( strcmp( nrMethod, "bipentic" ) == 0 ) nrInter = inter_bipenticf;
 
         /* Convert angles to radian */
-        ngAngleX *= - ( M_PI / 180.0 );
-        ngAngleY *= - ( M_PI / 180.0 );
-        ngAngleZ *= - ( M_PI / 180.0 );
+        nrAngleX *= - ( M_PI / 180.0 );
+        nrAngleY *= - ( M_PI / 180.0 );
+        nrAngleZ *= - ( M_PI / 180.0 );
 
         /* Software swicth */
         if ( stda( argc, argv, "--help", "-h" ) ) {
@@ -95,34 +95,34 @@
         } else {
 
             /* Import input image */
-            ngIimage = cvLoadImage( ngIpath, CV_LOAD_IMAGE_COLOR );
+            nrIImage = cvLoadImage( nrIPath, CV_LOAD_IMAGE_COLOR );
 
             /*  Verify input image reading */
-            if ( ngIimage != NULL ) {
+            if ( nrIImage != NULL ) {
 
                 /* Create image allocation */
-                ngOimage = cvCreateImage( cvSize( ngIimage->width, ngIimage->height ), IPL_DEPTH_8U , ngIimage->nChannels );
+                nrOImage = cvCreateImage( cvSize( nrIImage->width, nrIImage->height ), IPL_DEPTH_8U , nrIImage->nChannels );
 
                 /* Verify allocation creation */
-                if ( ngOimage != NULL ) {
+                if ( nrOImage != NULL ) {
 
                     /* Apply equirectangular transform */
                     gnomonic_transform_rotate( 
 
-                        ( inter_C8_t * ) ngIimage->imageData,
-                        ( inter_C8_t * ) ngOimage->imageData,
-                        ngIimage->width,
-                        ngIimage->height,
-                        ngIimage->nChannels,
-                        ngAngleX,
-                        ngAngleY,
-                        ngAngleZ,
-                        ngInter
+                        ( inter_C8_t * ) nrIImage->imageData,
+                        ( inter_C8_t * ) nrOImage->imageData,
+                        nrIImage->width,
+                        nrIImage->height,
+                        nrIImage->nChannels,
+                        nrAngleX,
+                        nrAngleY,
+                        nrAngleZ,
+                        nrInter
 
                     );
 
                     /* Export output image */
-                    if ( cvSaveImage( ngOpath, ngOimage, NULL ) == 0 ) {
+                    if ( cvSaveImage( nrOPath, nrOImage, NULL ) == 0 ) {
 
                         /* Display message */
                         fprintf( stdout, "Error : Unable to write output image\n" );
