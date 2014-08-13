@@ -98,7 +98,7 @@
         if ( stda( argc, argv, "--help", "-h" ) ) {
 
             /* Display usage */
-            fprintf( stdout, NG_HELP );
+            fprintf( stdout, NR_HELP );
 
         } else {
 

@@ -36,10 +36,11 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    //! @file   common-stdap.h
-    //! @author Nils Hamel (n.hamel@foxel.ch)
-    //! 
-    //! Universal simple parameter parser
+    /*! \file   common-stdap.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *   
+     *  Universal simple parameter parser
+     */
 
 /* 
     Header - Include guard
@@ -99,30 +100,32 @@
     Header - Function prototypes
  */
 
-    //! Search agrument position in argv
-
-    //! This function search in the argv string array the position of the argument
-    //! defined through ltag/stag and return the index of the corresponding parameter
-    //! in argv.
-    //!
-    //! @param argc Standard main parameter
-    //! @param argv Standard main parameter
-    //! @param ltag Long-form argument string (--argument)
-    //! @param stag Short-form argument string (-a)
-    //! @return Index of parameter in argv
+    /*! \brief Search agrument position in argv
+     *  
+     *  This function search in the argv string array the position of the argument
+     *  defined through ltag/stag and return the index of the corresponding parameter
+     *  in argv.
+     *  
+     *  \param argc Standard main parameter
+     *  \param argv Standard main parameter
+     *  \param ltag Long-form argument string (--argument)
+     *  \param stag Short-form argument string (-a)
+     *  \return Index of parameter in argv
+     */
 
     int  stda ( int argc, char ** argv, const char * const ltag, const char * const stag );
 
-    //! Parameter reader in argv
-
-    //! This function interpret the parameter in the desired type and return it through
-    //! the param variable. The argi variable is typically set using stda function. If
-    //! argi is set to __STDA_NULL, the function does nothing.
-    //!
-    //! @param argi Index of the parameter in argv
-    //! @param argv Standard main parameter
-    //! @param param Pointer to the variable that recieve the parameter
-    //! @param type Type to use for parameter interpretation
+    /*! \brief Parameter reader in argv
+     *  
+     *  This function interpret the parameter in the desired type and return it through
+     *  the param variable. The argi variable is typically set using stda function. If
+     *  argi is set to __STDA_NULL, the function does nothing.
+     *  
+     *  \param argi Index of the parameter in argv
+     *  \param argv Standard main parameter
+     *  \param param Pointer to the variable that recieve the parameter
+     *  \param type Type to use for parameter interpretation
+     */
 
     void stdp ( int argi, char ** argv, void * param, int type );
 

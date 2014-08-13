@@ -36,17 +36,51 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    //! @file   norama-tile2gnomo.h
-    //! @author Nils Hamel (n.hamel@foxel.ch)
-    //! 
-    //! Software main header (single function software)
+    /*! \file   norama-tile2gnomo.h
+     *  \author Nils Hamel (n.hamel@foxel.ch)
+     *   
+     *  Software main header (single function software)
+     */
+
+    /*! \mainpage norama-tile2gnomo
+     *
+     *  \section norama-suite
+     *  \section _ Panorama tools suite
+     *
+     *  This software suite offers tools for numerical panoramas manipulation.
+     *  Mainly based on equirectangular mappings, the norama-suite tools are each
+     *  designed to solve a single task on panoramas, in order to maintain a good
+     *  modularity of the suite. A typical example is given by rectilinear
+     *  mappings extraction from a entire equirectangular mapped image.
+     *
+     *  \section Documentation
+     *
+     *  More documentation can be found on the wiki provided on the project github
+     *  repository (https://github.com/FoxelSA/norama-suite/wiki).
+     *
+     *  \section Copyright
+     * 
+     *  Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch \n
+     *  This program is part of the FOXEL project <http://foxel.ch>.
+     *  
+     *  Please read the COPYRIGHT.md file for more information.
+     *
+     *  \section License
+     *
+     *  This program is licensed under the terms of the GNU Affero General Public License
+     *  v3 (GNU AGPL), with two additional terms. The content is licensed under the terms 
+     *  of the Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA) license.
+     *
+     *  You must read <http://foxel.ch/license> for more information about our Licensing
+     *  terms and our Usage and Attribution guidelines.
+     */
 
 /* 
     Header - Include guard
  */
 
-    # ifndef __NORAMA_EQR2GNOMO__
-    # define __NORAMA_EQR2GNOMO__
+    # ifndef __NR_EQR2GNOMO__
+    # define __NR_EQR2GNOMO__
 
 /* 
     Header - C/C++ compatibility
@@ -72,7 +106,7 @@
  */
 
     /* Standard help */
-    # define NG_HELP "norama-tile2gnomo - norama-suite\nCopyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n" \
+    # define NR_HELP "norama-tile2gnomo - norama-suite\nCopyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n" \
                      "See https://github.com/FoxelSA/norama-suite for more information\n"
 
 /* 
@@ -91,15 +125,16 @@
     Header - Function prototypes
  */
 
-    //! Software main function (single function software)
-
-    //! The main function frame follows : parameters are initialized and read. The
-    //! equirectangular tile is imported and the gnomonic image allocation is
-    //! created. The gnomonic projection is performed according to parameters and
-    //! the result is exported.
-    //! 
-    //! @param argc Standard main parameter
-    //! @param argv Standard main parameter
+    /*! \brief Software main function (single function software)
+     *  
+     *  The main function frame follows : parameters are initialized and read. The
+     *  equirectangular tile is imported and the gnomonic image allocation is
+     *  created. The gnomonic projection is performed according to parameters and
+     *  the result is exported.
+     *  
+     *  \param argc Standard main parameter
+     *  \param argv Standard main parameter
+     */
 
     int main ( int argc, char ** argv );
 
