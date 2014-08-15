@@ -70,7 +70,7 @@
         float nrApperVer = 45.0;
 
         /* Interpolation method variables */
-        inter_Method_t nrInter = inter_bicubicf;
+        li_Method_t nrInter = inter_bicubicf;
 
         /* Search in parameters */
         stdp( stda( argc, argv,  "--equirectangular"     , "-e" ), argv,   nrEPath   , __STDP_STRING );
@@ -84,18 +84,19 @@
         stdp( stda( argc, argv,  "--interpolation"       , "-i" ), argv,   nrMethod  , __STDP_STRING );
 
         /* Sepcify interpolation method */
-        if ( strcmp( nrMethod, "bilinear" ) == 0 ) nrInter = inter_bilinearf;
-        if ( strcmp( nrMethod, "bicubic"  ) == 0 ) nrInter = inter_bicubicf;
-        if ( strcmp( nrMethod, "bipentic" ) == 0 ) nrInter = inter_bipenticf;
+        if ( strcmp( nrMethod, "bilinear" ) == 0 ) nrInter = li_bilinearf;
+        if ( strcmp( nrMethod, "bicubic"  ) == 0 ) nrInter = li_bicubicf;
+        if ( strcmp( nrMethod, "bipentic" ) == 0 ) nrInter = li_bipenticf;
+        if ( strcmp( nrMethod, "biheptic" ) == 0 ) nrInter = li_bihepticf;
 
         /* Convert angles to radian */
-        nrNadirHor *= ( GNOMONIC_PI / 180.0 );
-        nrNadirVer *= ( GNOMONIC_PI / 180.0 );
-        nrApperHor *= ( GNOMONIC_PI / 180.0 );
-        nrApperVer *= ( GNOMONIC_PI / 180.0 );
+        nrNadirHor *= ( LG_PI / 180.0 );
+        nrNadirVer *= ( LG_PI / 180.0 );
+        nrApperHor *= ( LG_PI / 180.0 );
+        nrApperVer *= ( LG_PI / 180.0 );
 
         /* Software swicth */
-        if ( stda( argc, argv, "--help", "-h" ) ) {
+        if ( stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
 
             /* Display usage */
             fprintf( stdout, NR_HELP );
@@ -114,7 +115,7 @@
                 if ( ( nrIImage->width == nrMImage->width ) && ( nrIImage->height == nrMImage->height ) ) {
 
                     /* Gnomonic reprojection */
-                    gnomonic_gte_blend(
+                    lg_gte_blend(
 
                         ( inter_C8_t * ) nrOImage->imageData,
                         nrOImage->width, 

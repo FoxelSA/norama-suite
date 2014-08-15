@@ -106,8 +106,22 @@
  */
 
     /* Standard help */
-    # define NR_HELP "norama-tile2gnomo - norama-suite\nCopyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n" \
-                     "See https://github.com/FoxelSA/norama-suite for more information\n"
+    # define NR_HELP "norama-tile2gnomo - norama-suite :\n\n"                           \
+                     "    norama-tile2gnomo [arguments] [parameters] ...\n\n"           \
+                     "Arguments and parameters are :\n\n"                               \
+                     "    -e equirectangular tile image\n"                              \
+                     "    -r rectilinear image\n"                                       \
+                     "    -w rectilinear image width\n"                                 \
+                     "    -t rectilinear image height\n"                                \
+                     "    -f full equirectangular image width\n"                        \
+                     "    -g full equirectangular image height\n"                       \
+                     "    -x position of tile in full equirectangular image\n"          \
+                     "    -y position of tile in full equirectangular image\n"          \
+                     "    -c gnomonic center x-position in the tile image\n"            \
+                     "    -d gnomonic center y-position in the tile image\n"            \
+                     "    -i interpolation method\n\n"                                  \
+                     "Copyright :\n\n"                                                  \
+                     "    Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n\n"
 
 /* 
     Header - Preprocessor macros

@@ -66,7 +66,7 @@
         float nrAngleZ = 0.0;
 
         /* Interpolation method variables */
-        inter_Method_t nrInter = inter_bicubicf;
+        li_Method_t nrInter = li_bicubicf;
 
         /* Search in parameters */
         stdp( stda( argc, argv,  "--input"        , "-n" ), argv,   nrIPath , __STDP_STRING );
@@ -77,17 +77,18 @@
         stdp( stda( argc, argv,  "--interpolation", "-i" ), argv,   nrMethod, __STDP_STRING );
 
         /* Sepcify interpolation method */
-        if ( strcmp( nrMethod, "bilinear" ) == 0 ) nrInter = inter_bilinearf;
-        if ( strcmp( nrMethod, "bicubic"  ) == 0 ) nrInter = inter_bicubicf;
-        if ( strcmp( nrMethod, "bipentic" ) == 0 ) nrInter = inter_bipenticf;
+        if ( strcmp( nrMethod, "bilinear" ) == 0 ) nrInter = li_bilinearf;
+        if ( strcmp( nrMethod, "bicubic"  ) == 0 ) nrInter = li_bicubicf;
+        if ( strcmp( nrMethod, "bipentic" ) == 0 ) nrInter = li_bipenticf;
+        if ( strcmp( nrMethod, "biheptic" ) == 0 ) nrInter = li_bihepticf;
 
         /* Convert angles to radian */
-        nrAngleX *= - ( M_PI / 180.0 );
-        nrAngleY *= - ( M_PI / 180.0 );
-        nrAngleZ *= - ( M_PI / 180.0 );
+        nrAngleX *= - ( LG_PI / 180.0 );
+        nrAngleY *= - ( LG_PI / 180.0 );
+        nrAngleZ *= - ( LG_PI / 180.0 );
 
         /* Software swicth */
-        if ( stda( argc, argv, "--help", "-h" ) ) {
+        if ( stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
 
             /* Display usage */
             fprintf( stdout, NR_HELP );
@@ -107,7 +108,7 @@
                 if ( nrOImage != NULL ) {
 
                     /* Apply equirectangular transform */
-                    gnomonic_transform_rotate( 
+                    lg_transform_rotate( 
 
                         ( inter_C8_t * ) nrIImage->imageData,
                         ( inter_C8_t * ) nrOImage->imageData,

@@ -106,8 +106,20 @@
  */
 
     /* Standard help */
-    # define NR_HELP "norama-eqr2gnomo - norama-suite\nCopyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n" \
-                     "See https://github.com/FoxelSA/norama-suite for more information\n"
+    # define NR_HELP "norama-eqr2gnomo - norama-suite :\n\n"                            \
+                     "    norama-eqr2gnomo [arguments] [parameters] ...\n\n"            \
+                     "Arguments and parameters are :\n\n"                               \
+                     "    -e equirectangular image\n"                                   \
+                     "    -r rectilinear image\n"                                       \
+                     "    -w rectilinear image width\n"                                 \
+                     "    -t rectilinear image height\n"                                \
+                     "    -u gnomonic projection center horizontal angle (degrees)\n"   \
+                     "    -v gnomonic projection center vertical angle (degrees)\n"     \
+                     "    -a gnomonic projection horizontal half apperture (degrees)\n" \
+                     "    -b gnomonic projection vertical half apperture (degrees)\n"   \
+                     "    -i interpolation method\n\n"                                  \
+                     "Copyright :\n\n"                                                  \
+                     "    Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n\n"
 
 /* 
     Header - Preprocessor macros

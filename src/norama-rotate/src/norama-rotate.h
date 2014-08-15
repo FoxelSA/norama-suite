@@ -106,13 +106,17 @@
  */
 
     /* Standard help */
-    # define NR_HELP "norama-rotate - norama-suite\nCopyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n" \
-                     "See https://github.com/FoxelSA/norama-suite for more information\n"
-
-    /* Define pi constante */
-    # ifndef M_PI
-    # define M_PI 3.14159265358979323846
-    # endif
+    # define NR_HELP "norama-rotate - norama-suite :\n\n"                               \
+                     "    norama-rotate [arguments] [parameters] ...\n\n"               \
+                     "Arguments and parameters are :\n\n"                               \
+                     "    -n input equirectangular image\n"                             \
+                     "    -o output equirectangular image\n"                            \
+                     "    -x rotation angle along x axis (degrees)\n"                   \
+                     "    -y rotation angle along y axis (degrees)\n"                   \
+                     "    -z rotation angle along z axis (degrees)\n"                   \
+                     "    -i interpolation method\n\n"                                  \
+                     "Copyright :\n\n"                                                  \
+                     "    Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n\n"
 
 /* 
     Header - Preprocessor macros
