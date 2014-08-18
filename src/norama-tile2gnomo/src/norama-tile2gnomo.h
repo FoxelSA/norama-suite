@@ -106,22 +106,22 @@
  */
 
     /* Standard help */
-    # define NR_HELP "norama-tile2gnomo - norama-suite :\n\n"                           \
-                     "    norama-tile2gnomo [arguments] [parameters] ...\n\n"           \
-                     "Arguments and parameters are :\n\n"                               \
-                     "    -e equirectangular tile image\n"                              \
-                     "    -r rectilinear image\n"                                       \
-                     "    -w rectilinear image width\n"                                 \
-                     "    -t rectilinear image height\n"                                \
-                     "    -f full equirectangular image width\n"                        \
-                     "    -g full equirectangular image height\n"                       \
-                     "    -x position of tile in full equirectangular image\n"          \
-                     "    -y position of tile in full equirectangular image\n"          \
-                     "    -c gnomonic center x-position in the tile image\n"            \
-                     "    -d gnomonic center y-position in the tile image\n"            \
-                     "    -i interpolation method\n\n"                                  \
-                     "Copyright :\n\n"                                                  \
-                     "    Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n\n"
+    # define NR_HELP "Usage summary :\n\n"                                              \
+                     "\tnorama-tile2gnomo [Arguments] [Parameters] ...\n\n"              \
+                     "Short arguments and parameters summary :\n\n"                     \
+                     "\t-e\tEquirectangular tile image\n"                              \
+                     "\t-r\tRectilinear image\n"                                       \
+                     "\t-w\tRectilinear image width\n"                                 \
+                     "\t-t\tRectilinear image height\n"                                \
+                     "\t-f\tFull equirectangular image width\n"                        \
+                     "\t-g\tFull equirectangular image height\n"                       \
+                     "\t-x\tPosition of tile in full equirectangular image\n"          \
+                     "\t-y\tPosition of tile in full equirectangular image\n"          \
+                     "\t-c\tGnomonic center x-position in the tile image\n"            \
+                     "\t-d\tGnomonic center y-position in the tile image\n"            \
+                     "\t-i\tInterpolation method\n\n"                                  \
+                     "norama-tile2gnomo - norama-suite\n"                                \
+                     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n"
 
 /* 
     Header - Preprocessor macros

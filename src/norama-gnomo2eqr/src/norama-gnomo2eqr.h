@@ -106,20 +106,20 @@
  */
 
     /* Standard help */
-    # define NR_HELP "norama-gnomo2eqr - norama-suite :\n\n"                            \
-                     "    norama-gnomo2eqr [arguments] [parameters] ...\n\n"            \
-                     "Arguments and parameters are :\n\n"                               \
-                     "    -e equirectangular image\n"                                   \
-                     "    -m rectilinear mask image\n"                                  \
-                     "    -r rectilinear image\n"                                       \
-                     "    -o output equirectangular image\n"                            \
-                     "    -u gnomonic projection center horizontal angle (degrees)\n"   \
-                     "    -v gnomonic projection center vertical angle (degrees)\n"     \
-                     "    -a gnomonic projection horizontal half apperture (degrees)\n" \
-                     "    -b gnomonic projection vertical half apperture (degrees)\n"   \
-                     "    -i interpolation method\n\n"                                  \
-                     "Copyright :\n\n"                                                  \
-                     "    Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n\n"
+    # define NR_HELP "Usage summary :\n\n"                                              \
+                     "\tnorama-gnomo2eqr [Arguments] [Parameters] ...\n\n"              \
+                     "Short arguments and parameters summary :\n\n"                     \
+                     "\t-e\tEquirectangular image\n"                                    \
+                     "\t-m\tRectilinear mask image\n"                                   \
+                     "\t-r\tRectilinear image\n"                                        \
+                     "\t-o\tOutput equirectangular image\n"                             \
+                     "\t-u\tGnomonic projection center horizontal angle (degrees)\n"    \
+                     "\t-v\tGnomonic projection center vertical angle (degrees)\n"      \
+                     "\t-a\tGnomonic projection horizontal half apperture (degrees)\n"  \
+                     "\t-b\tGnomonic projection vertical half apperture (degrees)\n"    \
+                     "\t-i\tInterpolation method\n\n"                                   \
+                     "norama-gnomo2eqr - norama-suite\n"                                \
+                     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n"
 
 /* 
     Header - Preprocessor macros

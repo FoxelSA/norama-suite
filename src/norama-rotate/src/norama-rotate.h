@@ -106,17 +106,17 @@
  */
 
     /* Standard help */
-    # define NR_HELP "norama-rotate - norama-suite :\n\n"                               \
-                     "    norama-rotate [arguments] [parameters] ...\n\n"               \
-                     "Arguments and parameters are :\n\n"                               \
-                     "    -n input equirectangular image\n"                             \
-                     "    -o output equirectangular image\n"                            \
-                     "    -x rotation angle along x axis (degrees)\n"                   \
-                     "    -y rotation angle along y axis (degrees)\n"                   \
-                     "    -z rotation angle along z axis (degrees)\n"                   \
-                     "    -i interpolation method\n\n"                                  \
-                     "Copyright :\n\n"                                                  \
-                     "    Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n\n"
+    # define NR_HELP "Usage summary :\n\n"                                              \
+                     "\tnorama-rotate [Arguments] [Parameters] ...\n\n"                 \
+                     "Short arguments and parameters summary :\n\n"                     \
+                     "\t-n\tinput equirectangular image\n"                              \
+                     "\t-o\toutput equirectangular image\n"                             \
+                     "\t-x\trotation angle along x axis (degrees)\n"                    \
+                     "\t-y\trotation angle along y axis (degrees)\n"                    \
+                     "\t-z\trotation angle along z axis (degrees)\n"                    \
+                     "\t-i\tinterpolation method\n\n"                                   \
+                     "norama-rotate - norama-suite\n"                                   \
+                     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n"
 
 /* 
     Header - Preprocessor macros
