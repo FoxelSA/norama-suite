@@ -69,12 +69,12 @@
         li_Method_t nrInter = li_bicubicf;
 
         /* Search in parameters */
-        stdp( stda( argc, argv,  "--input"        , "-n" ), argv,   nrIPath , __STDP_STRING );
-        stdp( stda( argc, argv,  "--output"       , "-o" ), argv,   nrOPath , __STDP_STRING );
-        stdp( stda( argc, argv,  "--angle-x"      , "-x" ), argv, & nrAngleX, __STDP_FLOAT  );
-        stdp( stda( argc, argv,  "--angle-y"      , "-y" ), argv, & nrAngleY, __STDP_FLOAT  );
-        stdp( stda( argc, argv,  "--angle-z"      , "-z" ), argv, & nrAngleZ, __STDP_FLOAT  );
-        stdp( stda( argc, argv,  "--interpolation", "-i" ), argv,   nrMethod, __STDP_STRING );
+        stdp( stda( argc, argv,  "--input"        , "-n" ), argv,   nrIPath , NR_STRING );
+        stdp( stda( argc, argv,  "--output"       , "-o" ), argv,   nrOPath , NR_STRING );
+        stdp( stda( argc, argv,  "--angle-x"      , "-x" ), argv, & nrAngleX, NR_FLOAT  );
+        stdp( stda( argc, argv,  "--angle-y"      , "-y" ), argv, & nrAngleY, NR_FLOAT  );
+        stdp( stda( argc, argv,  "--angle-z"      , "-z" ), argv, & nrAngleZ, NR_FLOAT  );
+        stdp( stda( argc, argv,  "--interpolation", "-i" ), argv,   nrMethod, NR_STRING );
 
         /* Sepcify interpolation method */
         if ( strcmp( nrMethod, "bilinear" ) == 0 ) nrInter = li_bilinearf;
@@ -140,6 +140,63 @@
 
         /* Return to system */
         return( EXIT_SUCCESS );
+
+    }
+
+/*
+    Source - Arguments common handler
+ */
+
+    int stda( int argc, char ** argv, const char * const ltag, const char * const stag ) {
+
+        /* Search for argument */
+        while ( ( -- argc ) > 0 ) {
+
+            /* Search for tag matching */
+            if ( ( strcmp( argv[ argc ], ltag ) == 0 ) || ( strcmp( argv[ argc ], stag ) == 0 ) ) {
+
+                /* Return pointer to argument parameter */
+                return( argc + 1 );
+
+            }
+
+        /* Argument not found */
+        } return( NR_NULL );
+
+    }
+
+/*
+    Source - Parameters common handler
+ */
+
+    void stdp( int argi, char ** argv, void * param, int type ) {
+
+        /* Index consistency */
+        if ( argi == NR_NULL ) return;
+
+        /* Select type */
+        switch ( type ) {
+
+            /* Specific reading operation - Integers */
+            case ( NR_CHAR   ) : { * ( signed char        * ) param = atoi ( ( const char * ) argv[argi] ); } break;
+            case ( NR_SHORT  ) : { * ( signed short       * ) param = atoi ( ( const char * ) argv[argi] ); } break;
+            case ( NR_INT    ) : { * ( signed int         * ) param = atoi ( ( const char * ) argv[argi] ); } break;
+            case ( NR_LONG   ) : { * ( signed long        * ) param = atol ( ( const char * ) argv[argi] ); } break;
+            case ( NR_LLONG  ) : { * ( signed long long   * ) param = atoll( ( const char * ) argv[argi] ); } break;
+            case ( NR_UCHAR  ) : { * ( unsigned char      * ) param = atol ( ( const char * ) argv[argi] ); } break;
+            case ( NR_USHORT ) : { * ( unsigned short     * ) param = atol ( ( const char * ) argv[argi] ); } break;
+            case ( NR_UINT   ) : { * ( unsigned int       * ) param = atol ( ( const char * ) argv[argi] ); } break;
+            case ( NR_ULONG  ) : { * ( unsigned long      * ) param = atoll( ( const char * ) argv[argi] ); } break;
+            case ( NR_ULLONG ) : { * ( unsigned long long * ) param = atoll( ( const char * ) argv[argi] ); } break;
+
+            /* Specific reading operation - Floating point */
+            case ( NR_FLOAT  ) : { * ( float              * ) param = atof ( ( const char * ) argv[argi] ); } break;
+            case ( NR_DOUBLE ) : { * ( double             * ) param = atof ( ( const char * ) argv[argi] ); } break;
+
+            /* Specific reading operation - String */
+            case ( NR_STRING ) : { strcpy( ( char * ) param, ( const char * ) argv[argi] );  } break;
+
+        };
 
     }
 
