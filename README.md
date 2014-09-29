@@ -6,8 +6,7 @@ This software suite offers tools for numerical panoramas manipulation. Mainly ba
 
 ### Documentation
 
-Find more documentation on the [wiki](https://github.com/FoxelSA/norama-suite/wiki).
-
+A detailed documentation can be generated through doxygen. A more general documentation can be consulted on the [wiki](https://github.com/FoxelSA/norama-suite/wiki).
 
 ### Copyright
 
