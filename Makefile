@@ -25,6 +25,8 @@
 #
 
     all:directories libraries units
+    build:directories units
+    modules:libraries
 
 #
 #   make - Build - Stack

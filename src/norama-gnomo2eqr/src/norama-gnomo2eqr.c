@@ -158,7 +158,7 @@
     Source - Arguments common handler
  */
 
-    int stda( int argc, char ** argv, const char * const ltag, const char * const stag ) {
+    int stda( int argc, char ** argv, char const * const ltag, char const * const stag ) {
 
         /* Search for argument */
         while ( ( -- argc ) > 0 ) {
@@ -180,7 +180,7 @@
     Source - Parameters common handler
  */
 
-    void stdp( int argi, char ** argv, void * param, int type ) {
+    void stdp( int argi, char ** argv, void * const param, int const type ) {
 
         /* Index consistency */
         if ( argi == NR_NULL ) return;
