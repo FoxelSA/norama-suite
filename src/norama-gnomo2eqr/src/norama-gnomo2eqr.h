@@ -55,9 +55,8 @@
      *
      *  \section Documentation
      *
-     *  A detailed documentation can be generated through doxygen. A more
-     *  general documentation can be consulted on the 
-     *  [wiki](https://github.com/FoxelSA/norama-suite/wiki).
+     *  A detailed documentation can be generated through doxygen. A more general
+     *  documentation can be consulted at https://github.com/FoxelSA/norama-suite/wiki
      *
      *  \section Copyright
      * 
