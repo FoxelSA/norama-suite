@@ -2,8 +2,8 @@
 
 ### Beta 0.2 (master) (Release 0.2 scheduled on November 21, 2014)
 
-- `Added` : norama-direct software for gnomonic projections through libgnomonic
-- `Removed` : norama-tile2gnomo software
+- `Added` : norama-direct software for gnomonic projections through libgnomonic algorithms
+- `Removed` : norama-tile2gnomo software replaced by norama-direct software
 - `Removed` : norama-gnomo2eqr software
 - `Removed` : norama-eqr2gnomo replaced by norama-direct software
 - `Revised` : norama-rotate software revision for libgnomonic 0.2 adaptation
