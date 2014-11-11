@@ -111,8 +111,18 @@
 
         } else {
 
-            /* Import input image */
-            nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_UNCHANGED );
+            /* Image reading mode swicth */
+            if ( stda( argc, argv, "--force-rgb", "-3" ) ) {
+
+                /* Import input image */
+                nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_COLOR );
+
+            } else {
+
+                /* Import input image */
+                nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_UNCHANGED );
+
+            }
 
             /*  Verify input image reading */
             if ( nriImage != NULL ) {
