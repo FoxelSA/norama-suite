@@ -21,7 +21,7 @@
 #   make - Configuration - Libraries
 #
 
-    MAKE_LINKLIB:=-lm -linter -lgnomonic `pkg-config --cflags --libs opencv`
+    MAKE_LINKLIB:=-lgomp -lm -linter -lgnomonic `pkg-config --cflags --libs opencv`
     MAKE_INCLUDE:=$(MAKE_LIBRAR)/libgnomonic $(MAKE_LIBRAR)/libgnomonic/lib/libinter
 
 #
@@ -35,6 +35,10 @@
 #   make - Configuration - Options
 #
 
+    MAKE_SRCOPMP:=-fopenmp -D __OPENMP__
+ifeq ($(OPENMP),false)
+    MAKE_SRCOPMP:=
+endif
 ifeq ($(MAKE_CODE),c)
     MAKE_SRCCOMP:=gcc
 else
@@ -55,7 +59,7 @@ ifeq ($(MAKE_TYPE),libstatic)
 endif
 endif
     MAKE_DOCCOMP:=doxygen
-    MAKE_GENOPTN:=-Wall -funsigned-char -O3 $(addprefix -I./$(MAKE_LIBSWAP), $(addsuffix /src, $(MAKE_INCLUDE) ) )
+    MAKE_GENOPTN:=-Wall -funsigned-char -O3 $(MAKE_SRCOPMP) $(addprefix -I./$(MAKE_LIBSWAP), $(addsuffix /src, $(MAKE_INCLUDE) ) )
 ifeq ($(MAKE_CODE),c)
     MAKE_SRCOPTN:=-std=gnu99 $(MAKE_GENOPTN)
 else

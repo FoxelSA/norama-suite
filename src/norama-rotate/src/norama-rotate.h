@@ -109,12 +109,12 @@
     # define NR_HELP "Usage summary :\n\n"                 \
     "\tnorama-rotate [Arguments] [Parameters] ...\n\n"     \
     "Short arguments and parameters summary :\n\n"         \
-    "\t-n\tinput equirectangular image\n"                  \
-    "\t-o\toutput equirectangular image\n"                 \
-    "\t-x\trotation angle along x axis (degrees)\n"        \
-    "\t-y\trotation angle along y axis (degrees)\n"        \
-    "\t-z\trotation angle along z axis (degrees)\n"        \
-    "\t-i\tinterpolation method\n\n"                       \
+    "\t-n\tInput equirectangular mapping image\n"          \
+    "\t-o\tOutput equirectangular mapping image\n"         \
+    "\t-e\tElevation angle [°] - rotation along y axis\n"  \
+    "\t-a\tAzimuth angle [°] - rotation along z axis\n"    \
+    "\t-r\tRoll angle [°] - rotation along x axis\n"       \
+    "\t-i\tInterpolation method\n\n"                       \
     "norama-rotate - norama-suite\n"                       \
     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n"
 
@@ -161,6 +161,26 @@
      */
 
     int main ( int argc, char ** argv );
+
+    /*! \brief Interpolation method by string
+     *
+     *  This function return a pointer to an interpolation method based on the
+     *  string passed as parameter. The list of implemented tags is given by :
+     *
+     *      bilinearf   Fast bilinear method
+     *      bicubicf    Fast bicubic method
+     *      bipenticf   Fast bipentic method
+     *      bihepticf   Fast biheptic method
+     *
+     *  In case the provided string corresponds to no known tag, the fast bicubic
+     *  method is returned as default.
+     *
+     *  \param  nrTag   String contained the method tag
+     *
+     *  \return Returns the desired interpolation method
+     */
+
+    li_Method_t nr_rotate_method ( char const * const nrTag );
 
     /*! \brief Arguments common handler
      *  

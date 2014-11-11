@@ -40,7 +40,7 @@
 #
 
     libraries:
-	@$(foreach LIB, $(MAKE_DEPENDS), $(MAKE) -C $(LIB) clean && $(MAKE) -C $(LIB) all && ) true
+	@$(foreach LIB, $(MAKE_DEPENDS), $(MAKE) -C $(LIB) clean && $(MAKE) -C $(LIB) all OPENMP=$(OPENMP) && ) true
 
 #
 #   make - Build - Documentation

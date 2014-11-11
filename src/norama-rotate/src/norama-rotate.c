@@ -49,43 +49,33 @@
 
     int main ( int argc, char ** argv ) {
 
-        /* Image variables */
-        IplImage * nrIImage = NULL;
-        IplImage * nrOImage = NULL;
-
-        /* Image path variables */
-        char nrIPath[256] = { 0 };
-        char nrOPath[256] = { 0 };
-
         /* Interpolation descriptor variables */
         char nrMethod[256] = { 0 };
 
-        /* Rotation angles variables */
-        float nrAngleX = 0.0;
-        float nrAngleY = 0.0;
-        float nrAngleZ = 0.0;
+        /* Image path variables */
+        char nriPath[256] = { 0 };
+        char nroPath[256] = { 0 };
 
-        /* Interpolation method variables */
-        li_Method_t nrInter = li_bicubicf;
+        /* Rotation angles variables */
+        double nrAzim = 0.0;
+        double nrElev = 0.0;
+        double nrRoll = 0.0;
+
+        /* Parallel processing variables */
+        int nrThread = 1;
+
+        /* Image allocation variables */
+        IplImage * nriImage = NULL;
+        IplImage * nroImage = NULL;
 
         /* Search in parameters */
-        stdp( stda( argc, argv,  "--input"        , "-n" ), argv,   nrIPath , NR_STRING );
-        stdp( stda( argc, argv,  "--output"       , "-o" ), argv,   nrOPath , NR_STRING );
-        stdp( stda( argc, argv,  "--angle-x"      , "-x" ), argv, & nrAngleX, NR_FLOAT  );
-        stdp( stda( argc, argv,  "--angle-y"      , "-y" ), argv, & nrAngleY, NR_FLOAT  );
-        stdp( stda( argc, argv,  "--angle-z"      , "-z" ), argv, & nrAngleZ, NR_FLOAT  );
+        stdp( stda( argc, argv,  "--input"        , "-n" ), argv,   nriPath , NR_STRING );
+        stdp( stda( argc, argv,  "--output"       , "-o" ), argv,   nroPath , NR_STRING );
+        stdp( stda( argc, argv,  "--azimuth"      , "-a" ), argv, & nrAzim  , NR_DOUBLE );
+        stdp( stda( argc, argv,  "--elevation"    , "-e" ), argv, & nrElev  , NR_DOUBLE );
+        stdp( stda( argc, argv,  "--roll"         , "-r" ), argv, & nrRoll  , NR_DOUBLE );
+        stdp( stda( argc, argv,  "--threads"      , "-t" ), argv, & nrThread, NR_INT    );
         stdp( stda( argc, argv,  "--interpolation", "-i" ), argv,   nrMethod, NR_STRING );
-
-        /* Sepcify interpolation method */
-        if ( strcmp( nrMethod, "bilinear" ) == 0 ) nrInter = li_bilinearf;
-        if ( strcmp( nrMethod, "bicubic"  ) == 0 ) nrInter = li_bicubicf;
-        if ( strcmp( nrMethod, "bipentic" ) == 0 ) nrInter = li_bipenticf;
-        if ( strcmp( nrMethod, "biheptic" ) == 0 ) nrInter = li_bihepticf;
-
-        /* Convert angles to radian */
-        nrAngleX *= - ( LG_PI / 180.0 );
-        nrAngleY *= - ( LG_PI / 180.0 );
-        nrAngleZ *= - ( LG_PI / 180.0 );
 
         /* Software swicth */
         if ( stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
@@ -96,42 +86,49 @@
         } else {
 
             /* Import input image */
-            nrIImage = cvLoadImage( nrIPath, CV_LOAD_IMAGE_COLOR );
+            nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_COLOR );
 
             /*  Verify input image reading */
-            if ( nrIImage != NULL ) {
+            if ( nriImage != NULL ) {
 
                 /* Create image allocation */
-                nrOImage = cvCreateImage( cvSize( nrIImage->width, nrIImage->height ), IPL_DEPTH_8U , nrIImage->nChannels );
+                nroImage = cvCreateImage( cvSize( nriImage->width, nriImage->height ), IPL_DEPTH_8U , nriImage->nChannels );
 
                 /* Verify allocation creation */
-                if ( nrOImage != NULL ) {
+                if ( nroImage != NULL ) {
 
                     /* Apply equirectangular transform */
-                    lg_transform_rotate( 
+                    lg_transform_rotatep( 
 
-                        ( inter_C8_t * ) nrIImage->imageData,
-                        ( inter_C8_t * ) nrOImage->imageData,
-                        nrIImage->width,
-                        nrIImage->height,
-                        nrIImage->nChannels,
-                        nrAngleX,
-                        nrAngleY,
-                        nrAngleZ,
-                        nrInter
+                        ( inter_C8_t * ) nriImage->imageData,
+                        ( inter_C8_t * ) nroImage->imageData,
+                        nriImage->width,
+                        nriImage->height,
+                        nriImage->nChannels,
+                        nrAzim * ( LG_PI / 180.0 ),
+                        nrElev * ( LG_PI / 180.0 ),
+                        nrRoll * ( LG_PI / 180.0 ),
+                        nr_rotate_method( nrMethod ),
+                        nrThread
 
                     );
 
                     /* Export output image */
-                    if ( cvSaveImage( nrOPath, nrOImage, NULL ) == 0 ) {
+                    if ( cvSaveImage( nroPath, nroImage, NULL ) == 0 ) {
 
                         /* Display message */
                         fprintf( stdout, "Error : Unable to write output image\n" );
 
                     }
 
+                    /* Release image memory */
+                    cvReleaseImage( & nroImage );
+
                 /* Display message */
                 } else { fprintf( stdout, "Error : Unable to create output image\n" ); }
+
+                /* Release image memory */
+                cvReleaseImage( & nriImage );
 
             /* Display message */
             } else { fprintf( stdout, "Error : Unable to read input image\n" ); }
@@ -140,6 +137,46 @@
 
         /* Return to system */
         return( EXIT_SUCCESS );
+
+    }
+
+/*
+    Source - Interpolation method by string
+ */
+
+    li_Method_t nr_rotate_method( char const * const nrTag ) {
+
+        /* Interpolation method variables */
+        li_Method_t nrMethod = li_bicubicf;
+
+        /* Switch on string tag */
+        if ( strcmp( nrTag, "bilinearf" ) == 0 ) {
+
+            /* Assign interpolation method */
+            nrMethod = li_bilinearf;
+
+        } else
+        if ( strcmp( nrTag, "bicubicf" ) == 0 ) {
+
+            /* Assign interpolation method */
+            nrMethod = li_bicubicf;
+
+        } else
+        if ( strcmp( nrTag, "bipenticf" ) == 0 ) {
+
+            /* Assign interpolation method */
+            nrMethod = li_bipenticf;
+
+        } else
+        if ( strcmp( nrTag, "bihepticf" ) == 0 ) {
+
+            /* Assign interpolation method */
+            nrMethod = li_bihepticf;
+
+        }
+
+        /* Return selected method */
+        return( nrMethod );
 
     }
 
