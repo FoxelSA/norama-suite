@@ -69,13 +69,13 @@
         IplImage * nroImage = NULL;
 
         /* Search in parameters */
-        stdp( stda( argc, argv,  "--input"        , "-n" ), argv,   nriPath , NR_STRING );
-        stdp( stda( argc, argv,  "--output"       , "-o" ), argv,   nroPath , NR_STRING );
-        stdp( stda( argc, argv,  "--azimuth"      , "-a" ), argv, & nrAzim  , NR_DOUBLE );
-        stdp( stda( argc, argv,  "--elevation"    , "-e" ), argv, & nrElev  , NR_DOUBLE );
-        stdp( stda( argc, argv,  "--roll"         , "-r" ), argv, & nrRoll  , NR_DOUBLE );
-        stdp( stda( argc, argv,  "--threads"      , "-t" ), argv, & nrThread, NR_INT    );
-        stdp( stda( argc, argv,  "--interpolation", "-i" ), argv,   nrMethod, NR_STRING );
+        stdp( stda( argc, argv, "--input"        , "-n" ), argv,   nriPath , NR_STRING );
+        stdp( stda( argc, argv, "--output"       , "-o" ), argv,   nroPath , NR_STRING );
+        stdp( stda( argc, argv, "--azimuth"      , "-a" ), argv, & nrAzim  , NR_DOUBLE );
+        stdp( stda( argc, argv, "--elevation"    , "-e" ), argv, & nrElev  , NR_DOUBLE );
+        stdp( stda( argc, argv, "--roll"         , "-r" ), argv, & nrRoll  , NR_DOUBLE );
+        stdp( stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread, NR_INT    );
+        stdp( stda( argc, argv, "--interpolation", "-i" ), argv,   nrMethod, NR_STRING );
 
         /* Software swicth */
         if ( stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
@@ -86,7 +86,7 @@
         } else {
 
             /* Import input image */
-            nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_COLOR );
+            nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_UNCHANGED );
 
             /*  Verify input image reading */
             if ( nriImage != NULL ) {
