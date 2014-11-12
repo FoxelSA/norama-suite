@@ -41,7 +41,7 @@
     Source - Includes
  */
 
-    # include "norama-direct.h"
+    # include "norama-invert.h"
 
 /*
     Source - Entry point
@@ -50,9 +50,9 @@
     int main ( int argc, char ** argv ) {
 
         /* Image initialization variables */
-        unsigned char nrRed = 0;
+        unsigned char nrRed   = 0;
         unsigned char nrGreen = 0;
-        unsigned char nrBlue = 0;
+        unsigned char nrBlue  = 0;
 
         /* Projection float variables */
         double nrApper  = 0.0;
@@ -66,8 +66,8 @@
         double nrPixel  = 0.0;
 
         /* Projection integer variables */
-        int nrrWidth   = 0;
-        int nrrHeight  = 0;
+        int nreWidth   = 0;
+        int nreHeight  = 0;
         int nrmWidth   = 0;
         int nrmHeight  = 0;
         int nrmCornerX = 0;
@@ -84,7 +84,7 @@
         char nroPath[256] = { 0 };
         char nriSeed[256] = { 0 };
 
-        /* Image allocation variables */
+        /* Image allocations variables */
         IplImage * nriImage = NULL;
         IplImage * nroImage = NULL;
 
@@ -101,8 +101,8 @@
         stdp( stda( argc, argv, "--red"          , "-R" ), argv, & nrRed     , NR_UCHAR  );
         stdp( stda( argc, argv, "--green"        , "-G" ), argv, & nrGreen   , NR_UCHAR  );
         stdp( stda( argc, argv, "--blue"         , "-B" ), argv, & nrBlue    , NR_UCHAR  );
-        stdp( stda( argc, argv, "--rect-width"   , "-k" ), argv, & nrrWidth  , NR_INT    );
-        stdp( stda( argc, argv, "--rect-height"  , "-l" ), argv, & nrrHeight , NR_INT    );
+        stdp( stda( argc, argv, "--eqr-width"    , "-k" ), argv, & nreWidth  , NR_INT    );
+        stdp( stda( argc, argv, "--eqr-height"   , "-l" ), argv, & nreHeight , NR_INT    );
         stdp( stda( argc, argv, "--map-width"    , "-W" ), argv, & nrmWidth  , NR_INT    );
         stdp( stda( argc, argv, "--map-height"   , "-H" ), argv, & nrmHeight , NR_INT    );
         stdp( stda( argc, argv, "--tile-x"       , "-X" ), argv, & nrmCornerX, NR_INT    );
@@ -131,7 +131,7 @@
                 if ( strlen( nriSeed ) == 0 ) {
 
                     /* Create image allocation */
-                    nroImage = cvCreateImage( cvSize( nrrWidth, nrrHeight ), IPL_DEPTH_8U , nriImage->nChannels );
+                    nroImage = cvCreateImage( cvSize( nreWidth, nreHeight ), IPL_DEPTH_8U , nriImage->nChannels );
 
                 } else {
 
@@ -155,16 +155,16 @@
                     if ( stda( argc, argv, "--generic", "-N" ) ) {
 
                         /* Projection - generic */
-                        lg_ttg_genericp(
+                        lg_gtt_genericp(
 
-                            ( inter_C8_t * ) nriImage->imageData,
-                            nriImage->width,
-                            nriImage->height,
-                            nriImage->nChannels,
                             ( inter_C8_t * ) nroImage->imageData,
                             nroImage->width,
                             nroImage->height,
                             nroImage->nChannels,
+                            ( inter_C8_t * ) nriImage->imageData,
+                            nriImage->width,
+                            nriImage->height,
+                            nriImage->nChannels,
                             nrSightX,
                             nrSightY,
                             nrmWidth,
@@ -185,16 +185,16 @@
                     if ( stda( argc, argv, "--elphel" , "-E" ) ) {
 
                         /* Projection - elphel-specific */
-                        lg_ttg_elphelp(
+                        lg_gtt_elphelp(
 
-                            ( inter_C8_t * ) nriImage->imageData,
-                            nriImage->width,
-                            nriImage->height,
-                            nriImage->nChannels,
                             ( inter_C8_t * ) nroImage->imageData,
                             nroImage->width,
                             nroImage->height,
                             nroImage->nChannels,
+                            ( inter_C8_t * ) nriImage->imageData,
+                            nriImage->width,
+                            nriImage->height,
+                            nriImage->nChannels,
                             nrSightX,
                             nrSightY,
                             nrmWidth,
@@ -216,16 +216,16 @@
                     if ( stda( argc, argv, "--center" , "-T" ) ) {
 
                         /* Projection - center-specific */
-                        lg_ttg_centerp(
+                        lg_gtt_centerp(
 
-                            ( inter_C8_t * ) nriImage->imageData,
-                            nriImage->width,
-                            nriImage->height,
-                            nriImage->nChannels,
                             ( inter_C8_t * ) nroImage->imageData,
                             nroImage->width,
                             nroImage->height,
                             nroImage->nChannels,
+                            ( inter_C8_t * ) nriImage->imageData,
+                            nriImage->width,
+                            nriImage->height,
+                            nriImage->nChannels,
                             nrmWidth,
                             nrmHeight,
                             nrmCornerX,
@@ -244,16 +244,16 @@
                     if ( stda( argc, argv, "--complete"   , "-P" ) ) {
 
                         /* Projection - apperture-specific */
-                        lg_etg_apperturep( 
+                        lg_gte_apperturep( 
 
-                            ( inter_C8_t * ) nriImage->imageData,
-                            nriImage->width,
-                            nriImage->height,
-                            nriImage->nChannels,
                             ( inter_C8_t * ) nroImage->imageData,
                             nroImage->width,
                             nroImage->height,
                             nroImage->nChannels,
+                            ( inter_C8_t * ) nriImage->imageData,
+                            nriImage->width,
+                            nriImage->height,
+                            nriImage->nChannels,
                             nrAzim  * ( LG_PI / 180.0 ),
                             nrElev  * ( LG_PI / 180.0 ),
                             nrRoll  * ( LG_PI / 180.0 ),
@@ -277,7 +277,7 @@
                     cvReleaseImage( & nroImage );
 
                 /* Display message */
-                } else { fprintf( stdout, "Error : Unable to create output image\n" ); }
+                } else { fprintf( stdout, "Error : Unable to create output image or read output image seed\n" ); }
 
                 /* Release image memory */
                 cvReleaseImage( & nriImage );
