@@ -49,13 +49,6 @@
 
     int main ( int argc, char ** argv ) {
 
-        /* Interpolation descriptor variables */
-        char nrMethod[256] = { 0 };
-
-        /* Image path variables */
-        char nriPath[256] = { 0 };
-        char nroPath[256] = { 0 };
-
         /* Rotation angles variables */
         double nrAzim = 0.0;
         double nrElev = 0.0;
@@ -64,6 +57,13 @@
         /* Parallel processing variables */
         int nrThread = 1;
 
+        /* Interpolation descriptor variables */
+        char nrMethod[256] = { 0 };
+
+        /* Image path variables */
+        char nriPath[256] = { 0 };
+        char nroPath[256] = { 0 };
+
         /* Image allocation variables */
         IplImage * nriImage = NULL;
         IplImage * nroImage = NULL;
@@ -71,11 +71,11 @@
         /* Search in parameters */
         stdp( stda( argc, argv, "--input"        , "-n" ), argv,   nriPath , NR_STRING );
         stdp( stda( argc, argv, "--output"       , "-o" ), argv,   nroPath , NR_STRING );
+        stdp( stda( argc, argv, "--interpolation", "-i" ), argv,   nrMethod, NR_STRING );
         stdp( stda( argc, argv, "--azimuth"      , "-a" ), argv, & nrAzim  , NR_DOUBLE );
         stdp( stda( argc, argv, "--elevation"    , "-e" ), argv, & nrElev  , NR_DOUBLE );
         stdp( stda( argc, argv, "--roll"         , "-r" ), argv, & nrRoll  , NR_DOUBLE );
         stdp( stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread, NR_INT    );
-        stdp( stda( argc, argv, "--interpolation", "-i" ), argv,   nrMethod, NR_STRING );
 
         /* Software swicth */
         if ( stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {

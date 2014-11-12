@@ -49,15 +49,13 @@
 
     int main ( int argc, char ** argv ) {
 
-        /* Interpolation tag variables */
-        char nrMethod[256] = { 0 };
+        /* Image initialization variables */
+        unsigned char nrRed = 0;
+        unsigned char nrGreen = 0;
+        unsigned char nrBlue = 0;
 
-        /* Image path variables */
-        char nriPath[256] = { 0 };
-        char nroPath[256] = { 0 };
-
-        /* Projection parameters variables */
-        double nrAppert = 0.0;
+        /* Projection float variables */
+        double nrApper  = 0.0;
         double nrSightX = 0.0;
         double nrSightY = 0.0;
         double nrAzim   = 0.0;
@@ -67,49 +65,47 @@
         double nrFocal  = 0.0;
         double nrPixel  = 0.0;
 
-        /* Mapping variables */
-        int nrRectWidth  = 0;
-        int nrRectHeight = 0;
-        int nrMapWidth   = 0;
-        int nrMapHeight  = 0;
-        int nrMapPosX    = 0;
-        int nrMapPosY    = 0;
-
-        /* Image initialization variables */
-        unsigned char nrRed = 0;
-        unsigned char nrGreen = 0;
-        unsigned char nrBlue = 0;
+        /* Projection integer variables */
+        int nrrWidth   = 0;
+        int nrrHeight  = 0;
+        int nrmWidth   = 0;
+        int nrmHeight  = 0;
+        int nrmCornerX = 0;
+        int nrmCornerY = 0;
 
         /* Parallel processing variables */
         int nrThread = 1;
 
-        /* Image allocation variables */
-        IplImage * nriImage = NULL;
-        IplImage * nroImage = NULL;
+        /* Interpolation tag variables */
+        char nrMethod[256] = { 0 };
+
+        /* Image path variables */
+        char nriPath[256] = { 0 };
+        char nroPath[256] = { 0 };
 
         /* Search in parameters */
-        stdp( stda( argc, argv, "--input"        , "-n" ), argv,   nriPath     , NR_STRING );
-        stdp( stda( argc, argv, "--output"       , "-o" ), argv,   nroPath     , NR_STRING );
-        stdp( stda( argc, argv, "--apperture"    , "-u" ), argv, & nrAppert    , NR_DOUBLE );
-        stdp( stda( argc, argv, "--sight-x"      , "-x" ), argv, & nrSightX    , NR_DOUBLE );
-        stdp( stda( argc, argv, "--sight-y"      , "-y" ), argv, & nrSightY    , NR_DOUBLE );
-        stdp( stda( argc, argv, "--azimuth"      , "-a" ), argv, & nrAzim      , NR_DOUBLE );
-        stdp( stda( argc, argv, "--heading"      , "-g" ), argv, & nrHead      , NR_DOUBLE );
-        stdp( stda( argc, argv, "--elevation"    , "-e" ), argv, & nrElev      , NR_DOUBLE );
-        stdp( stda( argc, argv, "--roll"         , "-r" ), argv, & nrRoll      , NR_DOUBLE );
-        stdp( stda( argc, argv, "--focal"        , "-f" ), argv, & nrFocal     , NR_DOUBLE );
-        stdp( stda( argc, argv, "--pixel"        , "-p" ), argv, & nrPixel     , NR_DOUBLE );
-        stdp( stda( argc, argv, "--rect-width"   , "-c" ), argv, & nrRectWidth , NR_INT    );
-        stdp( stda( argc, argv, "--rect-height"  , "-d" ), argv, & nrRectHeight, NR_INT    );
-        stdp( stda( argc, argv, "--map-width"    , "-k" ), argv, & nrMapWidth  , NR_INT    );
-        stdp( stda( argc, argv, "--map-height"   , "-l" ), argv, & nrMapHeight , NR_INT    );
-        stdp( stda( argc, argv, "--tile-x"       , "-u" ), argv, & nrMapPosX   , NR_INT    );
-        stdp( stda( argc, argv, "--tile-y"       , "-v" ), argv, & nrMapPosY   , NR_INT    );
-        stdp( stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread    , NR_INT    );
-        stdp( stda( argc, argv, "--red"          , "-R" ), argv, & nrRed       , NR_UCHAR  );
-        stdp( stda( argc, argv, "--green"        , "-G" ), argv, & nrGreen     , NR_UCHAR  );
-        stdp( stda( argc, argv, "--blue"         , "-B" ), argv, & nrBlue      , NR_UCHAR  );
-        stdp( stda( argc, argv, "--interpolation", "-i" ), argv,   nrMethod    , NR_STRING );
+        stdp( stda( argc, argv, "--apperture"    , "-u" ), argv, & nrApper   , NR_DOUBLE );
+        stdp( stda( argc, argv, "--sight-x"      , "-x" ), argv, & nrSightX  , NR_DOUBLE );
+        stdp( stda( argc, argv, "--sight-y"      , "-y" ), argv, & nrSightY  , NR_DOUBLE );
+        stdp( stda( argc, argv, "--azimuth"      , "-a" ), argv, & nrAzim    , NR_DOUBLE );
+        stdp( stda( argc, argv, "--heading"      , "-d" ), argv, & nrHead    , NR_DOUBLE );
+        stdp( stda( argc, argv, "--elevation"    , "-e" ), argv, & nrElev    , NR_DOUBLE );
+        stdp( stda( argc, argv, "--roll"         , "-r" ), argv, & nrRoll    , NR_DOUBLE );
+        stdp( stda( argc, argv, "--focal"        , "-f" ), argv, & nrFocal   , NR_DOUBLE );
+        stdp( stda( argc, argv, "--pixel"        , "-p" ), argv, & nrPixel   , NR_DOUBLE );
+        stdp( stda( argc, argv, "--red"          , "-R" ), argv, & nrRed     , NR_UCHAR  );
+        stdp( stda( argc, argv, "--green"        , "-G" ), argv, & nrGreen   , NR_UCHAR  );
+        stdp( stda( argc, argv, "--blue"         , "-B" ), argv, & nrBlue    , NR_UCHAR  );
+        stdp( stda( argc, argv, "--rect-width"   , "-k" ), argv, & nrrWidth  , NR_INT    );
+        stdp( stda( argc, argv, "--rect-height"  , "-l" ), argv, & nrrHeight , NR_INT    );
+        stdp( stda( argc, argv, "--map-width"    , "-W" ), argv, & nrmWidth  , NR_INT    );
+        stdp( stda( argc, argv, "--map-height"   , "-H" ), argv, & nrmHeight , NR_INT    );
+        stdp( stda( argc, argv, "--tile-x"       , "-X" ), argv, & nrmCornerX, NR_INT    );
+        stdp( stda( argc, argv, "--tile-y"       , "-Y" ), argv, & nrmCornerY, NR_INT    );
+        stdp( stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread  , NR_INT    );
+        stdp( stda( argc, argv, "--input"        , "-i" ), argv,   nriPath   , NR_STRING );
+        stdp( stda( argc, argv, "--output"       , "-o" ), argv,   nroPath   , NR_STRING );
+        stdp( stda( argc, argv, "--interpolation", "-n" ), argv,   nrMethod  , NR_STRING );
 
         /* Software swicth */
         if ( stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
@@ -119,30 +115,20 @@
 
         } else {
 
-            /* Image reading mode swicth */
-            if ( stda( argc, argv, "--force-rgb", "-C" ) ) {
-
-                /* Import input image */
-                nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_COLOR );
-
-            } else {
-
-                /* Import input image */
-                nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_UNCHANGED );
-
-            }
+            /* Import input image */
+            IplImage * nriImage = cvLoadImage( nriPath, stda( argc, argv, "--force-rgb", "-F" ) ? CV_LOAD_IMAGE_COLOR : CV_LOAD_IMAGE_UNCHANGED );
 
             /*  Verify input image reading */
             if ( nriImage != NULL ) {
 
                 /* Create image allocation */
-                nroImage = cvCreateImage( cvSize( nrRectWidth, nrRectHeight ), IPL_DEPTH_8U , nriImage->nChannels );
+                IplImage * nroImage = cvCreateImage( cvSize( nrrWidth, nrrHeight ), IPL_DEPTH_8U , nriImage->nChannels );
 
                 /* Verify allocation creation */
                 if ( nroImage != NULL ) {
 
                     /* Image initialization swicth */
-                    if ( stda( argc, argv, "--initialize", "-I" ) ) {
+                    if ( stda( argc, argv, "--clear", "-C" ) ) {
 
                         /* Initialize image background */
                         cvSet( nroImage, CV_RGB( nrRed, nrGreen, nrBlue ), NULL );
@@ -165,10 +151,10 @@
                             nroImage->nChannels,
                             nrSightX,
                             nrSightY,
-                            nrMapWidth,
-                            nrMapHeight,
-                            nrMapPosX,
-                            nrMapPosY,
+                            nrmWidth,
+                            nrmHeight,
+                            nrmCornerX,
+                            nrmCornerY,
                             nrAzim  * ( LG_PI / 180.0 ),
                             nrElev  * ( LG_PI / 180.0 ),
                             nrRoll  * ( LG_PI / 180.0 ),
@@ -195,10 +181,10 @@
                             nroImage->nChannels,
                             nrSightX,
                             nrSightY,
-                            nrMapWidth,
-                            nrMapHeight,
-                            nrMapPosX,
-                            nrMapPosY,
+                            nrmWidth,
+                            nrmHeight,
+                            nrmCornerX,
+                            nrmCornerY,
                             nrRoll * ( LG_PI / 180.0 ),
                             nrAzim * ( LG_PI / 180.0 ),
                             nrElev * ( LG_PI / 180.0 ),
@@ -211,7 +197,7 @@
                         );
 
                     } else
-                    if ( stda( argc, argv, "--center" , "-C" ) ) {
+                    if ( stda( argc, argv, "--center" , "-T" ) ) {
 
                         /* Projection - center-specific */
                         lg_ttg_centerp(
@@ -224,10 +210,10 @@
                             nroImage->width,
                             nroImage->height,
                             nroImage->nChannels,
-                            nrMapWidth,
-                            nrMapHeight,
-                            nrMapPosX,
-                            nrMapPosY,
+                            nrmWidth,
+                            nrmHeight,
+                            nrmCornerX,
+                            nrmCornerY,
                             nrAzim * ( LG_PI / 180.0 ),
                             nrElev * ( LG_PI / 180.0 ),
                             nrRoll * ( LG_PI / 180.0 ),
@@ -239,7 +225,7 @@
                         );
 
                     } else
-                    if ( stda( argc, argv, "--full"   , "-F" ) ) {
+                    if ( stda( argc, argv, "--complete"   , "-P" ) ) {
 
                         /* Projection - apperture-specific */
                         lg_etg_apperturep( 
@@ -252,10 +238,10 @@
                             nroImage->width,
                             nroImage->height,
                             nroImage->nChannels,
-                            nrAzim   * ( LG_PI / 180.0 ),
-                            nrElev   * ( LG_PI / 180.0 ),
-                            nrRoll   * ( LG_PI / 180.0 ),
-                            nrAppert * ( LG_PI / 180.0 ),
+                            nrAzim  * ( LG_PI / 180.0 ),
+                            nrElev  * ( LG_PI / 180.0 ),
+                            nrRoll  * ( LG_PI / 180.0 ),
+                            nrApper * ( LG_PI / 180.0 ),
                             nr_direct_method( nrMethod ),
                             nrThread
 

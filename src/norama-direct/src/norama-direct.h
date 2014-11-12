@@ -106,16 +106,38 @@
  */
 
     /* Standard help */
-    # define NR_HELP "Usage summary :\n\n"                 \
-    "\tnorama-direct [Arguments] [Parameters] ...\n\n"     \
-    "Short arguments and parameters summary :\n\n"         \
-    "\t-n\tInput equirectangular mapping image\n"          \
-    "\t-o\tOutput equirectangular mapping image\n"         \
-    "\t-e\tElevation angle [°] - rotation along y axis\n"  \
-    "\t-a\tAzimuth angle [°] - rotation along z axis\n"    \
-    "\t-r\tRoll angle [°] - rotation along x axis\n"       \
-    "\t-i\tInterpolation method\n\n"                       \
-    "norama-direct - norama-suite\n"                       \
+    # define NR_HELP "Usage summary :\n\n"                     \
+    "\tnorama-direct [Arguments] [Parameters] ...\n\n"         \
+    "Short arguments and parameters summary :\n\n"             \
+    "\t-F\tForce input image in RGB format\n"                  \
+    "\t-C\tClear created image content\n"                      \
+    "\t-N\tGeneric projection\n"                               \
+    "\t-E\tElphel-specific projection\n"                       \
+    "\t-T\tCentered-specific projection\n"                     \
+    "\t-P\tApperture-specific projection\n"                    \
+    "\t-i\tInput equirectangular image\n"                      \
+    "\t-o\tOutput rectilinear image\n"                         \
+    "\t-u\tApperture angle [°]\n"                              \
+    "\t-x\tProjection x-sight in floating pixels\n"            \
+    "\t-y\tProjection y-sight in floating pixels\n"            \
+    "\t-a\tAzimuth angle [°] - rotation along z axis\n"        \
+    "\t-d\tHeading angle [°] - azimuth correction\n"           \
+    "\t-e\tElevation angle [°] - rotation along y axis\n"      \
+    "\t-r\tRoll angle [°] - rotation along x axis\n"           \
+    "\t-f\tRectilinear focal length [mm]\n"                    \
+    "\t-f\tRectilinear pixel length [mm]\n"                    \
+    "\t-R\tRed component of clear color\n"                     \
+    "\t-G\tGreen component of clear color\n"                   \
+    "\t-B\tBlue component of clear color\n"                    \
+    "\t-k\tRectilinear image width, in pixels\n"               \
+    "\t-l\tRectilinear image height, in pixels\n"              \
+    "\t-W\tEntire equirectangular mapping width, in pixels\n"  \
+    "\t-H\tEntire equirectangular mapping height, in pixels\n" \
+    "\t-X\tEquirectangular tile x-position\n"                  \
+    "\t-Y\tEquirectangular tile y-position\n"                  \
+    "\t-t\tNumber of threads\n"                                \
+    "\t-n\tInterpolation method\n\n"                           \
+    "norama-direct - norama-suite\n"                           \
     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n"
 
     /* Define standard types */
