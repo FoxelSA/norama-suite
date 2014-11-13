@@ -52,26 +52,33 @@
         /* Image path variables */
         char nriPath[256] = { 0 };
 
+        /* Window name variables */
+        char nrName[256] = "norama-view";
+
+        /* Parallel processing variables */
+        int nrThread = NR_DFT_THREAD;
+
         /* Display variables */
         int nrWidth  = 0;
         int nrHeight = 0;
 
-        /* Parallel processing variables */
-        int nrThread = 1;
-
-        /* Window name variables */
-        char nrName[256] = "norama-view";
+        /* Display scale variables */
+        float nrScale = NR_DFT_SCALE;
 
         /* Image allocation variables */
         IplImage * nriImage = NULL;
         IplImage * nrdImage = NULL;
 
+        /* Keyevent variables */
+        unsigned char nrEvent = 0;
+
         /* Mouse control variables */
-        nr_Mouse nrMouse = { 0.0, 0.0, LG_PI / 2.0 };
+        nr_Mouse nrMouse = { 0.0, 0.0, NR_DFT_APPER };
 
         /* Search in parameters */
         stdp( stda( argc, argv, "--input"  , "-i" ), argv,   nriPath , NR_STRING );
         stdp( stda( argc, argv, "--threads", "-t" ), argv, & nrThread, NR_INT    );
+        stdp( stda( argc, argv, "--scale"  , "-s" ), argv, & nrScale , NR_FLOAT  );
 
         /* Software swicth */
         if ( stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
@@ -88,7 +95,7 @@
             if ( nriImage != NULL ) {
 
                 /* Obtain screen resolution */
-                nr_view_display( & nrWidth, & nrHeight );
+                nr_view_display( & nrWidth, & nrHeight, nrScale );
 
                 /* Create image allocation */
                 nrdImage = cvCreateImage( cvSize( nrWidth, nrHeight ), IPL_DEPTH_8U , nriImage->nChannels );
@@ -105,7 +112,40 @@
                     /* Define window mouse event callback function */
                     cvSetMouseCallback( nrName, & ( nr_view_mouse ), & ( nrMouse ) );
 
-                    while ( 1 == 1 ) {
+                    /* Display pseudo-infinite loop */
+                    while ( ( nrEvent = ( unsigned char ) cvWaitKey( 1 ) ) != NR_KEY_ESCAPE ) {
+
+                        /* Boundaries management */
+                        if ( nrMouse.msAppe > NR_MAX_APPER ) {
+
+                            /* Re-range field-of-view */
+                            nrMouse.msAppe = NR_MAX_APPER;
+
+                        } else
+                        if ( nrMouse.msAppe < NR_MIN_APPER ) {
+
+                            /* Re-range field-of-view */
+                            nrMouse.msAppe = NR_MIN_APPER;
+
+                        }
+
+                        /* Keyevent management */
+                        if ( nrEvent == NR_KEY_F ) {
+
+                            /* Reset field-of-view */
+                            nrMouse.msAppe = NR_DFT_APPER;
+
+                        } else
+                        if ( nrEvent == NR_KEY_R ) {
+
+                            /* Reset angular position */
+                            nrMouse.msAzim = 0.0;
+                            nrMouse.msElev = 0.0;
+
+                            /* Reset field-of-view */
+                            nrMouse.msAppe = NR_DFT_APPER;
+
+                        }
 
                         /* Compute gnomonic projection */
                         lg_etg_apperturep(
@@ -120,18 +160,15 @@
                             nrdImage->nChannels,
                             nrMouse.msAzim,
                             nrMouse.msElev,
-                            0,
+                            0.0,
                             nrMouse.msAppe,
                             li_bilinearf,
-                            4
+                            nrThread
 
                         );
 
                         /* Display image on screen */
                         cvShowImage( nrName, nrdImage );
-
-                        /* Exit condition */
-                        if ( ( unsigned char ) cvWaitKey( 4 ) == 27 ) break;
 
                     }
 
@@ -163,66 +200,76 @@
 
     void nr_view_mouse( int event, int x, int y, int flag, void * userdata ) {
 
-        static int nrMemX = 0;
-        static int nrMemY = 0;
-        static int nrMemS = 0;
+        /* Mouse mode variables */
+        static int nrMode = NR_MS_NONE;
 
+        /* Mouse memory variables */
+        static int nrMouseX = 0;
+        static int nrMouseY = 0;
+
+        /* Display viewpoint variables */
         static double nrAzim = 0.0;
         static double nrElev = 0.0;
         static double nrAppe = 0.0;
 
+        /* Mouse handle structure variables */
         nr_Mouse * nrMouse = ( nr_Mouse * ) userdata;
 
-        if ( event == CV_EVENT_LBUTTONDOWN ) {
+        /* Check current mode */
+        if ( nrMode == NR_MS_NONE ) {
 
-            if ( nrMemS == 0 ) {
+            /* Check mouse event */
+            if ( event == CV_EVENT_LBUTTONDOWN ) {
 
-                nrMemX = x;
-                nrMemY = y;
+                /* Memorize event position */
+                nrMouseX = x;
+                nrMouseY = y;
 
+                /* Memorize event state */
                 nrAzim = nrMouse->msAzim;
                 nrElev = nrMouse->msElev;
 
-                nrMemS = 1;
+                /* Update mode */
+                nrMode = NR_MS_MOVE;
 
-            }
+            } else 
+            if ( event == CV_EVENT_RBUTTONDOWN ) {
 
-        } else if ( event == CV_EVENT_RBUTTONDOWN ) {
+                /* Memorize event position */
+                nrMouseY = y;
 
-            if ( nrMemS == 0 ) {
-
-                nrMemY = y;
-
+                /* Memorize event state */
                 nrAppe = nrMouse->msAppe;
 
-                nrMemS = 2;
+                /* Update mode */
+                nrMode = NR_MS_CFOV;
 
             }
 
-        } else if ( ( event == CV_EVENT_LBUTTONUP ) || ( event == CV_EVENT_RBUTTONUP ) ) {
+        } else
+        if ( ( nrMode == NR_MS_MOVE ) && ( event == CV_EVENT_LBUTTONUP ) ) {
 
-            nrMemS = 0;
+            /* Reset mode */
+            nrMode = NR_MS_NONE;
 
-        } else if ( event == CV_EVENT_MOUSEWHEEL ) {
+        } else 
+        if ( ( nrMode == NR_MS_CFOV ) && ( event == CV_EVENT_RBUTTONUP ) ) {
 
-            nrMouse->msAppe *= 1.2;
+            /* Reset mode */
+            nrMode = NR_MS_NONE;
 
-        } else if ( event == CV_EVENT_MOUSEHWHEEL ) {
+        } else
+        if ( nrMode == NR_MS_MOVE ) {
 
-            nrMouse->msAppe *= 0.9;
+            /* Update angular position */
+            nrMouse->msAzim = nrAzim - ( ( x - nrMouseX ) * ( LG_PI / 180.0 ) * 0.075 ) * ( nrMouse->msAppe / NR_DFT_APPER );
+            nrMouse->msElev = nrElev + ( ( y - nrMouseY ) * ( LG_PI / 180.0 ) * 0.075 ) * ( nrMouse->msAppe / NR_DFT_APPER );
 
-        } else {
+        } else
+        if ( nrMode == NR_MS_CFOV ) {
 
-            if ( nrMemS == 1 ) {
-
-                nrMouse->msAzim = nrAzim - ( ( x - nrMemX ) * ( LG_PI / 180.0 ) * 0.05 );
-                nrMouse->msElev = nrElev + ( ( y - nrMemY ) * ( LG_PI / 180.0 ) * 0.05 );
-
-            } else if ( nrMemS == 2 ) {
-
-                nrMouse->msAppe = nrAppe + ( ( y - nrMemY )  * ( LG_PI / 180.0 ) * 0.10 );
-
-            }
+            /* Update field of view */
+            nrMouse->msAppe = nrAppe - ( ( y - nrMouseY )  * ( LG_PI / 180.0 ) * 0.20 );
 
         }
 
@@ -232,7 +279,7 @@
     Source - Screen resolution
 */
 
-    void nr_view_display( int * nrWidth, int * nrHeight ) {
+    void nr_view_display( int * nrWidth, int * nrHeight, float nrScale ) {
 
         /* Setting default resolution */
         * nrWidth  = 1366;
@@ -251,8 +298,8 @@
             if ( nrScreen != 0 ) {
 
                 /* Setting screen resolution */
-                * nrWidth  = nrScreen->width;
-                * nrHeight  = nrScreen->height;
+                * nrWidth  = ( int ) ( nrScreen->width  * nrScale );
+                * nrHeight = ( int ) ( nrScreen->height * nrScale );
 
             }
 

@@ -111,24 +111,47 @@
     "\tnorama-view [Arguments] [Parameters] ...\n\n"       \
     "Short arguments and parameters summary :\n\n"         \
     "\t-i\tInput equirectangular mapping image\n"          \
+    "\t-t\tForce thread number (8)\n"                      \
+    "\t-s\tScale applied on display buffer (1.0)\n\n"      \
     "norama-view - norama-suite\n"                         \
     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n"
 
     /* Define standard types */
-    # define NR_NULL        0
-    # define NR_STRING      1
-    # define NR_CHAR        2
-    # define NR_SHORT       3
-    # define NR_INT         4
-    # define NR_LONG        5
-    # define NR_LLONG       6
-    # define NR_UCHAR       7
-    # define NR_USHORT      8
-    # define NR_UINT        9
-    # define NR_ULONG      10
-    # define NR_ULLONG     11
-    # define NR_FLOAT      12
-    # define NR_DOUBLE     13
+    # define NR_NULL         0
+    # define NR_STRING       1
+    # define NR_CHAR         2
+    # define NR_SHORT        3
+    # define NR_INT          4
+    # define NR_LONG         5
+    # define NR_LLONG        6
+    # define NR_UCHAR        7
+    # define NR_USHORT       8
+    # define NR_UINT         9
+    # define NR_ULONG       10
+    # define NR_ULLONG      11
+    # define NR_FLOAT       12
+    # define NR_DOUBLE      13
+
+    /* Define keyevent codes */
+    # define NR_KEY_ESCAPE   27
+    # define NR_KEY_F       102
+    # define NR_KEY_R       114
+
+    /* Define default display scale */
+    # define NR_DFT_SCALE   1.0
+
+    /* Define default thread count */
+    # define NR_DFT_THREAD  8
+
+    /* Define mouse motion mode */
+    # define NR_MS_NONE     0
+    # define NR_MS_MOVE     1
+    # define NR_MS_CFOV     2  
+
+    /* Define field of view constants */
+    # define NR_MIN_APPER   (  20.0 * ( LG_PI / 180.0 ) )
+    # define NR_MAX_APPER   ( 120.0 * ( LG_PI / 180.0 ) )
+    # define NR_DFT_APPER   ( 100.0 * ( LG_PI / 180.0 ) )
 
 /* 
     Header - Preprocessor macros
@@ -141,6 +164,20 @@
 /* 
     Header - Structures
  */
+
+    /*! \struct nr_Mouse_struct
+     *  \brief Mouse control structure
+     *  
+     *  This structure is used to ensure communication between display function
+     *  and the mouse event callback function.
+     *  
+     *  \var nr_Mouse_struct::msAzim
+     *  Display view azimuth angle, in radian
+     *  \var nr_Mouse_struct::msElev
+     *  Display view elevation angle, in radian
+     *  \var nr_Mouse_struct::msAppe
+     *  Display view gnomonic apperture, in radian
+     */
 
     typedef struct nr_Mouse_struct {
 
@@ -156,9 +193,10 @@
 
     /*! \brief Software main function (single function software)
      *  
-     *  The main function frame follows : parameters are initialized and read.
-     *  The input image is loaded and the output image allocation is created.
-     *  The transformation is applied and the result is exported.
+     *  The main function is responsible for panoramic image loading and the
+     *  management of the display. A infinite loop is handled by the main
+     *  in which mouse and keyevent are managed. The computation if the display
+     *  buffer is also performed in this same loop.
      *  
      *  \param argc Standard main parameter
      *  \param argv Standard main parameter
@@ -166,9 +204,31 @@
 
     int main ( int argc, char ** argv );
 
+    /*! \brief Mouse callback
+     *
+     *  This function is the mouse event callback that is used throught OpenCV
+     *  library. It is responsible for display view motion based on mouse move.
+     *
+     *  \param event    Mouse Event code
+     *  \param x        Mouse position x at event
+     *  \param y        Mouse position y at event
+     *  \param userdata Pointer to user data, if available
+     */
+
     void nr_view_mouse ( int event, int x, int y, int flag, void * userdata );
 
-    void nr_view_display ( int * nrWidth, int * nrHeight );
+    /*! \brief Screen resolution
+     *
+     *  This function allows to obtain the current screen resolution. The width
+     *  and height, in pixels, are returned using reference given as parameter.
+     *  The screen dimensions are then scaled using the nrScale variable.
+     *
+     *  \param nrWidth  Buffer that recieves the screen width
+     *  \param nrHeight Buffer that recieves the screen height
+     *  \param nrScale  Screen dimension scale factor
+     */
+
+    void nr_view_display( int * nrWidth, int * nrHeight, float nrScale );
 
     /*! \brief Arguments common handler
      *  
