@@ -99,6 +99,7 @@
     # include <stdlib.h>
     # include <opencv/cv.h>
     # include <opencv/highgui.h>
+    # include <X11/Xlib.h>
     # include <gnomonic-all.h>
 
 /* 
@@ -165,7 +166,9 @@
 
     int main ( int argc, char ** argv );
 
-    void nr_norama_view_mouse ( int event, int x, int y, int flag, void * userdata );
+    void nr_view_mouse ( int event, int x, int y, int flag, void * userdata );
+
+    void nr_view_display ( int * nrWidth, int * nrHeight );
 
     /*! \brief Arguments common handler
      *  

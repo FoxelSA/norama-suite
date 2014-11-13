@@ -52,6 +52,10 @@
         /* Image path variables */
         char nriPath[256] = { 0 };
 
+        /* Display variables */
+        int nrWidth  = 0;
+        int nrHeight = 0;
+
         /* Parallel processing variables */
         int nrThread = 1;
 
@@ -83,8 +87,11 @@
             /*  Verify input image reading */
             if ( nriImage != NULL ) {
 
+                /* Obtain screen resolution */
+                nr_view_display( & nrWidth, & nrHeight );
+
                 /* Create image allocation */
-                nrdImage = cvCreateImage( cvSize( 1920, 1200 ), IPL_DEPTH_8U , nriImage->nChannels );
+                nrdImage = cvCreateImage( cvSize( nrWidth, nrHeight ), IPL_DEPTH_8U , nriImage->nChannels );
 
                 /* Verify allocation creation */
                 if ( nrdImage != NULL ) {
@@ -96,7 +103,7 @@
                     cvSetWindowProperty( nrName, CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN );
 
                     /* Define window mouse event callback function */
-                    cvSetMouseCallback( nrName, & ( nr_norama_view_mouse ), & ( nrMouse ) );
+                    cvSetMouseCallback( nrName, & ( nr_view_mouse ), & ( nrMouse ) );
 
                     while ( 1 == 1 ) {
 
@@ -154,7 +161,7 @@
     Source - Mouse callback
  */
 
-    void nr_norama_view_mouse( int event, int x, int y, int flag, void * userdata ) {
+    void nr_view_mouse( int event, int x, int y, int flag, void * userdata ) {
 
         static int nrMemX = 0;
         static int nrMemY = 0;
@@ -214,6 +221,38 @@
             } else if ( nrMemS == 2 ) {
 
                 nrMouse->msAppe = nrAppe + ( ( y - nrMemY )  * ( LG_PI / 180.0 ) * 0.10 );
+
+            }
+
+        }
+
+    }
+
+/*
+    Source - Screen resolution
+*/
+
+    void nr_view_display( int * nrWidth, int * nrHeight ) {
+
+        /* Setting default resolution */
+        * nrWidth  = 1366;
+        * nrHeight = 768;
+
+        /* Create display handle */
+        Display * nrDisplay = XOpenDisplay( NULL );
+
+        /* Check handle creation */
+        if ( nrDisplay != 0 ) {
+
+            /* Create screen handle */
+            Screen * nrScreen = DefaultScreenOfDisplay( nrDisplay );
+
+            /* Check handle creation */
+            if ( nrScreen != 0 ) {
+
+                /* Setting screen resolution */
+                * nrWidth  = nrScreen->width;
+                * nrHeight  = nrScreen->height;
 
             }
 
