@@ -69,9 +69,9 @@
         IplImage * nroImage = NULL;
 
         /* Search in parameters */
-        stdp( stda( argc, argv, "--input"        , "-n" ), argv,   nriPath , NR_STRING );
+        stdp( stda( argc, argv, "--input"        , "-i" ), argv,   nriPath , NR_STRING );
         stdp( stda( argc, argv, "--output"       , "-o" ), argv,   nroPath , NR_STRING );
-        stdp( stda( argc, argv, "--interpolation", "-i" ), argv,   nrMethod, NR_STRING );
+        stdp( stda( argc, argv, "--interpolation", "-n" ), argv,   nrMethod, NR_STRING );
         stdp( stda( argc, argv, "--azimuth"      , "-a" ), argv, & nrAzim  , NR_DOUBLE );
         stdp( stda( argc, argv, "--elevation"    , "-e" ), argv, & nrElev  , NR_DOUBLE );
         stdp( stda( argc, argv, "--roll"         , "-r" ), argv, & nrRoll  , NR_DOUBLE );

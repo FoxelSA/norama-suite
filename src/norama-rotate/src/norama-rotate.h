@@ -109,12 +109,12 @@
     # define NR_HELP "Usage summary :\n\n"                 \
     "\tnorama-rotate [Arguments] [Parameters] ...\n\n"     \
     "Short arguments and parameters summary :\n\n"         \
-    "\t-n\tInput equirectangular mapping image\n"          \
+    "\t-i\tInput equirectangular mapping image\n"          \
     "\t-o\tOutput equirectangular mapping image\n"         \
     "\t-e\tElevation angle [°] - rotation along y axis\n"  \
     "\t-a\tAzimuth angle [°] - rotation along z axis\n"    \
     "\t-r\tRoll angle [°] - rotation along x axis\n"       \
-    "\t-i\tInterpolation method\n\n"                       \
+    "\t-n\tInterpolation method\n\n"                       \
     "norama-rotate - norama-suite\n"                       \
     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n"
 
