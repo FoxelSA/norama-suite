@@ -55,6 +55,9 @@
         /* Window name variables */
         char nrName[256] = "norama-view";
 
+        /* Keyevent variables */
+        unsigned char nrEvent = 0;
+
         /* Parallel processing variables */
         int nrThread = NR_DFT_THREAD;
 
@@ -68,9 +71,6 @@
         /* Image allocation variables */
         IplImage * nriImage = NULL;
         IplImage * nrdImage = NULL;
-
-        /* Keyevent variables */
-        unsigned char nrEvent = 0;
 
         /* Mouse control variables */
         nr_Mouse nrMouse = { 0.0, 0.0, NR_DFT_APPER, 0.0 };
@@ -271,7 +271,7 @@
         } else
         if ( nrMode == NR_MS_CFOV ) {
 
-            /* Update field of view */
+            /* Update FOV value */
             nrMouse->msAppe = nrAppe - ( ( y - nrMouseY )  * ( LG_PI / 180.0 ) * 0.20 );
 
         }

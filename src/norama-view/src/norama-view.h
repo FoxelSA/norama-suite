@@ -80,8 +80,8 @@
     Header - Include guard
  */
 
-    # ifndef __NR_ROTATE__
-    # define __NR_ROTATE__
+    # ifndef __NR_VIEW__
+    # define __NR_VIEW__
 
 /* 
     Header - C/C++ compatibility
@@ -111,44 +111,44 @@
     "\tnorama-view [Arguments] [Parameters] ...\n\n"       \
     "Short arguments and parameters summary :\n\n"         \
     "\t-i\tInput equirectangular mapping image\n"          \
-    "\t-t\tForce thread number (8)\n"                      \
-    "\t-s\tScale applied on display buffer (1.0)\n\n"      \
+    "\t-t\tForce thread number\n"                          \
+    "\t-s\tScale applied on display buffer\n\n"            \
     "norama-view - norama-suite\n"                         \
     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n"
 
     /* Define standard types */
-    # define NR_NULL         0
-    # define NR_STRING       1
-    # define NR_CHAR         2
-    # define NR_SHORT        3
-    # define NR_INT          4
-    # define NR_LONG         5
-    # define NR_LLONG        6
-    # define NR_UCHAR        7
-    # define NR_USHORT       8
-    # define NR_UINT         9
-    # define NR_ULONG       10
-    # define NR_ULLONG      11
-    # define NR_FLOAT       12
-    # define NR_DOUBLE      13
+    # define NR_NULL          0
+    # define NR_STRING        1
+    # define NR_CHAR          2
+    # define NR_SHORT         3
+    # define NR_INT           4
+    # define NR_LONG          5
+    # define NR_LLONG         6
+    # define NR_UCHAR         7
+    # define NR_USHORT        8
+    # define NR_UINT          9
+    # define NR_ULONG        10
+    # define NR_ULLONG       11
+    # define NR_FLOAT        12
+    # define NR_DOUBLE       13
 
     /* Define keyevent codes */
     # define NR_KEY_ESCAPE   27
     # define NR_KEY_F       102
     # define NR_KEY_R       114
 
-    /* Define default display scale */
+    /* Define default scale */
     # define NR_DFT_SCALE   1.0
 
-    /* Define default thread count */
-    # define NR_DFT_THREAD  8
+    /* Define default thread */
+    # define NR_DFT_THREAD    8
 
     /* Define mouse motion mode */
-    # define NR_MS_NONE     0
-    # define NR_MS_MOVE     1
-    # define NR_MS_CFOV     2  
+    # define NR_MS_NONE       0
+    # define NR_MS_MOVE       1
+    # define NR_MS_CFOV       2  
 
-    /* Define field of view constants */
+    /* Define FOV constants */
     # define NR_MIN_APPER   (  20.0 * ( LG_PI / 180.0 ) )
     # define NR_MAX_APPER   ( 120.0 * ( LG_PI / 180.0 ) )
     # define NR_DFT_APPER   ( 100.0 * ( LG_PI / 180.0 ) )
@@ -195,9 +195,9 @@
     /*! \brief Software main function (single function software)
      *  
      *  The main function is responsible for panoramic image loading and the
-     *  management of the display. A infinite loop is handled by the main
-     *  in which mouse and keyevent are managed. The computation if the display
-     *  buffer is also performed in this same loop.
+     *  management of the display. A pseudo-infinite loop is handled by the main
+     *  function in which mouse and keyboard events are managed. The computation
+     *  of the display buffer is also performed in this same loop.
      *  
      *  \param argc Standard main parameter
      *  \param argv Standard main parameter
@@ -213,7 +213,7 @@
      *  \param event    Mouse Event code
      *  \param x        Mouse position x at event
      *  \param y        Mouse position y at event
-     *  \param userdata Pointer to user data, if available
+     *  \param userdata Userdata handle, used for motion management
      */
 
     void nr_view_mouse ( int event, int x, int y, int flag, void * userdata );
@@ -221,8 +221,16 @@
     /*! \brief Screen resolution
      *
      *  This function allows to obtain the current screen resolution. The width
-     *  and height, in pixels, are returned using reference given as parameter.
-     *  The screen dimensions are then scaled using the nrScale variable.
+     *  and height, in pixels, are returned using the variable pointers given as
+     *  parameter.
+     *
+     *  The scale parameter is applied on the two screen dimension. This is done
+     *  in order to be able to reduce the display buffer size when the local
+     *  computer is not enough powerful for the desired rendering.
+     *
+     *  If the function fails to get the screen resolution, it returns a default
+     *  screen resolution that corresponds to the statistically most used one at
+     *  the time this line is written.
      *
      *  \param nrWidth  Buffer that recieves the screen width
      *  \param nrHeight Buffer that recieves the screen height

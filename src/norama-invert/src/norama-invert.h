@@ -174,6 +174,10 @@
 
     /*! \brief Software main function (single function software)
      *  
+     *  The main function is responsible for input image importation and output
+     *  image initialization. According to parameters, the invert gnomonic
+     *  projection algorithm is called and the computed output image is then
+     *  exported.
      *  
      *  \param argc Standard main parameter
      *  \param argv Standard main parameter

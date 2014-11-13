@@ -174,6 +174,10 @@
 
     /*! \brief Software main function (single function software)
      *  
+     *  The main function is responisble of input image loading and output image
+     *  initialization. Then, according to the provided parameters, the main
+     *  function calls the desired projection function. The output image is then
+     *  exported.
      *  
      *  \param argc Standard main parameter
      *  \param argv Standard main parameter
@@ -191,8 +195,8 @@
      *      bipenticf   Fast bipentic method
      *      bihepticf   Fast biheptic method
      *
-     *  In case the provided string corresponds to no known tag, the fast bicubic
-     *  method is returned as default.
+     *  In case the provided string corresponds to an unknown tag, the fast
+     *  bicubic method is returned as default.
      *
      *  \param  nrTag   String contained the method tag
      *

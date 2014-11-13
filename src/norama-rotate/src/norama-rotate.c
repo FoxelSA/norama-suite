@@ -49,13 +49,13 @@
 
     int main ( int argc, char ** argv ) {
 
+        /* Parallel processing variables */
+        int nrThread = 1;
+
         /* Rotation angles variables */
         double nrAzim = 0.0;
         double nrElev = 0.0;
         double nrRoll = 0.0;
-
-        /* Parallel processing variables */
-        int nrThread = 1;
 
         /* Interpolation descriptor variables */
         char nrMethod[256] = { 0 };
