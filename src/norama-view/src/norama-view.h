@@ -184,6 +184,7 @@
         double msAzim;
         double msElev;
         double msAppe;
+        double msWidth;
 
     } nr_Mouse;
 

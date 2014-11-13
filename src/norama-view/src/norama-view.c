@@ -73,7 +73,7 @@
         unsigned char nrEvent = 0;
 
         /* Mouse control variables */
-        nr_Mouse nrMouse = { 0.0, 0.0, NR_DFT_APPER };
+        nr_Mouse nrMouse = { 0.0, 0.0, NR_DFT_APPER, 0.0 };
 
         /* Search in parameters */
         stdp( stda( argc, argv, "--input"  , "-i" ), argv,   nriPath , NR_STRING );
@@ -96,6 +96,9 @@
 
                 /* Obtain screen resolution */
                 nr_view_display( & nrWidth, & nrHeight, nrScale );
+
+                /* Store display dimenstion */
+                nrMouse.msWidth = nrWidth;
 
                 /* Create image allocation */
                 nrdImage = cvCreateImage( cvSize( nrWidth, nrHeight ), IPL_DEPTH_8U , nriImage->nChannels );
@@ -262,8 +265,8 @@
         if ( nrMode == NR_MS_MOVE ) {
 
             /* Update angular position */
-            nrMouse->msAzim = nrAzim - ( ( x - nrMouseX ) * ( LG_PI / 180.0 ) * 0.075 ) * ( nrMouse->msAppe / NR_DFT_APPER );
-            nrMouse->msElev = nrElev + ( ( y - nrMouseY ) * ( LG_PI / 180.0 ) * 0.075 ) * ( nrMouse->msAppe / NR_DFT_APPER );
+            nrMouse->msAzim = nrAzim - ( ( ( x - nrMouseX ) / nrMouse->msWidth ) * nrMouse->msAppe );
+            nrMouse->msElev = nrElev + ( ( ( y - nrMouseY ) / nrMouse->msWidth ) * nrMouse->msAppe );
 
         } else
         if ( nrMode == NR_MS_CFOV ) {
