@@ -112,7 +112,9 @@
     "Short arguments and parameters summary :\n\n"         \
     "\t-i\tInput equirectangular mapping image\n"          \
     "\t-t\tForce thread number\n"                          \
-    "\t-s\tScale applied on display buffer\n\n"            \
+    "\t-s\tScale applied on display buffer\n"              \
+    "\t-x\tScreen horizontal pixel count\n"                \
+    "\t-y\tScreen vertical pixel count\n\n"                \
     "norama-view - norama-suite\n"                         \
     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n"
 
