@@ -21,7 +21,7 @@
 #   make - Configuration - Libraries
 #
 
-    MAKE_LINKLIB:=-lgomp -lX11 -lm -linter -lgnomonic `pkg-config --cflags --libs opencv`
+    MAKE_LINKLIB:=-lgomp -lglut -lm -linter -lgnomonic `pkg-config --cflags --libs opencv`
     MAKE_INCLUDE:=$(MAKE_LIBRAR)/libgnomonic $(MAKE_LIBRAR)/libgnomonic/lib/libinter
 
 #

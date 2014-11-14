@@ -80,6 +80,8 @@
         stdp( stda( argc, argv, "--threads", "-t" ), argv, & nrThread, NR_INT    );
         stdp( stda( argc, argv, "--scale"  , "-s" ), argv, & nrScale , NR_FLOAT  );
 
+        glutInit( & argc, argv );
+
         /* Software swicth */
         if ( stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
 
@@ -285,28 +287,28 @@
     void nr_view_display( int * nrWidth, int * nrHeight, float nrScale ) {
 
         /* Setting default resolution */
-        * nrWidth  = 1366;
-        * nrHeight = 768;
+        * nrWidth  = glutGet( GLUT_SCREEN_WIDTH );//1366;
+        * nrHeight = glutGet( GLUT_SCREEN_HEIGHT ); //768;
 
         /* Create display handle */
-        Display * nrDisplay = XOpenDisplay( NULL );
+        //Display * nrDisplay = XOpenDisplay( NULL );
 
         /* Check handle creation */
-        if ( nrDisplay != 0 ) {
+        //if ( nrDisplay != 0 ) {
 
             /* Create screen handle */
-            Screen * nrScreen = DefaultScreenOfDisplay( nrDisplay );
+            //Screen * nrScreen = DefaultScreenOfDisplay( nrDisplay );
 
             /* Check handle creation */
-            if ( nrScreen != 0 ) {
+            //if ( nrScreen != 0 ) {
 
                 /* Setting screen resolution */
-                * nrWidth  = ( int ) ( nrScreen->width  * nrScale );
-                * nrHeight = ( int ) ( nrScreen->height * nrScale );
+                //* nrWidth  = ( int ) ( nrScreen->width  * nrScale );
+                //* nrHeight = ( int ) ( nrScreen->height * nrScale );
 
-            }
+            //}
 
-        }
+        //}
 
     }
 
