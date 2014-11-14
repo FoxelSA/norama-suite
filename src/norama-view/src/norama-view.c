@@ -78,9 +78,9 @@
         /* Search in parameters */
         stdp( stda( argc, argv, "--input"  , "-i" ), argv,   nriPath , NR_STRING );
         stdp( stda( argc, argv, "--threads", "-t" ), argv, & nrThread, NR_INT    );
+        stdp( stda( argc, argv, "--width"  , "-x" ), argv, & nrWidth , NR_INT    );
+        stdp( stda( argc, argv, "--height" , "-y" ), argv, & nrHeight, NR_INT    );
         stdp( stda( argc, argv, "--scale"  , "-s" ), argv, & nrScale , NR_FLOAT  );
-
-        glutInit( & argc, argv );
 
         /* Software swicth */
         if ( stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
@@ -97,7 +97,7 @@
             if ( nriImage != NULL ) {
 
                 /* Obtain screen resolution */
-                nr_view_display( & nrWidth, & nrHeight, nrScale );
+                if ( ( nrWidth == 0 ) || ( nrHeight == 0 ) ) nr_view_display( & nrWidth, & nrHeight, nrScale );
 
                 /* Store display dimenstion */
                 nrMouse.msWidth = nrWidth;
@@ -287,28 +287,28 @@
     void nr_view_display( int * nrWidth, int * nrHeight, float nrScale ) {
 
         /* Setting default resolution */
-        * nrWidth  = glutGet( GLUT_SCREEN_WIDTH );//1366;
-        * nrHeight = glutGet( GLUT_SCREEN_HEIGHT ); //768;
+        * nrWidth  = 1366;
+        * nrHeight = 768;
 
         /* Create display handle */
-        //Display * nrDisplay = XOpenDisplay( NULL );
+        Display * nrDisplay = XOpenDisplay( NULL );
 
         /* Check handle creation */
-        //if ( nrDisplay != 0 ) {
+        if ( nrDisplay != 0 ) {
 
             /* Create screen handle */
-            //Screen * nrScreen = DefaultScreenOfDisplay( nrDisplay );
+            Screen * nrScreen = DefaultScreenOfDisplay( nrDisplay );
 
             /* Check handle creation */
-            //if ( nrScreen != 0 ) {
+            if ( nrScreen != 0 ) {
 
                 /* Setting screen resolution */
-                //* nrWidth  = ( int ) ( nrScreen->width  * nrScale );
-                //* nrHeight = ( int ) ( nrScreen->height * nrScale );
+                * nrWidth  = ( int ) ( nrScreen->width  * nrScale );
+                * nrHeight = ( int ) ( nrScreen->height * nrScale );
 
-            //}
+            }
 
-        //}
+        }
 
     }
 

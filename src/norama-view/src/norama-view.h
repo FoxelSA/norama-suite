@@ -99,10 +99,7 @@
     # include <stdlib.h>
     # include <opencv/cv.h>
     # include <opencv/highgui.h>
-
-//    # include <X11/Xlib.h>
-    # include <GL/glut.h>
-
+    # include <X11/Xlib.h>
     # include <gnomonic-all.h>
 
 /* 
