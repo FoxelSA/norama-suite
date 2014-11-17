@@ -241,7 +241,7 @@
                         );
 
                     } else
-                    if ( stda( argc, argv, "--complete"   , "-P" ) ) {
+                    if ( stda( argc, argv, "--complete", "-P" ) ) {
 
                         /* Projection - apperture-specific */
                         lg_etg_apperturep( 
