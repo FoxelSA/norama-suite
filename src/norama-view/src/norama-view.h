@@ -48,10 +48,10 @@
      *  \section _ Panorama tools suite
      *
      *  This software suite offers tools for numerical panoramas manipulation.
-     *  Mainly based on equirectangular mappings, the norama-suite tools are each
-     *  designed to solve a single task on panoramas, in order to maintain a good
-     *  modularity of the suite. A typical example is given by rectilinear
-     *  mappings extraction from a entire equirectangular mapped image.
+     *  Mostly designed for equirectangular mappings, its role is to provide an
+     *  interface to libgnomonic and its algorithms. It then offers an interface
+     *  to projection and transformation features implemented in the gnomonic
+     *  library. Il also comes with a panorama viewer to complete the suite.
      *
      *  \section Documentation
      *
@@ -179,6 +179,8 @@
      *  Display view elevation angle, in radian
      *  \var nr_Mouse_struct::msAppe
      *  Display view gnomonic apperture, in radian
+     *  \var nr_Mouse_struct::msWidth
+     *  Width broadcasting variable for motion weighting
      */
 
     typedef struct nr_Mouse_struct {
@@ -212,9 +214,10 @@
      *  This function is the mouse event callback that is used throught OpenCV
      *  library. It is responsible for display view motion based on mouse move.
      *
-     *  \param event    Mouse Event code
+     *  \param event    Mouse event code
      *  \param x        Mouse position x at event
      *  \param y        Mouse position y at event
+     *  \param flag     Mouse event flag
      *  \param userdata Userdata handle, used for motion management
      */
 
