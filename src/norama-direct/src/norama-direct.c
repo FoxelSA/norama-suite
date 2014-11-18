@@ -44,7 +44,7 @@
     # include "norama-direct.h"
 
 /*
-    Source - Entry point
+    Source - Software main function
  */
 
     int main ( int argc, char ** argv ) {
@@ -277,7 +277,7 @@
                     cvReleaseImage( & nroImage );
 
                 /* Display message */
-                } else { fprintf( stdout, "Error : Unable to create output image\n" ); }
+                } else { fprintf( stdout, "Error : Unable to create output image or read output image seed\n" ); }
 
                 /* Release image memory */
                 cvReleaseImage( & nriImage );

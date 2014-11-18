@@ -39,10 +39,10 @@
     /*! \file   norama-direct.h
      *  \author Nils Hamel <n.hamel@foxel.ch>
      *   
-     *  Software main header (single function software)
+     *  Software main header
      */
 
-    /*! \mainpage norama-rotate
+    /*! \mainpage norama-direct
      *
      *  \section norama-suite
      *  \section _ Panorama tools suite
@@ -172,7 +172,7 @@
     Header - Function prototypes
  */
 
-    /*! \brief Software main function (single function software)
+    /*! \brief Software main function
      *  
      *  The main function is responisble of input image loading and output image
      *  initialization. Then, according to the provided parameters, the main
@@ -187,7 +187,7 @@
 
     /*! \brief Interpolation method by string
      *
-     *  This function return a pointer to an interpolation method based on the
+     *  This function returns a pointer to an interpolation method based on the
      *  string passed as parameter. The list of implemented tags is given by :
      *
      *      bilinearf   Fast bilinear method
@@ -198,9 +198,9 @@
      *  In case the provided string corresponds to an unknown tag, the fast
      *  bicubic method is returned as default.
      *
-     *  \param  nrTag   String contained the method tag
+     *  \param  nrTag   String containing the method tag
      *
-     *  \return Returns the desired interpolation method
+     *  \return Returns a pointer to the desired interpolation method
      */
 
     li_Method_t nr_direct_method ( char const * const nrTag );

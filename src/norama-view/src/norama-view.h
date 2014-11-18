@@ -39,10 +39,10 @@
     /*! \file   norama-view.h
      *  \author Nils Hamel <n.hamel@foxel.ch>
      *   
-     *  Software main header (single function software)
+     *  Software main header
      */
 
-    /*! \mainpage norama-rotate
+    /*! \mainpage norama-view
      *
      *  \section norama-suite
      *  \section _ Panorama tools suite
@@ -97,9 +97,9 @@
 
     # include <stdio.h>
     # include <stdlib.h>
+    # include <X11/Xlib.h>
     # include <opencv/cv.h>
     # include <opencv/highgui.h>
-    # include <X11/Xlib.h>
     # include <gnomonic-all.h>
 
 /* 
@@ -139,16 +139,14 @@
     # define NR_KEY_F       102
     # define NR_KEY_R       114
 
-    /* Define default scale */
+    /* Define default values */
     # define NR_DFT_SCALE   1.0
-
-    /* Define default thread */
     # define NR_DFT_THREAD    8
 
     /* Define mouse motion mode */
     # define NR_MS_NONE       0
     # define NR_MS_MOVE       1
-    # define NR_MS_CFOV       2  
+    # define NR_MS_ZOOM       2  
 
     /* Define FOV constants */
     # define NR_MIN_APPER   (  20.0 * ( LG_PI / 180.0 ) )
@@ -180,7 +178,7 @@
      *  \var nr_Mouse_struct::msAppe
      *  Display view gnomonic apperture, in radian
      *  \var nr_Mouse_struct::msWidth
-     *  Width broadcasting variable for motion weighting
+     *  Mapping width broadcasting variable for motion weighting
      */
 
     typedef struct nr_Mouse_struct {
@@ -196,12 +194,12 @@
     Header - Function prototypes
  */
 
-    /*! \brief Software main function (single function software)
+    /*! \brief Software main function
      *  
      *  The main function is responsible for panoramic image loading and the
      *  management of the display. A pseudo-infinite loop is handled by the main
      *  function in which mouse and keyboard events are managed. The computation
-     *  of the display buffer is also performed in this same loop.
+     *  of the display buffer is also performed in this loop.
      *  
      *  \param argc Standard main parameter
      *  \param argv Standard main parameter
@@ -242,7 +240,7 @@
      *  \param nrScale  Screen dimension scale factor
      */
 
-    void nr_view_display( int * nrWidth, int * nrHeight, float nrScale );
+    void nr_view_display ( int * nrWidth, int * nrHeight, float nrScale );
 
     /*! \brief Arguments common handler
      *  

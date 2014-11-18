@@ -39,7 +39,7 @@
     /*! \file   norama-rotate.h
      *  \author Nils Hamel <n.hamel@foxel.ch>
      *   
-     *  Software main header (single function software)
+     *  Software main header
      */
 
     /*! \mainpage norama-rotate
@@ -150,7 +150,7 @@
     Header - Function prototypes
  */
 
-    /*! \brief Software main function (single function software)
+    /*! \brief Software main function
      *  
      *  The main function frame follows : parameters are initialized and read.
      *  The input image is loaded and the output image allocation is created.
@@ -164,7 +164,7 @@
 
     /*! \brief Interpolation method by string
      *
-     *  This function return a pointer to an interpolation method based on the
+     *  This function returns a pointer to an interpolation method based on the
      *  string passed as parameter. The list of implemented tags is given by :
      *
      *      bilinearf   Fast bilinear method
@@ -172,12 +172,12 @@
      *      bipenticf   Fast bipentic method
      *      bihepticf   Fast biheptic method
      *
-     *  In case the provided string corresponds to no known tag, the fast bicubic
-     *  method is returned as default.
+     *  In case the provided string corresponds to an unknown tag, the fast
+     *  bicubic method is returned as default.
      *
-     *  \param  nrTag   String contained the method tag
+     *  \param  nrTag   String containing the method tag
      *
-     *  \return Returns the desired interpolation method
+     *  \return Returns a pointer to the desired interpolation method
      */
 
     li_Method_t nr_rotate_method ( char const * const nrTag );

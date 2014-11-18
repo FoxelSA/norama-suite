@@ -44,22 +44,13 @@
     # include "norama-view.h"
 
 /*
-    Source - Entry point
+    Source - Software main function
  */
 
     int main ( int argc, char ** argv ) {
 
-        /* Image path variables */
-        char nriPath[256] = { 0 };
-
-        /* Window name variables */
-        char nrName[256] = "norama-view";
-
         /* Keyevent variables */
         unsigned char nrEvent = 0;
-
-        /* Parallel processing variables */
-        int nrThread = NR_DFT_THREAD;
 
         /* Display variables */
         int nrWidth  = 0;
@@ -67,6 +58,15 @@
 
         /* Display scale variables */
         float nrScale = NR_DFT_SCALE;
+
+        /* Parallel processing variables */
+        int nrThread = NR_DFT_THREAD;
+
+        /* Window name variables */
+        char nrName[256] = "norama-view";
+
+        /* Image path variables */
+        char nriPath[256] = { 0 };
 
         /* Image allocation variables */
         IplImage * nriImage = NULL;
@@ -247,7 +247,7 @@
                 nrAppe = nrMouse->msAppe;
 
                 /* Update mode */
-                nrMode = NR_MS_CFOV;
+                nrMode = NR_MS_ZOOM;
 
             }
 
@@ -258,7 +258,7 @@
             nrMode = NR_MS_NONE;
 
         } else 
-        if ( ( nrMode == NR_MS_CFOV ) && ( event == CV_EVENT_RBUTTONUP ) ) {
+        if ( ( nrMode == NR_MS_ZOOM ) && ( event == CV_EVENT_RBUTTONUP ) ) {
 
             /* Reset mode */
             nrMode = NR_MS_NONE;
@@ -271,7 +271,7 @@
             nrMouse->msElev = nrElev + ( ( ( y - nrMouseY ) / nrMouse->msWidth ) * nrMouse->msAppe );
 
         } else
-        if ( nrMode == NR_MS_CFOV ) {
+        if ( nrMode == NR_MS_ZOOM ) {
 
             /* Update FOV value */
             nrMouse->msAppe = nrAppe - ( ( y - nrMouseY )  * ( LG_PI / 180.0 ) * 0.20 );

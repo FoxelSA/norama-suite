@@ -44,7 +44,7 @@
     # include "norama-invert.h"
 
 /*
-    Source - Entry point
+    Source - Software main function
  */
 
     int main ( int argc, char ** argv ) {
