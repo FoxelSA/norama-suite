@@ -1,7 +1,7 @@
 
 ## norama-suite<br />Panorama tools suite
 
-This software suite offers tools for numerical panoramas manipulation. Mainly based on equirectangular mappings, the norama-suite tools are each designed to solve a single task on panoramas, in order to maintain a good modularity of the suite. A typical example is given by rectilinear mappings extraction from a entire equirectangular mapped image.
+This software suite offers tools for numerical panoramas manipulation. Mostly designed for equirectangular mappings, its role is to provide an interface to libgnomonic and its algorithms. It then offers an interface to projection and transformation features implemented in the gnomonic library. Il also comes with a panorama viewer to complete the suite.
 
 
 ### Documentation
