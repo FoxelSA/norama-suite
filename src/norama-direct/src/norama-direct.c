@@ -182,7 +182,7 @@
                         );
 
                     } else
-                    if ( stda( argc, argv, "--elphel" , "-E" ) ) {
+                    if ( stda( argc, argv, "--elphel", "-E" ) ) {
 
                         /* Projection - elphel-specific */
                         lg_ttg_elphelp(
@@ -213,7 +213,7 @@
                         );
 
                     } else
-                    if ( stda( argc, argv, "--center" , "-T" ) ) {
+                    if ( stda( argc, argv, "--center", "-T" ) ) {
 
                         /* Projection - center-specific */
                         lg_ttg_centerp(

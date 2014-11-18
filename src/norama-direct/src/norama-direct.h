@@ -110,13 +110,14 @@
     "\tnorama-direct [Arguments] [Parameters] ...\n\n"         \
     "Short arguments and parameters summary :\n\n"             \
     "\t-F\tForce input image in RGB format\n"                  \
-    "\t-C\tClear created image content\n"                      \
+    "\t-C\tClear output image initial content\n"               \
     "\t-N\tGeneric projection\n"                               \
     "\t-E\tElphel-specific projection\n"                       \
     "\t-T\tCentered-specific projection\n"                     \
     "\t-P\tApperture-specific projection\n"                    \
     "\t-i\tInput equirectangular image\n"                      \
     "\t-o\tOutput rectilinear image\n"                         \
+    "\t-s\tOutput rectilinear image seed\n"                    \
     "\t-u\tApperture angle [°]\n"                              \
     "\t-x\tProjection x-sight in floating pixels\n"            \
     "\t-y\tProjection y-sight in floating pixels\n"            \
@@ -125,12 +126,12 @@
     "\t-e\tElevation angle [°] - rotation along y axis\n"      \
     "\t-r\tRoll angle [°] - rotation along x axis\n"           \
     "\t-f\tRectilinear focal length [mm]\n"                    \
-    "\t-f\tRectilinear pixel length [mm]\n"                    \
+    "\t-p\tRectilinear pixel length [mm]\n"                    \
     "\t-R\tRed component of clear color\n"                     \
     "\t-G\tGreen component of clear color\n"                   \
     "\t-B\tBlue component of clear color\n"                    \
-    "\t-k\tRectilinear image width, in pixels\n"               \
-    "\t-l\tRectilinear image height, in pixels\n"              \
+    "\t-k\tRectilinear output image width, in pixels\n"        \
+    "\t-l\tRectilinear output image height, in pixels\n"       \
     "\t-W\tEntire equirectangular mapping width, in pixels\n"  \
     "\t-H\tEntire equirectangular mapping height, in pixels\n" \
     "\t-X\tEquirectangular tile x-position\n"                  \

@@ -182,7 +182,7 @@
                         );
 
                     } else
-                    if ( stda( argc, argv, "--elphel" , "-E" ) ) {
+                    if ( stda( argc, argv, "--elphel", "-E" ) ) {
 
                         /* Projection - elphel-specific */
                         lg_gtt_elphelp(
@@ -213,7 +213,7 @@
                         );
 
                     } else
-                    if ( stda( argc, argv, "--center" , "-T" ) ) {
+                    if ( stda( argc, argv, "--center", "-T" ) ) {
 
                         /* Projection - center-specific */
                         lg_gtt_centerp(
@@ -241,7 +241,7 @@
                         );
 
                     } else
-                    if ( stda( argc, argv, "--complete"   , "-P" ) ) {
+                    if ( stda( argc, argv, "--complete", "-P" ) ) {
 
                         /* Projection - apperture-specific */
                         lg_gte_apperturep( 
