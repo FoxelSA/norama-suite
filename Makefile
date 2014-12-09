@@ -64,7 +64,7 @@
 	@$(foreach SOFT, $(MAKE_BUILDS), $(MAKE) -C $(MAKE_SOURCE)/$(SOFT) clean && ) true
 
     make-clean-modules:
-	@$(foreach LIBS, $(MAKE_MODULE), $(MAKE) -C $(LIBS) clean && ) true
+	@$(foreach LIBS, $(MAKE_MODULE), $(MAKE) -C $(LIBS) clean-all && ) true
 
     make-clean-documentation:
 	$(MAKE_CMRMFL) $(MAKE_DOCENT)/html/*
