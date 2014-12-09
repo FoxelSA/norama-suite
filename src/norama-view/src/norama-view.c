@@ -76,14 +76,14 @@
         nr_Mouse nrMouse = { 0.0, 0.0, NR_DFT_APPER, 0.0 };
 
         /* Search in parameters */
-        stdp( stda( argc, argv, "--input"  , "-i" ), argv,   nriPath , NR_STRING );
-        stdp( stda( argc, argv, "--threads", "-t" ), argv, & nrThread, NR_INT    );
-        stdp( stda( argc, argv, "--width"  , "-x" ), argv, & nrWidth , NR_INT    );
-        stdp( stda( argc, argv, "--height" , "-y" ), argv, & nrHeight, NR_INT    );
-        stdp( stda( argc, argv, "--scale"  , "-s" ), argv, & nrScale , NR_FLOAT  );
+        lc_stdp( lc_stda( argc, argv, "--input"  , "-i" ), argv,   nriPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--threads", "-t" ), argv, & nrThread, LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--width"  , "-x" ), argv, & nrWidth , LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--height" , "-y" ), argv, & nrHeight, LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--scale"  , "-s" ), argv, & nrScale , LC_FLOAT  );
 
         /* Software swicth */
-        if ( stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
+        if ( lc_stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
 
             /* Display usage */
             fprintf( stdout, NR_HELP );
@@ -309,63 +309,6 @@
             }
 
         }
-
-    }
-
-/*
-    Source - Arguments common handler
- */
-
-    int stda( int argc, char ** argv, char const * const ltag, char const * const stag ) {
-
-        /* Search for argument */
-        while ( ( -- argc ) > 0 ) {
-
-            /* Search for tag matching */
-            if ( ( strcmp( argv[ argc ], ltag ) == 0 ) || ( strcmp( argv[ argc ], stag ) == 0 ) ) {
-
-                /* Return pointer to argument parameter */
-                return( argc + 1 );
-
-            }
-
-        /* Argument not found */
-        } return( NR_NULL );
-
-    }
-
-/*
-    Source - Parameters common handler
- */
-
-    void stdp( int argi, char ** argv, void * const param, int const type ) {
-
-        /* Index consistency */
-        if ( argi == NR_NULL ) return;
-
-        /* Select type */
-        switch ( type ) {
-
-            /* Specific reading operation - Integers */
-            case ( NR_CHAR   ) : { * ( signed char        * ) param = atoi ( ( const char * ) argv[argi] ); } break;
-            case ( NR_SHORT  ) : { * ( signed short       * ) param = atoi ( ( const char * ) argv[argi] ); } break;
-            case ( NR_INT    ) : { * ( signed int         * ) param = atoi ( ( const char * ) argv[argi] ); } break;
-            case ( NR_LONG   ) : { * ( signed long        * ) param = atol ( ( const char * ) argv[argi] ); } break;
-            case ( NR_LLONG  ) : { * ( signed long long   * ) param = atoll( ( const char * ) argv[argi] ); } break;
-            case ( NR_UCHAR  ) : { * ( unsigned char      * ) param = atol ( ( const char * ) argv[argi] ); } break;
-            case ( NR_USHORT ) : { * ( unsigned short     * ) param = atol ( ( const char * ) argv[argi] ); } break;
-            case ( NR_UINT   ) : { * ( unsigned int       * ) param = atol ( ( const char * ) argv[argi] ); } break;
-            case ( NR_ULONG  ) : { * ( unsigned long      * ) param = atoll( ( const char * ) argv[argi] ); } break;
-            case ( NR_ULLONG ) : { * ( unsigned long long * ) param = atoll( ( const char * ) argv[argi] ); } break;
-
-            /* Specific reading operation - Floating point */
-            case ( NR_FLOAT  ) : { * ( float              * ) param = atof ( ( const char * ) argv[argi] ); } break;
-            case ( NR_DOUBLE ) : { * ( double             * ) param = atof ( ( const char * ) argv[argi] ); } break;
-
-            /* Specific reading operation - String */
-            case ( NR_STRING ) : { strcpy( ( char * ) param, ( const char * ) argv[argi] );  } break;
-
-        };
 
     }
 

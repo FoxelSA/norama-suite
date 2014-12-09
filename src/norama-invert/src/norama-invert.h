@@ -100,6 +100,7 @@
     # include <opencv/cv.h>
     # include <opencv/highgui.h>
     # include <gnomonic-all.h>
+    # include <common-all.h>
 
 /* 
     Header - Preprocessor definitions
@@ -141,22 +142,6 @@
     "norama-invert - norama-suite\n"                           \
     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n"
 
-    /* Define standard types */
-    # define NR_NULL        0
-    # define NR_STRING      1
-    # define NR_CHAR        2
-    # define NR_SHORT       3
-    # define NR_INT         4
-    # define NR_LONG        5
-    # define NR_LLONG       6
-    # define NR_UCHAR       7
-    # define NR_USHORT      8
-    # define NR_UINT        9
-    # define NR_ULONG      10
-    # define NR_ULLONG     11
-    # define NR_FLOAT      12
-    # define NR_DOUBLE     13
-
 /* 
     Header - Preprocessor macros
  */
@@ -185,56 +170,6 @@
      */
 
     int main ( int argc, char ** argv );
-
-    /*! \brief Interpolation method by string
-     *
-     *  This function returns a pointer to an interpolation method based on the
-     *  string passed as parameter. The list of implemented tags is given by :
-     *
-     *      bilinearf   Fast bilinear method
-     *      bicubicf    Fast bicubic method
-     *      bipenticf   Fast bipentic method
-     *      bihepticf   Fast biheptic method
-     *
-     *  In case the provided string corresponds to an unknown tag, the fast
-     *  bicubic method is returned as default.
-     *
-     *  \param  nrTag   String containing the method tag
-     *
-     *  \return Returns a pointer to the desired interpolation method
-     */
-
-    li_Method_t nr_direct_method ( char const * const nrTag );
-
-    /*! \brief Arguments common handler
-     *  
-     *  This function searches in the argv string array the position of the
-     *  argument defined through ltag/stag and returns the detected index.
-     *  
-     *  \param  argc    Standard main parameter
-     *  \param  argv    Standard main parameter
-     *  \param  ltag    Long-form argument string
-     *  \param  stag    Short-form argument string
-     *
-     *  \return         Returns index of parameter in argv
-     */
-
-    int stda ( int argc, char ** argv, char const * const ltag, char const * const stag );
-
-    /*! \brief Parameters common handler
-     *  
-     *  This function interprets the parameter in the desired type and returns
-     *  it through the param variable. The argi variable is typically set using
-     *  stda function. If argi is set to CS_NULL, the function does nothing.
-     *  
-     *  \param argi     Index of the parameter in argv
-     *  \param argv     Standard main parameter
-     *  \param param    Pointer to the variable that recieve the interpreted
-     *                  parameter
-     *  \param type     Type to use for parameter interpretation
-     */
-
-    void stdp ( int argi, char ** argv, void * const param, int const type );
 
 /* 
     Header - C/C++ compatibility

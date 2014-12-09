@@ -1,5 +1,5 @@
 /*
- * norama suite - Panorama tools suite
+ * norama-suite libcommon - norama-suite common library
  *
  * Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch
  * Please read <http://foxel.ch/license> for more information.
@@ -36,13 +36,13 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   norama-direct.h
+    /*! \file   common.h
      *  \author Nils Hamel <n.hamel@foxel.ch>
-     *   
-     *  Software main header
+     *
+     *  Library common header file
      */
 
-    /*! \mainpage norama-direct
+    /*! \mainpage norama-suite common library
      *
      *  \section norama-suite
      *  \section _ Panorama tools suite
@@ -80,8 +80,8 @@
     Header - Include guard
  */
 
-    # ifndef __NR_DIRECT__
-    # define __NR_DIRECT__
+    # ifndef __LC__
+    # define __LC__
 
 /* 
     Header - C/C++ compatibility
@@ -97,50 +97,20 @@
 
     # include <stdio.h>
     # include <stdlib.h>
-    # include <opencv/cv.h>
-    # include <opencv/highgui.h>
-    # include <gnomonic-all.h>
-    # include <common-all.h>
+    # include <string.h>
+    # include <inter-all.h>
 
 /* 
     Header - Preprocessor definitions
  */
 
-    /* Standard help */
-    # define NR_HELP "Usage summary :\n\n"                     \
-    "\tnorama-direct [Arguments] [Parameters] ...\n\n"         \
-    "Short arguments and parameters summary :\n\n"             \
-    "\t-F\tForce input image in RGB format\n"                  \
-    "\t-C\tClear output image initial content\n"               \
-    "\t-N\tGeneric projection\n"                               \
-    "\t-E\tElphel-specific projection\n"                       \
-    "\t-T\tCentered-specific projection\n"                     \
-    "\t-P\tApperture-specific projection\n"                    \
-    "\t-i\tInput equirectangular image\n"                      \
-    "\t-o\tOutput rectilinear image\n"                         \
-    "\t-s\tOutput rectilinear image seed\n"                    \
-    "\t-u\tApperture angle [°]\n"                              \
-    "\t-x\tProjection x-sight in floating pixels\n"            \
-    "\t-y\tProjection y-sight in floating pixels\n"            \
-    "\t-a\tAzimuth angle [°] - rotation along z axis\n"        \
-    "\t-d\tHeading angle [°] - azimuth correction\n"           \
-    "\t-e\tElevation angle [°] - rotation along y axis\n"      \
-    "\t-r\tRoll angle [°] - rotation along x axis\n"           \
-    "\t-f\tRectilinear focal length [mm]\n"                    \
-    "\t-p\tRectilinear pixel length [mm]\n"                    \
-    "\t-R\tRed component of clear color\n"                     \
-    "\t-G\tGreen component of clear color\n"                   \
-    "\t-B\tBlue component of clear color\n"                    \
-    "\t-k\tRectilinear output image width, in pixels\n"        \
-    "\t-l\tRectilinear output image height, in pixels\n"       \
-    "\t-W\tEntire equirectangular mapping width, in pixels\n"  \
-    "\t-H\tEntire equirectangular mapping height, in pixels\n" \
-    "\t-X\tEquirectangular tile x-position\n"                  \
-    "\t-Y\tEquirectangular tile y-position\n"                  \
-    "\t-t\tNumber of threads\n"                                \
-    "\t-n\tInterpolation method\n\n"                           \
-    "norama-direct - norama-suite\n"                           \
-    "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n"
+    /* Define standard output */
+    # define LC_OUT     stdout
+    # define LC_ERR     stderr
+
+    /* Define boolean constants */
+    # define LC_FALSE   LP_FALSE
+    # define LC_TRUE    LP_TRUE
 
 /* 
     Header - Preprocessor macros
@@ -157,19 +127,6 @@
 /* 
     Header - Function prototypes
  */
-
-    /*! \brief Software main function
-     *  
-     *  The main function is responisble of input image loading and output image
-     *  initialization. Then, according to the provided parameters, the main
-     *  function calls the desired projection function. The output image is then
-     *  exported.
-     *  
-     *  \param argc Standard main parameter
-     *  \param argv Standard main parameter
-     */
-
-    int main ( int argc, char ** argv );
 
 /* 
     Header - C/C++ compatibility

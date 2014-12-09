@@ -3,9 +3,9 @@
 #   make - Configuration
 #
 
-    CONFIG_NAME:=norama-direct
+    CONFIG_NAME:=libcommon
     CONFIG_CODE:=c
-    CONFIG_TYPE:=suite
+    CONFIG_TYPE:=libcommon
 
     MAKE_BINARY:=bin
     MAKE_DOCUME:=doc
@@ -23,8 +23,8 @@
     MAKE_DOCBLD:=doxygen
 
     BUILD_FLAGS:=-Wall -funsigned-char -O3
-    BUILD_LINKD:=-lm `pkg-config --cflags --libs opencv`
-    BUILD_SUBMD:=$(MAKE_LIBRAR)/libcommon $(MAKE_LIBRAR)/libgnomonic $(MAKE_LIBRAR)/libgnomonic/lib/libinter
+    BUILD_LINKD:=-lm
+    BUILD_SUBMD:=$(MAKE_LIBRAR)/libgnomonic $(MAKE_LIBRAR)/libgnomonic/lib/libinter
 
 #
 #   make - Modules
@@ -88,7 +88,6 @@ endif
 endif
 ifneq ($(OPENMP),false)
     MAKE_OPTION:=$(MAKE_OPTION) -fopenmp -D __OPENMP__
-    BUILD_LINKD:=$(BUILD_LINKD) -lgomp
 endif
     MAKE_BUILDD:=$(addprefix -l, $(subst lib, , $(notdir $(BUILD_SUBMD) ) ) ) $(BUILD_LINKD) $(addprefix -L./$(MAKE_LIBSWAP), $(addsuffix /bin, $(BUILD_SUBMD) ) )
 

@@ -89,32 +89,32 @@
         IplImage * nroImage = NULL;
 
         /* Search in parameters */
-        stdp( stda( argc, argv, "--apperture"    , "-u" ), argv, & nrApper   , NR_DOUBLE );
-        stdp( stda( argc, argv, "--sight-x"      , "-x" ), argv, & nrSightX  , NR_DOUBLE );
-        stdp( stda( argc, argv, "--sight-y"      , "-y" ), argv, & nrSightY  , NR_DOUBLE );
-        stdp( stda( argc, argv, "--azimuth"      , "-a" ), argv, & nrAzim    , NR_DOUBLE );
-        stdp( stda( argc, argv, "--heading"      , "-d" ), argv, & nrHead    , NR_DOUBLE );
-        stdp( stda( argc, argv, "--elevation"    , "-e" ), argv, & nrElev    , NR_DOUBLE );
-        stdp( stda( argc, argv, "--roll"         , "-r" ), argv, & nrRoll    , NR_DOUBLE );
-        stdp( stda( argc, argv, "--focal"        , "-f" ), argv, & nrFocal   , NR_DOUBLE );
-        stdp( stda( argc, argv, "--pixel"        , "-p" ), argv, & nrPixel   , NR_DOUBLE );
-        stdp( stda( argc, argv, "--red"          , "-R" ), argv, & nrRed     , NR_UCHAR  );
-        stdp( stda( argc, argv, "--green"        , "-G" ), argv, & nrGreen   , NR_UCHAR  );
-        stdp( stda( argc, argv, "--blue"         , "-B" ), argv, & nrBlue    , NR_UCHAR  );
-        stdp( stda( argc, argv, "--rect-width"   , "-k" ), argv, & nrrWidth  , NR_INT    );
-        stdp( stda( argc, argv, "--rect-height"  , "-l" ), argv, & nrrHeight , NR_INT    );
-        stdp( stda( argc, argv, "--map-width"    , "-W" ), argv, & nrmWidth  , NR_INT    );
-        stdp( stda( argc, argv, "--map-height"   , "-H" ), argv, & nrmHeight , NR_INT    );
-        stdp( stda( argc, argv, "--tile-x"       , "-X" ), argv, & nrmCornerX, NR_INT    );
-        stdp( stda( argc, argv, "--tile-y"       , "-Y" ), argv, & nrmCornerY, NR_INT    );
-        stdp( stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread  , NR_INT    );
-        stdp( stda( argc, argv, "--input"        , "-i" ), argv,   nriPath   , NR_STRING );
-        stdp( stda( argc, argv, "--output"       , "-o" ), argv,   nroPath   , NR_STRING );
-        stdp( stda( argc, argv, "--seed"         , "-s" ), argv,   nriSeed   , NR_STRING );
-        stdp( stda( argc, argv, "--interpolation", "-n" ), argv,   nrMethod  , NR_STRING );
+        lc_stdp( lc_stda( argc, argv, "--apperture"    , "-u" ), argv, & nrApper   , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--sight-x"      , "-x" ), argv, & nrSightX  , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--sight-y"      , "-y" ), argv, & nrSightY  , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--azimuth"      , "-a" ), argv, & nrAzim    , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--heading"      , "-d" ), argv, & nrHead    , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--elevation"    , "-e" ), argv, & nrElev    , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--roll"         , "-r" ), argv, & nrRoll    , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--focal"        , "-f" ), argv, & nrFocal   , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--pixel"        , "-p" ), argv, & nrPixel   , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--red"          , "-R" ), argv, & nrRed     , LC_UCHAR  );
+        lc_stdp( lc_stda( argc, argv, "--green"        , "-G" ), argv, & nrGreen   , LC_UCHAR  );
+        lc_stdp( lc_stda( argc, argv, "--blue"         , "-B" ), argv, & nrBlue    , LC_UCHAR  );
+        lc_stdp( lc_stda( argc, argv, "--rect-width"   , "-k" ), argv, & nrrWidth  , LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--rect-height"  , "-l" ), argv, & nrrHeight , LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--map-width"    , "-W" ), argv, & nrmWidth  , LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--map-height"   , "-H" ), argv, & nrmHeight , LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--tile-x"       , "-X" ), argv, & nrmCornerX, LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--tile-y"       , "-Y" ), argv, & nrmCornerY, LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread  , LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--input"        , "-i" ), argv,   nriPath   , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--output"       , "-o" ), argv,   nroPath   , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--seed"         , "-s" ), argv,   nriSeed   , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv,   nrMethod  , LC_STRING );
 
         /* Software swicth */
-        if ( stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
+        if ( lc_stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
 
             /* Display usage */
             fprintf( stdout, NR_HELP );
@@ -122,7 +122,7 @@
         } else {
 
             /* Import input image */
-            nriImage = cvLoadImage( nriPath, stda( argc, argv, "--force-rgb", "-F" ) ? CV_LOAD_IMAGE_COLOR : CV_LOAD_IMAGE_UNCHANGED );
+            nriImage = cvLoadImage( nriPath, lc_stda( argc, argv, "--force-rgb", "-F" ) ? CV_LOAD_IMAGE_COLOR : CV_LOAD_IMAGE_UNCHANGED );
 
             /*  Verify input image reading */
             if ( nriImage != NULL ) {
@@ -144,7 +144,7 @@
                 if ( nroImage != NULL ) {
 
                     /* Image initialization swicth */
-                    if ( stda( argc, argv, "--clear", "-C" ) ) {
+                    if ( lc_stda( argc, argv, "--clear", "-C" ) ) {
 
                         /* Initialize image background */
                         cvSet( nroImage, CV_RGB( nrRed, nrGreen, nrBlue ), NULL );
@@ -152,7 +152,7 @@
                     }
 
                     /* Select projection model */
-                    if ( stda( argc, argv, "--generic", "-N" ) ) {
+                    if ( lc_stda( argc, argv, "--generic", "-N" ) ) {
 
                         /* Projection - generic */
                         lg_ttg_genericp(
@@ -176,13 +176,13 @@
                             nrRoll  * ( LG_PI / 180.0 ),
                             nrFocal,
                             nrPixel,
-                            nr_direct_method( nrMethod ),
+                            lc_method( nrMethod ),
                             nrThread
 
                         );
 
                     } else
-                    if ( stda( argc, argv, "--elphel", "-E" ) ) {
+                    if ( lc_stda( argc, argv, "--elphel", "-E" ) ) {
 
                         /* Projection - elphel-specific */
                         lg_ttg_elphelp(
@@ -207,13 +207,13 @@
                             nrHead * ( LG_PI / 180.0 ),
                             nrPixel,
                             nrFocal,
-                            nr_direct_method( nrMethod ),
+                            lc_method( nrMethod ),
                             nrThread
 
                         );
 
                     } else
-                    if ( stda( argc, argv, "--center", "-T" ) ) {
+                    if ( lc_stda( argc, argv, "--center", "-T" ) ) {
 
                         /* Projection - center-specific */
                         lg_ttg_centerp(
@@ -235,13 +235,13 @@
                             nrRoll * ( LG_PI / 180.0 ),
                             nrFocal,
                             nrPixel,
-                            nr_direct_method( nrMethod ),
+                            lc_method( nrMethod ),
                             nrThread
 
                         );
 
                     } else
-                    if ( stda( argc, argv, "--complete", "-P" ) ) {
+                    if ( lc_stda( argc, argv, "--complete", "-P" ) ) {
 
                         /* Projection - apperture-specific */
                         lg_etg_apperturep( 
@@ -258,7 +258,7 @@
                             nrElev  * ( LG_PI / 180.0 ),
                             nrRoll  * ( LG_PI / 180.0 ),
                             nrApper * ( LG_PI / 180.0 ),
-                            nr_direct_method( nrMethod ),
+                            lc_method( nrMethod ),
                             nrThread
 
                         );
@@ -289,103 +289,6 @@
 
         /* Return to system */
         return( EXIT_SUCCESS );
-
-    }
-
-/*
-    Source - Interpolation method by string
- */
-
-    li_Method_t nr_direct_method( char const * const nrTag ) {
-
-        /* Interpolation method variables */
-        li_Method_t nrMethod = li_bicubicf;
-
-        /* Switch on string tag */
-        if ( strcmp( nrTag, "bilinearf" ) == 0 ) {
-
-            /* Assign interpolation method */
-            nrMethod = li_bilinearf;
-
-        } else
-        if ( strcmp( nrTag, "bicubicf" ) == 0 ) {
-
-            /* Assign interpolation method */
-            nrMethod = li_bicubicf;
-
-        } else
-        if ( strcmp( nrTag, "bipenticf" ) == 0 ) {
-
-            /* Assign interpolation method */
-            nrMethod = li_bipenticf;
-
-        } else
-        if ( strcmp( nrTag, "bihepticf" ) == 0 ) {
-
-            /* Assign interpolation method */
-            nrMethod = li_bihepticf;
-
-        }
-
-        /* Return selected method */
-        return( nrMethod );
-
-    }
-
-/*
-    Source - Arguments common handler
- */
-
-    int stda( int argc, char ** argv, char const * const ltag, char const * const stag ) {
-
-        /* Search for argument */
-        while ( ( -- argc ) > 0 ) {
-
-            /* Search for tag matching */
-            if ( ( strcmp( argv[ argc ], ltag ) == 0 ) || ( strcmp( argv[ argc ], stag ) == 0 ) ) {
-
-                /* Return pointer to argument parameter */
-                return( argc + 1 );
-
-            }
-
-        /* Argument not found */
-        } return( NR_NULL );
-
-    }
-
-/*
-    Source - Parameters common handler
- */
-
-    void stdp( int argi, char ** argv, void * const param, int const type ) {
-
-        /* Index consistency */
-        if ( argi == NR_NULL ) return;
-
-        /* Select type */
-        switch ( type ) {
-
-            /* Specific reading operation - Integers */
-            case ( NR_CHAR   ) : { * ( signed char        * ) param = atoi ( ( const char * ) argv[argi] ); } break;
-            case ( NR_SHORT  ) : { * ( signed short       * ) param = atoi ( ( const char * ) argv[argi] ); } break;
-            case ( NR_INT    ) : { * ( signed int         * ) param = atoi ( ( const char * ) argv[argi] ); } break;
-            case ( NR_LONG   ) : { * ( signed long        * ) param = atol ( ( const char * ) argv[argi] ); } break;
-            case ( NR_LLONG  ) : { * ( signed long long   * ) param = atoll( ( const char * ) argv[argi] ); } break;
-            case ( NR_UCHAR  ) : { * ( unsigned char      * ) param = atol ( ( const char * ) argv[argi] ); } break;
-            case ( NR_USHORT ) : { * ( unsigned short     * ) param = atol ( ( const char * ) argv[argi] ); } break;
-            case ( NR_UINT   ) : { * ( unsigned int       * ) param = atol ( ( const char * ) argv[argi] ); } break;
-            case ( NR_ULONG  ) : { * ( unsigned long      * ) param = atoll( ( const char * ) argv[argi] ); } break;
-            case ( NR_ULLONG ) : { * ( unsigned long long * ) param = atoll( ( const char * ) argv[argi] ); } break;
-
-            /* Specific reading operation - Floating point */
-            case ( NR_FLOAT  ) : { * ( float              * ) param = atof ( ( const char * ) argv[argi] ); } break;
-            case ( NR_DOUBLE ) : { * ( double             * ) param = atof ( ( const char * ) argv[argi] ); } break;
-
-            /* Specific reading operation - String */
-            case ( NR_STRING ) : { strcpy( ( char * ) param, ( const char * ) argv[argi] );  } break;
-
-        };
 
     }
 

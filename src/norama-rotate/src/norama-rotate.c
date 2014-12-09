@@ -69,16 +69,16 @@
         IplImage * nroImage = NULL;
 
         /* Search in parameters */
-        stdp( stda( argc, argv, "--input"        , "-i" ), argv,   nriPath , NR_STRING );
-        stdp( stda( argc, argv, "--output"       , "-o" ), argv,   nroPath , NR_STRING );
-        stdp( stda( argc, argv, "--interpolation", "-n" ), argv,   nrMethod, NR_STRING );
-        stdp( stda( argc, argv, "--azimuth"      , "-a" ), argv, & nrAzim  , NR_DOUBLE );
-        stdp( stda( argc, argv, "--elevation"    , "-e" ), argv, & nrElev  , NR_DOUBLE );
-        stdp( stda( argc, argv, "--roll"         , "-r" ), argv, & nrRoll  , NR_DOUBLE );
-        stdp( stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread, NR_INT    );
+        lc_stdp( lc_stda( argc, argv, "--input"        , "-i" ), argv,   nriPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--output"       , "-o" ), argv,   nroPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv,   nrMethod, LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--azimuth"      , "-a" ), argv, & nrAzim  , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--elevation"    , "-e" ), argv, & nrElev  , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--roll"         , "-r" ), argv, & nrRoll  , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread, LC_INT    );
 
         /* Software swicth */
-        if ( stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
+        if ( lc_stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
 
             /* Display usage */
             fprintf( stdout, NR_HELP );
@@ -108,7 +108,7 @@
                         nrAzim * ( LG_PI / 180.0 ),
                         nrElev * ( LG_PI / 180.0 ),
                         nrRoll * ( LG_PI / 180.0 ),
-                        nr_rotate_method( nrMethod ),
+                        lc_method( nrMethod ),
                         nrThread
 
                     );
@@ -137,103 +137,6 @@
 
         /* Return to system */
         return( EXIT_SUCCESS );
-
-    }
-
-/*
-    Source - Interpolation method by string
- */
-
-    li_Method_t nr_rotate_method( char const * const nrTag ) {
-
-        /* Interpolation method variables */
-        li_Method_t nrMethod = li_bicubicf;
-
-        /* Switch on string tag */
-        if ( strcmp( nrTag, "bilinearf" ) == 0 ) {
-
-            /* Assign interpolation method */
-            nrMethod = li_bilinearf;
-
-        } else
-        if ( strcmp( nrTag, "bicubicf" ) == 0 ) {
-
-            /* Assign interpolation method */
-            nrMethod = li_bicubicf;
-
-        } else
-        if ( strcmp( nrTag, "bipenticf" ) == 0 ) {
-
-            /* Assign interpolation method */
-            nrMethod = li_bipenticf;
-
-        } else
-        if ( strcmp( nrTag, "bihepticf" ) == 0 ) {
-
-            /* Assign interpolation method */
-            nrMethod = li_bihepticf;
-
-        }
-
-        /* Return selected method */
-        return( nrMethod );
-
-    }
-
-/*
-    Source - Arguments common handler
- */
-
-    int stda( int argc, char ** argv, char const * const ltag, char const * const stag ) {
-
-        /* Search for argument */
-        while ( ( -- argc ) > 0 ) {
-
-            /* Search for tag matching */
-            if ( ( strcmp( argv[ argc ], ltag ) == 0 ) || ( strcmp( argv[ argc ], stag ) == 0 ) ) {
-
-                /* Return pointer to argument parameter */
-                return( argc + 1 );
-
-            }
-
-        /* Argument not found */
-        } return( NR_NULL );
-
-    }
-
-/*
-    Source - Parameters common handler
- */
-
-    void stdp( int argi, char ** argv, void * const param, int const type ) {
-
-        /* Index consistency */
-        if ( argi == NR_NULL ) return;
-
-        /* Select type */
-        switch ( type ) {
-
-            /* Specific reading operation - Integers */
-            case ( NR_CHAR   ) : { * ( signed char        * ) param = atoi ( ( const char * ) argv[argi] ); } break;
-            case ( NR_SHORT  ) : { * ( signed short       * ) param = atoi ( ( const char * ) argv[argi] ); } break;
-            case ( NR_INT    ) : { * ( signed int         * ) param = atoi ( ( const char * ) argv[argi] ); } break;
-            case ( NR_LONG   ) : { * ( signed long        * ) param = atol ( ( const char * ) argv[argi] ); } break;
-            case ( NR_LLONG  ) : { * ( signed long long   * ) param = atoll( ( const char * ) argv[argi] ); } break;
-            case ( NR_UCHAR  ) : { * ( unsigned char      * ) param = atol ( ( const char * ) argv[argi] ); } break;
-            case ( NR_USHORT ) : { * ( unsigned short     * ) param = atol ( ( const char * ) argv[argi] ); } break;
-            case ( NR_UINT   ) : { * ( unsigned int       * ) param = atol ( ( const char * ) argv[argi] ); } break;
-            case ( NR_ULONG  ) : { * ( unsigned long      * ) param = atoll( ( const char * ) argv[argi] ); } break;
-            case ( NR_ULLONG ) : { * ( unsigned long long * ) param = atoll( ( const char * ) argv[argi] ); } break;
-
-            /* Specific reading operation - Floating point */
-            case ( NR_FLOAT  ) : { * ( float              * ) param = atof ( ( const char * ) argv[argi] ); } break;
-            case ( NR_DOUBLE ) : { * ( double             * ) param = atof ( ( const char * ) argv[argi] ); } break;
-
-            /* Specific reading operation - String */
-            case ( NR_STRING ) : { strcpy( ( char * ) param, ( const char * ) argv[argi] );  } break;
-
-        };
 
     }
 
