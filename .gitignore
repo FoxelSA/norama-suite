@@ -6,3 +6,7 @@ src/*/obj
 dev
 doc/html
 obj
+lib/libcommon/bin
+lib/libcommon/dev
+lib/libcommon/doc/html
+lib/libcommon/obj

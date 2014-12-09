@@ -1,77 +1,89 @@
 
 #
-#   make - Configuration - Directories
+#   make - Configuration
 #
 
     MAKE_BINARY:=bin
-    MAKE_DOCUME:=doc
+    MAKE_DOCENT:=doc
     MAKE_LIBRAR:=lib
     MAKE_SOURCE:=src
+    MAKE_INPATH:=/usr/bin
+    MAKE_CMCOPY:=cp
+    MAKE_CMRMFL:=rm -f
+    MAKE_CMMKDR:=mkdir -p
+    MAKE_CMMKLN:=ln -sf
+
+    BUILD_SUBMD:=$(MAKE_LIBRAR)/libgnomonic $(MAKE_LIBRAR)/libcommon
 
 #
-#   make - Configuration - Units
+#   make - Modules
 #
 
-    MAKE_SOFTS:=$(notdir $(wildcard $(MAKE_SOURCE)/*) )
+    MAKE_MODULE:=$(foreach LIBS, $(BUILD_SUBMD), $(if $(findstring /lib/, $(LIBS)), , $(LIBS)))
 
 #
-#   make - Configuration - Libraries
+#   make - Enumeration
 #
 
-    MAKE_DEPENDS:=$(MAKE_LIBRAR)/libgnomonic
+    MAKE_BUILDS:=$(notdir $(wildcard $(MAKE_SOURCE)/*) )
 
 #
-#   make - Build - Default
+#   make - Targets
 #
 
-    all:directories libraries units
-    build:directories units
-    modules:libraries
+    all:make-directories make-modules make-build
+    build:make-directories make-build
+    modules:make-modules
+    documentation:make-directories make-documentation
+    clean:make-clean
+    clean-all:make-clean make-clean-modules
+    clean-modules:make-clean-modules
+    clean-documentation:make-clean-documentation
+    install:make-install
+    uninstall:make-uninstall
 
 #
-#   make - Build - Stack
+#   make - Directives
 #
 
-    units:
-	@$(foreach SOFT, $(MAKE_SOFTS), $(MAKE) -C $(MAKE_SOURCE)/$(SOFT) clean && $(MAKE) -C $(MAKE_SOURCE)/$(SOFT) all && cp $(MAKE_SOURCE)/$(SOFT)/$(MAKE_BINARY)/$(SOFT) $(MAKE_BINARY)/ && ) true
+    make-build:
+	@$(foreach SOFT, $(MAKE_BUILDS), $(MAKE) -C $(MAKE_SOURCE)/$(SOFT) all OPENMP=$(OPENMP) && $(MAKE_CMCOPY) $(MAKE_SOURCE)/$(SOFT)/$(MAKE_BINARY)/$(SOFT) $(MAKE_BINARY)/ && ) true
+
+    make-modules:
+	@$(foreach LIBS, $(MAKE_MODULE), $(MAKE) -C $(LIBS) all OPENMP=$(OPENMP) && ) true
+
+    make-documentation:
+	@$(foreach SOFT, $(MAKE_BUILDS), $(MAKE) -C $(MAKE_SOURCE)/$(SOFT) documentation && $(MAKE_CMMKLN) ../../$(MAKE_SOURCE)/$(SOFT)/$(MAKE_DOCENT)/html $(MAKE_DOCENT)/html/$(SOFT) && ) true
 
 #
-#   make - Build - Libraries
+#   make - Cleaning
 #
 
-    libraries:
-	@$(foreach LIB, $(MAKE_DEPENDS), $(MAKE) -C $(LIB) clean && $(MAKE) -C $(LIB) all OPENMP=$(OPENMP) && ) true
+    make-clean:
+	$(MAKE_CMRMFL) $(MAKE_BINARY)/*
+	@$(foreach SOFT, $(MAKE_BUILDS), $(MAKE) -C $(MAKE_SOURCE)/$(SOFT) clean && ) true
+
+    make-clean-modules:
+	@$(foreach LIBS, $(MAKE_MODULE), $(MAKE) -C $(LIBS) clean && ) true
+
+    make-clean-documentation:
+	$(MAKE_CMRMFL) $(MAKE_DOCENT)/html/*
+	@$(foreach SOFT, $(MAKE_BUILDS), $(MAKE) -C $(MAKE_SOURCE)/$(SOFT) clean-documentation && ) true
 
 #
-#   make - Build - Documentation
+#   make - Implementation
 #
 
-    documentation:directories
-	mkdir -p $(MAKE_DOCUME)/html && rm $(MAKE_DOCUME)/html/* -f
-	@$(foreach DOC, $(MAKE_SOFTS), $(MAKE) -C $(MAKE_SOURCE)/$(DOC) documentation && cd $(MAKE_DOCUME)/html/ && ln -s ../../$(MAKE_SOURCE)/$(DOC)/$(MAKE_DOCUME)/html $(DOC) && cd - && ) true
+    make-install:
+	@$(foreach SOFT, $(MAKE_BUILDS), $(MAKE) -C $(MAKE_SOURCE)/$(SOFT) install && ) true
+
+    make-uninstall:
+	@$(foreach SOFT, $(MAKE_BUILDS), $(MAKE) -C $(MAKE_SOURCE)/$(SOFT) uninstall && ) true
 
 #
-#   make - Management - Directories
+#   make - Directories
 #
 
-    directories:
-	mkdir -p $(MAKE_BINARY)
-	mkdir -p $(MAKE_DOCUME)
-
-#
-#   make - Management - Cleaning builds
-#
-
-    clean:
-	rm $(MAKE_BINARY)/* -f
-
-#
-#   make - Management - Implementation
-#
-
-    install:
-	cp $(addprefix $(MAKE_BINARY)/,$(MAKE_SOFTS)) /usr/bin 2>/dev/null || :
-
-    uninstall:
-	@$(foreach SOFT, $(MAKE_SOFTS), rm -f /usr/bin/$(SOFT) && ) true
+    make-directories:
+	$(MAKE_CMMKDR) $(MAKE_BINARY) $(MAKE_DOCENT)
 
