@@ -1,3 +1,6 @@
 [submodule "lib/libgnomonic"]
 	path = lib/libgnomonic
 	url = https://github.com/FoxelSA/libgnomonic.git
+[submodule "lib/libcsps"]
+	path = lib/libcsps
+	url = https://github.com/FoxelSA/libcsps.git
