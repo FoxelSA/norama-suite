@@ -97,9 +97,11 @@
 
     # include <stdio.h>
     # include <stdlib.h>
+    # include <string.h>
     # include <opencv/cv.h>
     # include <opencv/highgui.h>
     # include <gnomonic-all.h>
+    # include <csps-all.h>
     # include <common-all.h>
 
 /* 

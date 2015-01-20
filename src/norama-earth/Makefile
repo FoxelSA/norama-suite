@@ -28,7 +28,7 @@
 
     BUILD_FLAGS:=-Wall -funsigned-char -O3
     BUILD_LINKD:=-lm `pkg-config --cflags --libs opencv`
-    BUILD_SUBMD:=$(MAKE_LIBRAR)/libcommon $(MAKE_LIBRAR)/libgnomonic $(MAKE_LIBRAR)/libgnomonic/lib/libinter
+    BUILD_SUBMD:=$(MAKE_LIBRAR)/libcommon $(MAKE_LIBRAR)/libgnomonic $(MAKE_LIBRAR)/libcsps $(MAKE_LIBRAR)/libcsps/lib/libinter
 
 #
 #   make - Modules
