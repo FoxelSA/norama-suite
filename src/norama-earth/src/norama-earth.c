@@ -64,12 +64,7 @@
         char nroTag[256] = { 0 };
         char nroMod[256] = { 0 };
 
-        /* Timestamp string variables */
-        char nrsSec[256] = { 0 };
-        char nrsUse[256] = { 0 };
-
         /* Timestamp variables */
-        lp_Time_t nrTime = lp_Time_s( 0 );
         lp_Time_t nrtSec = lp_Time_s( 0 );
         lp_Time_t nrtUse = lp_Time_s( 0 );
 
@@ -77,20 +72,17 @@
         IplImage * nriImage = NULL;
         IplImage * nroImage = NULL;
 
-        /* CSPS query structure variables */
-        lp_Orient_t nrOrient;
-
         /* Rotation matrix variables */
         lp_Real_t nrMatrix[3][3] = { { 0.0 } };
 
         /* Search in parameters */
-        lc_stdp( lc_stda( argc, argv, "--input"        , "-i" ), argv,   nriPath , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--output"       , "-o" ), argv,   nroPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--input"        , "-a" ), argv,   nriPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--output"       , "-b" ), argv,   nroPath , LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--path"         , "-p" ), argv,   nrcPath , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--orient-tag"   , "-k" ), argv,   nroTag  , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--orient-mod"   , "-s" ), argv,   nroMod  , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--second"       , "-w" ), argv,   nrsSec  , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--micro-second" , "-u" ), argv,   nrsUse  , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--imu-tag"      , "-i" ), argv,   nroTag  , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--imu-mod"      , "-s" ), argv,   nroMod  , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--second"       , "-u" ), argv, & nrtSec  , LC_ULLONG );
+        lc_stdp( lc_stda( argc, argv, "--micro-second" , "-v" ), argv, & nrtUse  , LC_ULLONG );
         lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv,   nrMethod, LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread, LC_INT    );
 
@@ -114,24 +106,17 @@
                 /* Verify allocation creation */
                 if ( nroImage != NULL ) {
 
-                    /* Create orientation structure */
-                    nrOrient = lp_query_orientation_create( nrcPath, nroTag, nroMod );
+                    /* Query rotation matrix */
+                    nr_earth_matrix( 
 
-                    /* Timestamp analysis */
-                    sscanf( nrsSec, "%" lp_Time_i, & nrtSec );
-                    sscanf( nrsUse, "%" lp_Time_i, & nrtUse );
+                        nrcPath, 
+                        nroTag, 
+                        nroMod, 
+                        nrtSec, 
+                        nrtUse, 
+                        nrMatrix 
 
-                    /* Compose timestamp */
-                    nrTime = lp_timestamp_compose( nrtSec, nrtUse );
-
-                    /* Query orientation */
-                    lp_query_orientation( & nrOrient, nrTime );
-
-                    /* Extract rotation matrix */
-                    lp_query_orientation_matrix( & nrOrient, nrMatrix );
-
-                    /* Release query structure */
-                    lp_query_orientation_delete( & nrOrient );
+                    );
 
                     /* Apply equirectangular transformation */
                     lg_transform_matrixp( 
@@ -171,6 +156,38 @@
 
         /* Return to system */
         return( EXIT_SUCCESS );
+
+    }
+
+/*
+    Source - CSPS interface methods
+ */
+
+    void nr_earth_matrix( 
+
+        lp_Char_t const * const nrPath, 
+        lp_Char_t const * const nrTag, 
+        lp_Char_t const * const nrModule, 
+        lp_Time_t const         nrSecond,
+        lp_Time_t const         nrMicro,
+        lp_Real_t               nrMatrix[3][3]
+
+    ) {
+
+        /* Query structure variables */
+        lp_Orient_t nrOrient;
+
+        /* Create query structure */
+        nrOrient = lp_query_orientation_create( nrPath, nrTag, nrModule );
+
+        /* Query orientation by timestamp */
+        lp_query_orientation( & nrOrient, lp_timestamp_compose( nrSecond, nrMicro ) );
+
+        /* Rotation matrix method */
+        lp_query_orientation_matrix( & nrOrient, nrMatrix );
+
+        /* Release query structure */
+        lp_query_orientation_delete( & nrOrient );        
 
     }
 
