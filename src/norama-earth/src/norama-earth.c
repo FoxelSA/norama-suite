@@ -127,16 +127,8 @@
                     /* Query orientation */
                     lp_query_orientation( & nrOrient, nrTime );
 
-                    /* Assign matrix coefficients */
-                    nrMatrix[0][0] = nrOrient.qrfxx;
-                    nrMatrix[0][1] = nrOrient.qrfxy;
-                    nrMatrix[0][2] = nrOrient.qrfxz;
-                    nrMatrix[1][0] = nrOrient.qrfyx;
-                    nrMatrix[1][1] = nrOrient.qrfyy;
-                    nrMatrix[1][2] = nrOrient.qrfyz;
-                    nrMatrix[2][0] = nrOrient.qrfzx;
-                    nrMatrix[2][1] = nrOrient.qrfzy;
-                    nrMatrix[2][2] = nrOrient.qrfzz;
+                    /* Extract rotation matrix */
+                    lp_query_orientation_matrix( & nrOrient, nrMatrix );
 
                     /* Release query structure */
                     lp_query_orientation_delete( & nrOrient );
