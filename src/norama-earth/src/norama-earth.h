@@ -112,10 +112,15 @@
     # define NR_HELP "Usage summary :\n\n"                 \
     "\tnorama-earth [Arguments] [Parameters] ...\n\n"      \
     "Short arguments and parameters summary :\n\n"         \
-    "\t-i\tInput equirectangular mapping image\n"          \
-    "\t-o\tOutput equirectangular mapping image\n"         \
-    "\t-t\tNumber of threads\n"                            \
-    "\t-n\tInterpolation method\n\n"                       \
+    "\t-a\tInput equirectangular mapping image\n"          \
+    "\t-b\tOutput equirectangular mapping image\n"         \
+    "\t-p\tPath to CSPS directory structure\n"             \
+    "\t-i\tIMU device tag\n"                               \
+    "\t-s\tIMU device module\n"                            \
+    "\t-u\tTimestamp second part\n"                        \
+    "\t-v\tTimestamp micro-second part\n"                  \
+    "\t-n\tInterpolation method\n"                         \
+    "\t-t\tNumber of threads\n\n"                          \
     "norama-earth - norama-suite\n"                        \
     "Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch\n"
 
@@ -137,6 +142,11 @@
 
     /*! \brief Software main function
      *  
+     *  The main function starts by importing the input equirectangular mapping
+     *  and allocating the output one. The query on CSPS is made by timestamp to
+     *  retrive the mapping earth-attached orientation in matrix form. The 
+     *  rotation is applied on the input mapping and stored in output mapping
+     *  that is finally saved.
      *  
      *  \param argc Standard main parameter
      *  \param argv Standard main parameter
