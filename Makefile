@@ -13,7 +13,7 @@
     MAKE_CMMKDR:=mkdir -p
     MAKE_CMMKLN:=ln -sf
 
-    BUILD_SUBMD:=$(MAKE_LIBRAR)/libcommon $(MAKE_LIBRAR)/libgnomonic $(MAKE_LIBRAR)/libgnomonic/lib/libinter
+    BUILD_SUBMD:=$(MAKE_LIBRAR)/libcommon $(MAKE_LIBRAR)/libgnomonic $(MAKE_LIBRAR)/libgnomonic/lib/libinter $(MAKE_LIBRAR)/libcsps
 
 #
 #   make - Modules
