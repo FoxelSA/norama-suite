@@ -61,6 +61,8 @@
         char nrcPath[256] = { 0 };
 
         /* CSPS switch variables */
+        char nrcTag[256] = { 0 };
+        char nrcMod[256] = { 0 };
         char nroTag[256] = { 0 };
         char nroMod[256] = { 0 };
 
@@ -79,6 +81,8 @@
         lc_stdp( lc_stda( argc, argv, "--input"        , "-a" ), argv,   nriPath , LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--output"       , "-b" ), argv,   nroPath , LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--path"         , "-p" ), argv,   nrcPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--cam-tag"      , "-c" ), argv,   nrcTag  , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--cam-mod"      , "-m" ), argv,   nrcMod  , LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--imu-tag"      , "-i" ), argv,   nroTag  , LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--imu-mod"      , "-s" ), argv,   nroMod  , LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--second"       , "-u" ), argv, & nrtSec  , LC_ULLONG );
@@ -110,6 +114,8 @@
                     nr_earth_matrix( 
 
                         nrcPath, 
+                        nrcTag, 
+                        nrcMod, 
                         nroTag, 
                         nroMod, 
                         nrtSec, 
@@ -166,8 +172,10 @@
     void nr_earth_matrix( 
 
         lp_Char_t const * const nrPath, 
-        lp_Char_t const * const nrTag, 
-        lp_Char_t const * const nrModule, 
+        lp_Char_t const * const nrCamTag, 
+        lp_Char_t const * const nrCamMod, 
+        lp_Char_t const * const nrIMUTag, 
+        lp_Char_t const * const nrIMUMod, 
         lp_Time_t const         nrSecond,
         lp_Time_t const         nrMicro,
         lp_Real_t               nrMatrix[3][3]
@@ -175,19 +183,29 @@
     ) {
 
         /* Query structure variables */
-        lp_Orient_t nrOrient;
+        lp_Orient_t  nrOrient;
+        lp_Trigger_t nrTrigger;
 
         /* Create query structure */
-        nrOrient = lp_query_orientation_create( nrPath, nrTag, nrModule );
+        nrTrigger = lp_query_trigger_create( nrPath, nrCamTag, nrCamMod );
+
+        /* Create query structure */
+        nrOrient = lp_query_orientation_create( nrPath, nrIMUTag, nrIMUMod );
+
+        /* Query master/synchronization time-link */
+        lp_query_trigger_bymaster( & nrTrigger, lp_timestamp_compose( nrSecond, nrMicro ) );
 
         /* Query orientation by timestamp */
-        lp_query_orientation( & nrOrient, lp_timestamp_compose( nrSecond, nrMicro ) );
+        lp_query_orientation( & nrOrient, nrTrigger.qrSynch );
 
         /* Rotation matrix method */
         lp_query_orientation_matrix( & nrOrient, nrMatrix );
 
         /* Release query structure */
-        lp_query_orientation_delete( & nrOrient );        
+        lp_query_trigger_delete( & nrTrigger );
+
+        /* Release query structure */
+        lp_query_orientation_delete( & nrOrient );
 
     }
 

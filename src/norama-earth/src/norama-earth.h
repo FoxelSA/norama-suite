@@ -164,8 +164,10 @@
      *  parameter is filled with the CSPS query coefficients.
      *
      *  \param nrPath   Path to CSPS directory structure
-     *  \param nrTag    Orientation device tag
-     *  \param nrModule Orientation device module
+     *  \param nrCamTag Camera device tag
+     *  \param nrCamMod Camera device module
+     *  \param nrIMUTag Orientation device tag
+     *  \param nrIMUMod Orientation device module
      *  \param nrSecond Orientation query timestamp second part
      *  \param nrMicro  Orientation query timestamp micro-second part
      *  \param nrMatrix Returned rotation matrix
@@ -174,8 +176,10 @@
     void nr_earth_matrix( 
 
         lp_Char_t const * const nrPath, 
-        lp_Char_t const * const nrTag, 
-        lp_Char_t const * const nrModule, 
+        lp_Char_t const * const nrCamTag, 
+        lp_Char_t const * const nrCamMod, 
+        lp_Char_t const * const nrIMUTag, 
+        lp_Char_t const * const nrIMUMod, 
         lp_Time_t const         nrSecond,
         lp_Time_t const         nrMicro,
         lp_Real_t               nrMatrix[3][3]
