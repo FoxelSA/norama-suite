@@ -1,7 +1,7 @@
 /*
  * norama-suite libcommon - norama-suite common library
  *
- * Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch
+ * Copyright (c) 2013-2015 FOXEL SA - http://foxel.ch
  * Please read <http://foxel.ch/license> for more information.
  *
  *
@@ -60,7 +60,7 @@
      *
      *  \section Copyright
      * 
-     *  Copyright (c) 2013-2014 FOXEL SA - http://foxel.ch \n
+     *  Copyright (c) 2013-2015 FOXEL SA - http://foxel.ch \n
      *  This program is part of the FOXEL project <http://foxel.ch>.
      *  
      *  Please read the COPYRIGHT.md file for more information.
