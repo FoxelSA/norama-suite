@@ -1,5 +1,9 @@
 ## Changelog
 
+### Beta 0.3
+
+- `Added` : norama-earth for panorama orientation correction through libcsps
+
 ### Release 0.2 (November 18, 2014)
 
 - `Added` : norama-view software as rectilinear viewer of equirectangular mapping
