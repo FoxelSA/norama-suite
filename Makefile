@@ -54,6 +54,7 @@
 
     make-documentation:
 	@$(foreach SOFT, $(MAKE_BUILDS), $(MAKE) -C $(MAKE_SOURCE)/$(SOFT) documentation && $(MAKE_CMMKLN) ../../$(MAKE_SOURCE)/$(SOFT)/$(MAKE_DOCENT)/html $(MAKE_DOCENT)/html/$(SOFT) && ) true
+	@$(foreach LIBS, $(MAKE_MODULE), $(MAKE) -C $(LIBS) documentation && ) true
 
 #
 #   make - Cleaning
@@ -69,6 +70,7 @@
     make-clean-documentation:
 	$(MAKE_CMRMFL) $(MAKE_DOCENT)/html/*
 	@$(foreach SOFT, $(MAKE_BUILDS), $(MAKE) -C $(MAKE_SOURCE)/$(SOFT) clean-documentation && ) true
+	@$(foreach LIBS, $(MAKE_MODULE), $(MAKE) -C $(LIBS) clean-documentation && ) true
 
 #
 #   make - Implementation
