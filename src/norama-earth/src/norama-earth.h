@@ -165,14 +165,16 @@
      *  parameter according to earth local frame. The matrix provided as 
      *  parameter is filled with the CSPS query coefficients.
      *
-     *  \param nrPath   Path to CSPS directory structure
-     *  \param nrCamTag Camera device tag
-     *  \param nrCamMod Camera device module
-     *  \param nrIMUTag Orientation device tag
-     *  \param nrIMUMod Orientation device module
-     *  \param nrSecond Orientation query timestamp second part
-     *  \param nrMicro  Orientation query timestamp micro-second part
-     *  \param nrMatrix Returned rotation matrix
+     *  \param  nrPath   Path to CSPS directory structure
+     *  \param  nrCamTag Trigger device CSPS-tag
+     *  \param  nrCamMod Trigger module CSPS-name
+     *  \param  nrIMUTag Orientation device CSPS-tag
+     *  \param  nrIMUMod Orientation device CSPS-module
+     *  \param  nrSecond Orientation query timestamp seconds
+     *  \param  nrMicro  Orientation query timestamp micro-seconds
+     *  \param  nrMatrix Returned rotation matrix
+     *
+     *  \return Returns query on orientation status
      */
 
     int nr_earth_matrix( 
