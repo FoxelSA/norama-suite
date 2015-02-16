@@ -117,10 +117,12 @@
     "\t-a\tInput equirectangular mapping image\n"          \
     "\t-b\tOutput equirectangular mapping image\n"         \
     "\t-p\tPath to CSPS directory structure\n"             \
-    "\t-i\tIMU device tag\n"                               \
-    "\t-s\tIMU device module\n"                            \
-    "\t-u\tTimestamp second part\n"                        \
-    "\t-v\tTimestamp micro-second part\n"                  \
+    "\t-c\tTrigger device CSPS-tag\n"                      \
+    "\t-m\tTrigger module CSPS-name\n"                     \
+    "\t-i\tOrientation device CSPS-tag\n"                  \
+    "\t-s\tOrientation module CSPS-name\n"                 \
+    "\t-u\tTimestamp seconds\n"                            \
+    "\t-v\tTimestamp micro-seconds\n"                      \
     "\t-n\tInterpolation method\n"                         \
     "\t-t\tNumber of threads\n\n"                          \
     "norama-earth - norama-suite\n"                        \
