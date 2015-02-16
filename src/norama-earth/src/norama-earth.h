@@ -175,7 +175,7 @@
      *  \param nrMatrix Returned rotation matrix
      */
 
-    void nr_earth_matrix( 
+    int nr_earth_matrix( 
 
         lp_Char_t const * const nrPath, 
         lp_Char_t const * const nrCamTag, 
