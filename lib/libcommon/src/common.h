@@ -109,8 +109,8 @@
     # define LC_ERR     stderr
 
     /* Define boolean constants */
-    # define LC_FALSE   LP_FALSE
-    # define LC_TRUE    LP_TRUE
+    # define LC_FALSE   0
+    # define LC_TRUE    1
 
 /* 
     Header - Preprocessor macros
