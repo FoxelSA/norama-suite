@@ -79,7 +79,7 @@
         lc_stdp( lc_stda( argc, argv, "--elevation"    , "-e" ), argv, & nrElev  , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--roll"         , "-r" ), argv, & nrRoll  , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread, LC_INT    );
-        lc_stdp( lc_stda( argc, argv, "--option"       , "-p" ), argv, & nrOption, LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--export"       , "-q" ), argv, & nrOption, LC_INT    );
 
         /* Software swicth */
         if ( lc_stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {

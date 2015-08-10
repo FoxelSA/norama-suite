@@ -118,7 +118,8 @@
     "\t-e\tElevation angle [°] - rotation along y axis\n"  \
     "\t-r\tRoll angle [°] - rotation along x axis\n"       \
     "\t-t\tNumber of threads\n"                            \
-    "\t-n\tInterpolation method\n\n"                       \
+    "\t-n\tInterpolation method\n"                         \
+    "\t-q\tMapping exportation options\n\n"                \
     "norama-rotate - norama-suite\n"                       \
     "Copyright (c) 2013-2015 FOXEL SA - http://foxel.ch\n"
 
