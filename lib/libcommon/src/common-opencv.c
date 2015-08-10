@@ -36,67 +36,23 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   common-all.h
-     *  \author Nils Hamel <n.hamel@foxel.ch>
-     *
-     *  Library general includer
-     */
 
 /* 
-    Header - Include guard
+    Source - Includes
  */
 
-    # ifndef __LC_ALL__
-    # define __LC_ALL__
-
-/* 
-    Header - C/C++ compatibility
- */
-
-    # ifdef __cplusplus
-    extern "C" {
-    # endif
-
-/* 
-    Header - Includes
- */
-
-    # include "common.h"
-    # include "common-stdap.h"
-    # include "common-method.h"
     # include "common-opencv.h"
 
-/* 
-    Header - Preprocessor definitions
- */
-
-/* 
-    Header - Preprocessor macros
- */
-
-/* 
-    Header - Typedefs
- */
-
-/* 
-    Header - Structures
- */
-
-/* 
-    Header - Function prototypes
- */
-
-/* 
-    Header - C/C++ compatibility
- */
-
-    # ifdef __cplusplus
-    }
-    # endif
-
 /*
-    Header - Include guard
+    Source - Image exportation methods
  */
 
-    # endif
+    int lc_imwrite_jpeg( char * lcPath, IplImage * lcImage, int lcQuality ) {
 
+        /* Option array variables */
+        int lcOptions[2] = { CV_IMWRITE_JPEG_QUALITY, lcQuality };
+
+        /* Image exportation */
+        return( cvSaveImage(  lcPath, lcImage, lcOptions ) );
+
+    }

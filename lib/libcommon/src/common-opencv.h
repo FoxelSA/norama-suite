@@ -36,18 +36,18 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   common-all.h
+    /*! \file   common-stdap.h
      *  \author Nils Hamel <n.hamel@foxel.ch>
      *
-     *  Library general includer
+     *  OpenCV function interface
      */
 
 /* 
     Header - Include guard
  */
 
-    # ifndef __LC_ALL__
-    # define __LC_ALL__
+    # ifndef __LC_OPENCV__
+    # define __LC_OPENCV__
 
 /* 
     Header - C/C++ compatibility
@@ -62,9 +62,8 @@
  */
 
     # include "common.h"
-    # include "common-stdap.h"
-    # include "common-method.h"
-    # include "common-opencv.h"
+    # include <opencv/cv.h>
+    # include <opencv/highgui.h>
 
 /* 
     Header - Preprocessor definitions
@@ -91,7 +90,7 @@
  */
 
     # ifdef __cplusplus
-    }
+    } 
     # endif
 
 /*
