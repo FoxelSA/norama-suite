@@ -80,12 +80,12 @@
         int nrThread = 1;
 
         /* Interpolation tag variables */
-        char nrMethod[256] = { 0 };
+        char * nrMethod = NULL;
 
         /* Image path variables */
-        char nriPath[256] = { 0 };
-        char nroPath[256] = { 0 };
-        char nriSeed[256] = { 0 };
+        char * nriPath = NULL;
+        char * nroPath = NULL;
+        char * nriSeed = NULL;
 
         /* Image allocations variables */
         IplImage * nriImage = NULL;
@@ -112,10 +112,10 @@
         lc_stdp( lc_stda( argc, argv, "--tile-y"       , "-Y" ), argv, & nrmCornerY, LC_INT    );
         lc_stdp( lc_stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread  , LC_INT    );
         lc_stdp( lc_stda( argc, argv, "--export"       , "-q" ), argv, & nrOption  , LC_INT    );
-        lc_stdp( lc_stda( argc, argv, "--input"        , "-i" ), argv,   nriPath   , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--output"       , "-o" ), argv,   nroPath   , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--seed"         , "-s" ), argv,   nriSeed   , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv,   nrMethod  , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--input"        , "-i" ), argv, & nriPath   , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--output"       , "-o" ), argv, & nroPath   , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--seed"         , "-s" ), argv, & nriSeed   , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv, & nrMethod  , LC_STRING );
 
         /* Software swicth */
         if ( lc_stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {

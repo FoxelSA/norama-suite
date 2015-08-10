@@ -66,7 +66,7 @@
         char nrName[256] = "norama-view";
 
         /* Image path variables */
-        char nriPath[256] = { 0 };
+        char * nriPath = NULL;
 
         /* Image allocation variables */
         IplImage * nriImage = NULL;
@@ -76,7 +76,7 @@
         nr_Mouse nrMouse = { 0.0, 0.0, NR_DFT_APPER, 0.0 };
 
         /* Search in parameters */
-        lc_stdp( lc_stda( argc, argv, "--input"  , "-i" ), argv,   nriPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--input"  , "-i" ), argv, & nriPath , LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--threads", "-t" ), argv, & nrThread, LC_INT    );
         lc_stdp( lc_stda( argc, argv, "--width"  , "-x" ), argv, & nrWidth , LC_INT    );
         lc_stdp( lc_stda( argc, argv, "--height" , "-y" ), argv, & nrHeight, LC_INT    );

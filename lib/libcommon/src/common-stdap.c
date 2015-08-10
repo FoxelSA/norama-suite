@@ -96,7 +96,7 @@
             case ( LC_DOUBLE ) : { * ( double             * ) param = atof ( ( const char * ) argv[argi] ); } break;
 
             /* Specific reading operation - String */
-            case ( LC_STRING ) : { strcpy( ( char * ) param, ( const char * ) argv[argi] );  } break;
+            case ( LC_STRING ) : { * ( char              ** ) param = argv[argi];                           } break;
 
         };
 

@@ -61,20 +61,20 @@
         int nrThread = 1;
 
         /* Interpolation descriptor variables */
-        char nrMethod[256] = { 0 };
+        char * nrMethod = NULL;
 
         /* Image path variables */
-        char nriPath[256] = { 0 };
-        char nroPath[256] = { 0 };
+        char * nriPath = NULL;
+        char * nroPath = NULL;
 
         /* Image allocation variables */
         IplImage * nriImage = NULL;
         IplImage * nroImage = NULL;
 
         /* Search in parameters */
-        lc_stdp( lc_stda( argc, argv, "--input"        , "-i" ), argv,   nriPath , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--output"       , "-o" ), argv,   nroPath , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv,   nrMethod, LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--input"        , "-i" ), argv, & nriPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--output"       , "-o" ), argv, & nroPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv, & nrMethod, LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--azimuth"      , "-a" ), argv, & nrAzim  , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--elevation"    , "-e" ), argv, & nrElev  , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--roll"         , "-r" ), argv, & nrRoll  , LC_DOUBLE );
