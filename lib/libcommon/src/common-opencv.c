@@ -50,7 +50,17 @@
     int lc_imwrite_jpeg( char * lcPath, IplImage * lcImage, int lcQuality ) {
 
         /* Option array variables */
-        int lcOptions[2] = { CV_IMWRITE_JPEG_QUALITY, lcQuality };
+        int lcOptions[2] = { CV_IMWRITE_JPEG_QUALITY, ( lcQuality > 100 ) ? 100: ( ( lcQuality < 0 ) ? 0 : lcQuality ) };
+
+        /* Image exportation */
+        return( cvSaveImage(  lcPath, lcImage, lcOptions ) );
+
+    }
+
+    int lc_imwrite_png( char * lcPath, IplImage * lcImage, int lcCompression ) {
+
+        /* Option array variables */
+        int lcOptions[2] = { CV_IMWRITE_PNG_COMPRESSION, ( lcCompression > 9 ) ? 9 : ( ( lcCompression < 0 ) ? 0 : lcCompression ) };
 
         /* Image exportation */
         return( cvSaveImage(  lcPath, lcImage, lcOptions ) );
