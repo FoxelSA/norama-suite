@@ -49,6 +49,9 @@
 
     int main ( int argc, char ** argv ) {
 
+        /* Exportation options variables */
+        int nrOption = -1;
+
         /* Parallel processing variables */
         int nrThread = 1;
 
@@ -89,6 +92,7 @@
         lc_stdp( lc_stda( argc, argv, "--micro-second" , "-v" ), argv, & nrtUse  , LC_ULLONG );
         lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv,   nrMethod, LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread, LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--export"       , "-q" ), argv, & nrOption, LC_INT    );
 
         /* Software swicth */
         if ( lc_stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
@@ -128,7 +132,7 @@
                         );
 
                         /* Export output image */
-                        if ( cvSaveImage( nroPath, nroImage, NULL ) == 0 ) {
+                        if ( lc_imwrite( nroPath, nroImage, nrOption ) == 0 ) {
 
                             /* Display message */
                             fprintf( LC_ERR, "Error : Unable to write output image\n" );
