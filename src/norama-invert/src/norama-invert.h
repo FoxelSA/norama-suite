@@ -117,11 +117,11 @@
     "\t-N\tGeneric projection\n"                               \
     "\t-E\tElphel-specific projection\n"                       \
     "\t-T\tCentered-specific projection\n"                     \
-    "\t-P\tApperture-specific projection\n"                    \
+    "\t-P\tAperture-specific projection\n"                     \
     "\t-i\tInput rectilinear image\n"                          \
     "\t-o\tOutput equirectangular image\n"                     \
     "\t-s\tOutput equirectangular image seed\n"                \
-    "\t-u\tApperture angle [°]\n"                              \
+    "\t-u\tAperture angle [°]\n"                               \
     "\t-x\tProjection x-sight in floating pixels\n"            \
     "\t-y\tProjection y-sight in floating pixels\n"            \
     "\t-a\tAzimuth angle [°] - rotation along z axis\n"        \

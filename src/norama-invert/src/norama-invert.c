@@ -92,7 +92,7 @@
         IplImage * nroImage = NULL;
 
         /* Search in parameters */
-        lc_stdp( lc_stda( argc, argv, "--apperture"    , "-u" ), argv, & nrApper   , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--aperture"     , "-u" ), argv, & nrApper   , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--sight-x"      , "-x" ), argv, & nrSightX  , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--sight-y"      , "-y" ), argv, & nrSightY  , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--azimuth"      , "-a" ), argv, & nrAzim    , LC_DOUBLE );
@@ -247,7 +247,7 @@
                     } else
                     if ( lc_stda( argc, argv, "--complete", "-P" ) ) {
 
-                        /* Projection - apperture-specific */
+                        /* Projection - aperture-specific */
                         lg_gte_apperturep( 
 
                             ( inter_C8_t * ) nroImage->imageData,
