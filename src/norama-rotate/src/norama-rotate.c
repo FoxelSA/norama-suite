@@ -54,6 +54,9 @@
         double nrElev = 0.0;
         double nrRoll = 0.0;
 
+        /* Exportation options variables */
+        int nrOption = -1;
+
         /* Parallel processing variables */
         int nrThread = 1;
 
@@ -76,6 +79,7 @@
         lc_stdp( lc_stda( argc, argv, "--elevation"    , "-e" ), argv, & nrElev  , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--roll"         , "-r" ), argv, & nrRoll  , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread, LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--option"       , "-p" ), argv, & nrOption, LC_INT    );
 
         /* Software swicth */
         if ( lc_stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
@@ -114,7 +118,7 @@
                     );
 
                     /* Export output image */
-                    if ( cvSaveImage( nroPath, nroImage, NULL ) == 0 ) {
+                    if ( lc_imwrite( nroPath, nroImage, nrOption ) == 0 ) {
 
                         /* Display message */
                         fprintf( stdout, "Error : Unable to write output image\n" );
