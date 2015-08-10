@@ -73,6 +73,9 @@
         int nrmCornerX = 0;
         int nrmCornerY = 0;
 
+        /* Exportation options variables */
+        int nrOption = -1;
+
         /* Parallel processing variables */
         int nrThread = 1;
 
@@ -108,6 +111,7 @@
         lc_stdp( lc_stda( argc, argv, "--tile-x"       , "-X" ), argv, & nrmCornerX, LC_INT    );
         lc_stdp( lc_stda( argc, argv, "--tile-y"       , "-Y" ), argv, & nrmCornerY, LC_INT    );
         lc_stdp( lc_stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread  , LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--export"       , "-q" ), argv, & nrOption  , LC_INT    );
         lc_stdp( lc_stda( argc, argv, "--input"        , "-i" ), argv,   nriPath   , LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--output"       , "-o" ), argv,   nroPath   , LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--seed"         , "-s" ), argv,   nriSeed   , LC_STRING );
@@ -266,7 +270,7 @@
                     }
 
                     /* Export output image */
-                    if ( cvSaveImage( nroPath, nroImage, NULL ) == 0 ) {
+                    if ( lc_imwrite( nroPath, nroImage, nrOption ) == 0 ) {
 
                         /* Display message */
                         fprintf( stdout, "Error : Unable to write output image\n" );

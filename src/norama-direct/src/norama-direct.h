@@ -140,7 +140,8 @@
     "\t-X\tEquirectangular tile x-position\n"                  \
     "\t-Y\tEquirectangular tile y-position\n"                  \
     "\t-t\tNumber of threads\n"                                \
-    "\t-n\tInterpolation method\n\n"                           \
+    "\t-n\tInterpolation method\n"                             \
+    "\t-q\tOutput image exportation options\n\n"               \
     "norama-direct - norama-suite\n"                           \
     "Copyright (c) 2013-2015 FOXEL SA - http://foxel.ch\n"
 
