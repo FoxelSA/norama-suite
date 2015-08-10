@@ -91,7 +91,7 @@
      *  function. It simply takes care of specific options that can be passed to
      *  the OpenCV function according to the image format such as compression
      *  or quality. The determination of the output format is made on the basis
-     *  of the extention.
+     *  of the file extention.
      *
      *  \param  lcPath          Image exportation path
      *  \param  lcImage         Image to export
