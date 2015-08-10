@@ -85,6 +85,12 @@
     Header - Function prototypes
  */
 
+    int lc_imwrite ( char * lcPath, IplImage * lcImage, int lcOption );
+
+    int lc_imwrite_jpeg ( char * lcPath, IplImage * lcImage, int lcQuality );
+
+    int lc_imwrite_png ( char * lcPath, IplImage * lcImage, int lcCompression );
+
 /* 
     Header - C/C++ compatibility
  */
