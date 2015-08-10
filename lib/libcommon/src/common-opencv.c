@@ -53,13 +53,13 @@
         char * lcExt = strrchr( lcPath, '.' );
 
         /* Search image type */
-        if ( ( lcOption >= 0 ) && ( ( strcasecmp( lcExt + 1, ".jpg" ) == 0 ) || ( strcasecmp( lcExt + 1, ".jpeg" ) == 0 ) ) ) {
+        if ( ( lcOption >= 0 ) && ( ( strcasecmp( lcExt + 1, "jpg" ) == 0 ) || ( strcasecmp( lcExt + 1, "jpeg" ) == 0 ) ) ) {
 
             /* Specific exportation method */
             return( lc_imwrite_jpeg( lcPath, lcImage, lcOption ) );
 
         } else
-        if ( ( lcOption >= 0 ) && ( strcasecmp( lcExt + 1, ".png" ) == 0 ) ) {
+        if ( ( lcOption >= 0 ) && ( strcasecmp( lcExt + 1, "png" ) == 0 ) ) {
 
             /* Specific exportation method */
             return( lc_imwrite_png( lcPath, lcImage, lcOption ) );
