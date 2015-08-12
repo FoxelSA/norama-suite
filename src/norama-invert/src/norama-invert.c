@@ -132,7 +132,7 @@
             if ( nriImage != NULL ) {
 
                 /* Check for image seed */
-                if ( strlen( nriSeed ) == 0 ) {
+                if ( nriSeed == NULL ) {
 
                     /* Create image allocation */
                     nroImage = cvCreateImage( cvSize( nreWidth, nreHeight ), IPL_DEPTH_8U , nriImage->nChannels );
