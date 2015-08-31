@@ -163,7 +163,7 @@
      *  \var nr_Mouse_struct::msElev
      *  Display view elevation angle, in radian
      *  \var nr_Mouse_struct::msAppe
-     *  Display view gnomonic apperture, in radian
+     *  Display view gnomonic aperture, in radian
      *  \var nr_Mouse_struct::msWidth
      *  Mapping width broadcasting variable for motion weighting
      */

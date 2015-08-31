@@ -111,21 +111,22 @@
  */
 
     /* Standard help */
-    # define NR_HELP "Usage summary :\n\n"                 \
-    "\tnorama-earth [Arguments] [Parameters] ...\n\n"      \
-    "Short arguments and parameters summary :\n\n"         \
-    "\t-a\tInput equirectangular mapping image\n"          \
-    "\t-b\tOutput equirectangular mapping image\n"         \
-    "\t-p\tPath to CSPS directory structure\n"             \
-    "\t-c\tTrigger device CSPS-tag\n"                      \
-    "\t-m\tTrigger module CSPS-name\n"                     \
-    "\t-i\tOrientation device CSPS-tag\n"                  \
-    "\t-s\tOrientation module CSPS-name\n"                 \
-    "\t-u\tTimestamp seconds\n"                            \
-    "\t-v\tTimestamp micro-seconds\n"                      \
-    "\t-n\tInterpolation method\n"                         \
-    "\t-t\tNumber of threads\n\n"                          \
-    "norama-earth - norama-suite\n"                        \
+    # define NR_HELP "Usage summary :\n\n"                  \
+    "\tnorama-earth [Arguments] [Parameters] ...\n\n"       \
+    "Short arguments and parameters summary :\n\n"          \
+    "\t-a\tInput equirectangular mapping image\n"           \
+    "\t-b\tOutput equirectangular mapping image\n"          \
+    "\t-p\tPath to CSPS directory structure\n"              \
+    "\t-c\tTrigger device CSPS-tag\n"                       \
+    "\t-m\tTrigger module CSPS-name\n"                      \
+    "\t-i\tOrientation device CSPS-tag\n"                   \
+    "\t-s\tOrientation module CSPS-name\n"                  \
+    "\t-u\tTimestamp seconds\n"                             \
+    "\t-v\tTimestamp micro-seconds\n"                       \
+    "\t-n\tInterpolation method\n"                          \
+    "\t-t\tNumber of threads\n"                             \
+    "\t-q\tEquirectangular mapping exportation options\n\n" \
+    "norama-earth - norama-suite\n"                         \
     "Copyright (c) 2013-2015 FOXEL SA - http://foxel.ch\n"
 
 /* 

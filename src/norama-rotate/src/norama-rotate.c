@@ -54,28 +54,32 @@
         double nrElev = 0.0;
         double nrRoll = 0.0;
 
+        /* Exportation options variables */
+        int nrOption = -1;
+
         /* Parallel processing variables */
         int nrThread = 1;
 
         /* Interpolation descriptor variables */
-        char nrMethod[256] = { 0 };
+        char * nrMethod = NULL;
 
         /* Image path variables */
-        char nriPath[256] = { 0 };
-        char nroPath[256] = { 0 };
+        char * nriPath = NULL;
+        char * nroPath = NULL;
 
         /* Image allocation variables */
         IplImage * nriImage = NULL;
         IplImage * nroImage = NULL;
 
         /* Search in parameters */
-        lc_stdp( lc_stda( argc, argv, "--input"        , "-i" ), argv,   nriPath , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--output"       , "-o" ), argv,   nroPath , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv,   nrMethod, LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--input"        , "-i" ), argv, & nriPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--output"       , "-o" ), argv, & nroPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv, & nrMethod, LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--azimuth"      , "-a" ), argv, & nrAzim  , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--elevation"    , "-e" ), argv, & nrElev  , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--roll"         , "-r" ), argv, & nrRoll  , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread, LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--export"       , "-q" ), argv, & nrOption, LC_INT    );
 
         /* Software swicth */
         if ( lc_stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
@@ -114,10 +118,10 @@
                     );
 
                     /* Export output image */
-                    if ( cvSaveImage( nroPath, nroImage, NULL ) == 0 ) {
+                    if ( lc_imwrite( nroPath, nroImage, nrOption ) == 0 ) {
 
                         /* Display message */
-                        fprintf( stdout, "Error : Unable to write output image\n" );
+                        fprintf( LC_ERR, "Error : Unable to write output image\n" );
 
                     }
 
@@ -125,13 +129,13 @@
                     cvReleaseImage( & nroImage );
 
                 /* Display message */
-                } else { fprintf( stdout, "Error : Unable to create output image\n" ); }
+                } else { fprintf( LC_ERR, "Error : Unable to create output image\n" ); }
 
                 /* Release image memory */
                 cvReleaseImage( & nriImage );
 
             /* Display message */
-            } else { fprintf( stdout, "Error : Unable to read input image\n" ); }
+            } else { fprintf( LC_ERR, "Error : Unable to read input image\n" ); }
 
         }
 

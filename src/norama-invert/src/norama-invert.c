@@ -73,23 +73,26 @@
         int nrmCornerX = 0;
         int nrmCornerY = 0;
 
+        /* Exportation options variables */
+        int nrOption = -1;
+
         /* Parallel processing variables */
         int nrThread = 1;
 
         /* Interpolation tag variables */
-        char nrMethod[256] = { 0 };
+        char * nrMethod = NULL;
 
         /* Image path variables */
-        char nriPath[256] = { 0 };
-        char nroPath[256] = { 0 };
-        char nriSeed[256] = { 0 };
+        char * nriPath = NULL;
+        char * nroPath = NULL;
+        char * nriSeed = NULL;
 
         /* Image allocations variables */
         IplImage * nriImage = NULL;
         IplImage * nroImage = NULL;
 
         /* Search in parameters */
-        lc_stdp( lc_stda( argc, argv, "--apperture"    , "-u" ), argv, & nrApper   , LC_DOUBLE );
+        lc_stdp( lc_stda( argc, argv, "--aperture"     , "-u" ), argv, & nrApper   , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--sight-x"      , "-x" ), argv, & nrSightX  , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--sight-y"      , "-y" ), argv, & nrSightY  , LC_DOUBLE );
         lc_stdp( lc_stda( argc, argv, "--azimuth"      , "-a" ), argv, & nrAzim    , LC_DOUBLE );
@@ -108,10 +111,11 @@
         lc_stdp( lc_stda( argc, argv, "--tile-x"       , "-X" ), argv, & nrmCornerX, LC_INT    );
         lc_stdp( lc_stda( argc, argv, "--tile-y"       , "-Y" ), argv, & nrmCornerY, LC_INT    );
         lc_stdp( lc_stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread  , LC_INT    );
-        lc_stdp( lc_stda( argc, argv, "--input"        , "-i" ), argv,   nriPath   , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--output"       , "-o" ), argv,   nroPath   , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--seed"         , "-s" ), argv,   nriSeed   , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv,   nrMethod  , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--export"       , "-q" ), argv, & nrOption  , LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--input"        , "-i" ), argv, & nriPath   , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--output"       , "-o" ), argv, & nroPath   , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--seed"         , "-s" ), argv, & nriSeed   , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv, & nrMethod  , LC_STRING );
 
         /* Software swicth */
         if ( lc_stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
@@ -128,7 +132,7 @@
             if ( nriImage != NULL ) {
 
                 /* Check for image seed */
-                if ( strlen( nriSeed ) == 0 ) {
+                if ( nriSeed == NULL ) {
 
                     /* Create image allocation */
                     nroImage = cvCreateImage( cvSize( nreWidth, nreHeight ), IPL_DEPTH_8U , nriImage->nChannels );
@@ -243,7 +247,7 @@
                     } else
                     if ( lc_stda( argc, argv, "--complete", "-P" ) ) {
 
-                        /* Projection - apperture-specific */
+                        /* Projection - aperture-specific */
                         lg_gte_apperturep( 
 
                             ( inter_C8_t * ) nroImage->imageData,
@@ -266,10 +270,10 @@
                     }
 
                     /* Export output image */
-                    if ( cvSaveImage( nroPath, nroImage, NULL ) == 0 ) {
+                    if ( lc_imwrite( nroPath, nroImage, nrOption ) == 0 ) {
 
                         /* Display message */
-                        fprintf( stdout, "Error : Unable to write output image\n" );
+                        fprintf( LC_ERR, "Error : Unable to write output image\n" );
 
                     }
 
@@ -277,13 +281,13 @@
                     cvReleaseImage( & nroImage );
 
                 /* Display message */
-                } else { fprintf( stdout, "Error : Unable to create output image or read output image seed\n" ); }
+                } else { fprintf( LC_ERR, "Error : Unable to create output image or read output image seed\n" ); }
 
                 /* Release image memory */
                 cvReleaseImage( & nriImage );
 
             /* Display message */
-            } else { fprintf( stdout, "Error : Unable to read input image\n" ); }
+            } else { fprintf( LC_ERR, "Error : Unable to read input image\n" ); }
 
         }
 

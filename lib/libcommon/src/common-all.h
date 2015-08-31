@@ -64,6 +64,7 @@
     # include "common.h"
     # include "common-stdap.h"
     # include "common-method.h"
+    # include "common-opencv.h"
 
 /* 
     Header - Preprocessor definitions

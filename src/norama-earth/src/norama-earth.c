@@ -49,22 +49,25 @@
 
     int main ( int argc, char ** argv ) {
 
+        /* Exportation options variables */
+        int nrOption = -1;
+
         /* Parallel processing variables */
         int nrThread = 1;
 
         /* Interpolation descriptor variables */
-        char nrMethod[256] = { 0 };
+        char * nrMethod = NULL;
 
         /* Image path variables */
-        char nriPath[256] = { 0 };
-        char nroPath[256] = { 0 };
-        char nrcPath[256] = { 0 };
+        char * nriPath = NULL;
+        char * nroPath = NULL;
+        char * nrcPath = NULL;
 
         /* CSPS switch variables */
-        char nrcTag[256] = { 0 };
-        char nrcMod[256] = { 0 };
-        char nroTag[256] = { 0 };
-        char nroMod[256] = { 0 };
+        char * nrcTag = NULL;
+        char * nrcMod = NULL;
+        char * nroTag = NULL;
+        char * nroMod = NULL;
 
         /* Timestamp variables */
         lp_Time_t nrtSec = lp_Time_s( 0 );
@@ -78,17 +81,18 @@
         lp_Real_t nrMatrix[3][3] = { { 0.0 } };
 
         /* Search in parameters */
-        lc_stdp( lc_stda( argc, argv, "--input"        , "-a" ), argv,   nriPath , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--output"       , "-b" ), argv,   nroPath , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--path"         , "-p" ), argv,   nrcPath , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--cam-tag"      , "-c" ), argv,   nrcTag  , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--cam-mod"      , "-m" ), argv,   nrcMod  , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--imu-tag"      , "-i" ), argv,   nroTag  , LC_STRING );
-        lc_stdp( lc_stda( argc, argv, "--imu-mod"      , "-s" ), argv,   nroMod  , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--input"        , "-a" ), argv, & nriPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--output"       , "-b" ), argv, & nroPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--path"         , "-p" ), argv, & nrcPath , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--cam-tag"      , "-c" ), argv, & nrcTag  , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--cam-mod"      , "-m" ), argv, & nrcMod  , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--imu-tag"      , "-i" ), argv, & nroTag  , LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--imu-mod"      , "-s" ), argv, & nroMod  , LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--second"       , "-u" ), argv, & nrtSec  , LC_ULLONG );
         lc_stdp( lc_stda( argc, argv, "--micro-second" , "-v" ), argv, & nrtUse  , LC_ULLONG );
-        lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv,   nrMethod, LC_STRING );
+        lc_stdp( lc_stda( argc, argv, "--interpolation", "-n" ), argv, & nrMethod, LC_STRING );
         lc_stdp( lc_stda( argc, argv, "--threads"      , "-t" ), argv, & nrThread, LC_INT    );
+        lc_stdp( lc_stda( argc, argv, "--export"       , "-q" ), argv, & nrOption, LC_INT    );
 
         /* Software swicth */
         if ( lc_stda( argc, argv, "--help", "-h" ) || ( argc <= 1 ) ) {
@@ -128,7 +132,7 @@
                         );
 
                         /* Export output image */
-                        if ( cvSaveImage( nroPath, nroImage, NULL ) == 0 ) {
+                        if ( lc_imwrite( nroPath, nroImage, nrOption ) == 0 ) {
 
                             /* Display message */
                             fprintf( LC_ERR, "Error : Unable to write output image\n" );

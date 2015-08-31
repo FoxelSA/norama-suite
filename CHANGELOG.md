@@ -1,5 +1,9 @@
 ## Changelog
 
+### Beta 0.3.1
+
+- `Added` : Image exportation options management
+
 ### Release 0.3 (February 16, 2015)
 
 - `Added` : norama-earth for panorama orientation correction through **libcsps**
