@@ -184,13 +184,13 @@
                     cvReleaseImage( & nrdImage );
 
                 /* Display message */
-                } else { fprintf( stdout, "Error : Unable to create display buffer\n" ); }
+                } else { fprintf( LC_ERR, "Error : Unable to create display buffer\n" ); }
 
                 /* Release image memory */
                 cvReleaseImage( & nriImage );
 
             /* Display message */
-            } else { fprintf( stdout, "Error : Unable to read input image\n" ); }
+            } else { fprintf( LC_ERR, "Error : Unable to read input image\n" ); }
 
         }
 

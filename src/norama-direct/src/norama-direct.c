@@ -273,7 +273,7 @@
                     if ( lc_imwrite( nroPath, nroImage, nrOption ) == 0 ) {
 
                         /* Display message */
-                        fprintf( stdout, "Error : Unable to write output image\n" );
+                        fprintf( LC_ERR, "Error : Unable to write output image\n" );
 
                     }
 
@@ -281,13 +281,13 @@
                     cvReleaseImage( & nroImage );
 
                 /* Display message */
-                } else { fprintf( stdout, "Error : Unable to create output image or read output image seed\n" ); }
+                } else { fprintf( LC_ERR, "Error : Unable to create output image or read output image seed\n" ); }
 
                 /* Release image memory */
                 cvReleaseImage( & nriImage );
 
             /* Display message */
-            } else { fprintf( stdout, "Error : Unable to read input image\n" ); }
+            } else { fprintf( LC_ERR, "Error : Unable to read input image\n" ); }
 
         }
 
