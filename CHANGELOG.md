@@ -3,6 +3,7 @@
 ### Beta 0.3.1
 
 - `Added` : Image exportation options management
+- `Fixed` : Argument and parameter string management improvement
 
 ### Release 0.3 (February 16, 2015)
 
