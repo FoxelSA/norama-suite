@@ -1,6 +1,6 @@
 ## Changelog
 
-### Beta 0.3
+### Beta 0.3.1
 
 - `Added` : Image exportation options management
 
