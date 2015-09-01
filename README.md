@@ -1,12 +1,15 @@
 
 ## norama-suite<br />Panorama tools suite
 
+<p align="justify">
 This software suite offers tools for numerical panoramas manipulation. Mostly designed for equirectangular mappings, its role is to provide an interface to libgnomonic and its algorithms. It then offers an interface to projection and transformation features implemented in the gnomonic library. The norama-suite is also interfaced with libcsps in order to take advantage of camera motion traking to operate panoramas. Il also comes with a panorama viewer to complete the suite.
-
+</p>
 
 ### Documentation
 
+<p align="justify">
 A detailed documentation can be generated through doxygen. A more general documentation can be consulted on the [wiki](https://github.com/FoxelSA/norama-suite/wiki).
+</p>
 
 ### Copyright
 
