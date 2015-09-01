@@ -2,7 +2,7 @@
 ## norama-suite<br />Panorama tools suite
 
 <p align="justify">
-This software suite offers tools for numerical panoramas manipulation. Mostly designed for equirectangular mappings, its role is to provide an interface to libgnomonic and its algorithms. It then offers an interface to projection and transformation features implemented in the gnomonic library. The norama-suite is also interfaced with libcsps in order to take advantage of camera motion traking to operate panoramas. Il also comes with a panorama viewer to complete the suite.
+This software suite offers tools for numerical panoramas manipulation. Mostly designed for equirectangular mappings, its role is to provide an interface to <i>libgnomonic</i> and its algorithms. It then offers an interface to projection and transformation features implemented in the gnomonic library. The <i>norama-suite</i> is also interfaced with <i>libcsps</i> in order to take advantage of camera motion tracking to operate and align panoramas on earth. It also comes with a panorama viewer to complete the suite. 
 </p>
 
 ### Documentation

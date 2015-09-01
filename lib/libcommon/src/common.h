@@ -51,7 +51,9 @@
      *  Mostly designed for equirectangular mappings, its role is to provide an
      *  interface to libgnomonic and its algorithms. It then offers an interface
      *  to projection and transformation features implemented in the gnomonic
-     *  library. Il also comes with a panorama viewer to complete the suite.
+     *  library. The norama-suite is also interfaced with libcsps in order to 
+     *  take advantage of camera motion tracking to operate and align panoramas
+     *  on earth. It also comes with a panorama viewer to complete the suite. 
      *
      *  \section Documentation
      *
