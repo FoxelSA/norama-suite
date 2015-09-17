@@ -1,5 +1,9 @@
 ## Changelog
 
+### Beta 0.3.2
+
+- `Fixed` : String parameter management
+
 ### Release 0.3.1 (September 1, 2015)
 
 - `Added` : Image exportation options management
