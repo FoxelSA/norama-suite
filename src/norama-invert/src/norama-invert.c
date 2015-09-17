@@ -125,169 +125,175 @@
 
         } else {
 
-            /* Import input image */
-            nriImage = cvLoadImage( nriPath, lc_stda( argc, argv, "--force-rgb", "-F" ) ? CV_LOAD_IMAGE_COLOR : CV_LOAD_IMAGE_UNCHANGED );
+            /* Verify path strings */
+            if ( ( nriPath != NULL ) && ( nroPath != NULL ) ) {
 
-            /*  Verify input image reading */
-            if ( nriImage != NULL ) {
+                /* Import input image */
+                nriImage = cvLoadImage( nriPath, lc_stda( argc, argv, "--force-rgb", "-F" ) ? CV_LOAD_IMAGE_COLOR : CV_LOAD_IMAGE_UNCHANGED );
 
-                /* Check for image seed */
-                if ( nriSeed == NULL ) {
+                /*  Verify input image reading */
+                if ( nriImage != NULL ) {
 
-                    /* Create image allocation */
-                    nroImage = cvCreateImage( cvSize( nreWidth, nreHeight ), IPL_DEPTH_8U , nriImage->nChannels );
+                    /* Check for image seed */
+                    if ( nriSeed == NULL ) {
 
-                } else {
+                        /* Create image allocation */
+                        nroImage = cvCreateImage( cvSize( nreWidth, nreHeight ), IPL_DEPTH_8U , nriImage->nChannels );
 
-                    /* Load image seed */
-                    nroImage = cvLoadImage( nriSeed, CV_LOAD_IMAGE_UNCHANGED );
+                    } else {
 
-                }
-
-                /* Verify allocation creation */
-                if ( nroImage != NULL ) {
-
-                    /* Image initialization swicth */
-                    if ( lc_stda( argc, argv, "--clear", "-C" ) ) {
-
-                        /* Initialize image background */
-                        cvSet( nroImage, CV_RGB( nrRed, nrGreen, nrBlue ), NULL );
+                        /* Load image seed */
+                        nroImage = cvLoadImage( nriSeed, CV_LOAD_IMAGE_UNCHANGED );
 
                     }
 
-                    /* Select projection model */
-                    if ( lc_stda( argc, argv, "--generic", "-N" ) ) {
+                    /* Verify allocation creation */
+                    if ( nroImage != NULL ) {
 
-                        /* Projection - generic */
-                        lg_gtt_genericp(
+                        /* Image initialization swicth */
+                        if ( lc_stda( argc, argv, "--clear", "-C" ) ) {
 
-                            ( inter_C8_t * ) nroImage->imageData,
-                            nroImage->width,
-                            nroImage->height,
-                            nroImage->nChannels,
-                            ( inter_C8_t * ) nriImage->imageData,
-                            nriImage->width,
-                            nriImage->height,
-                            nriImage->nChannels,
-                            nrSightX,
-                            nrSightY,
-                            nrmWidth,
-                            nrmHeight,
-                            nrmCornerX,
-                            nrmCornerY,
-                            nrAzim  * ( LG_PI / 180.0 ),
-                            nrElev  * ( LG_PI / 180.0 ),
-                            nrRoll  * ( LG_PI / 180.0 ),
-                            nrFocal,
-                            nrPixel,
-                            lc_method( nrMethod ),
-                            nrThread
+                            /* Initialize image background */
+                            cvSet( nroImage, CV_RGB( nrRed, nrGreen, nrBlue ), NULL );
 
-                        );
+                        }
 
-                    } else
-                    if ( lc_stda( argc, argv, "--elphel", "-E" ) ) {
+                        /* Select projection model */
+                        if ( lc_stda( argc, argv, "--generic", "-N" ) ) {
 
-                        /* Projection - elphel-specific */
-                        lg_gtt_elphelp(
+                            /* Projection - generic */
+                            lg_gtt_genericp(
 
-                            ( inter_C8_t * ) nroImage->imageData,
-                            nroImage->width,
-                            nroImage->height,
-                            nroImage->nChannels,
-                            ( inter_C8_t * ) nriImage->imageData,
-                            nriImage->width,
-                            nriImage->height,
-                            nriImage->nChannels,
-                            nrSightX,
-                            nrSightY,
-                            nrmWidth,
-                            nrmHeight,
-                            nrmCornerX,
-                            nrmCornerY,
-                            nrRoll * ( LG_PI / 180.0 ),
-                            nrAzim * ( LG_PI / 180.0 ),
-                            nrElev * ( LG_PI / 180.0 ),
-                            nrHead * ( LG_PI / 180.0 ),
-                            nrPixel,
-                            nrFocal,
-                            lc_method( nrMethod ),
-                            nrThread
+                                ( inter_C8_t * ) nroImage->imageData,
+                                nroImage->width,
+                                nroImage->height,
+                                nroImage->nChannels,
+                                ( inter_C8_t * ) nriImage->imageData,
+                                nriImage->width,
+                                nriImage->height,
+                                nriImage->nChannels,
+                                nrSightX,
+                                nrSightY,
+                                nrmWidth,
+                                nrmHeight,
+                                nrmCornerX,
+                                nrmCornerY,
+                                nrAzim  * ( LG_PI / 180.0 ),
+                                nrElev  * ( LG_PI / 180.0 ),
+                                nrRoll  * ( LG_PI / 180.0 ),
+                                nrFocal,
+                                nrPixel,
+                                lc_method( nrMethod == NULL ? "bicubicf" : nrMethod ),
+                                nrThread
 
-                        );
+                            );
 
-                    } else
-                    if ( lc_stda( argc, argv, "--center", "-T" ) ) {
+                        } else
+                        if ( lc_stda( argc, argv, "--elphel", "-E" ) ) {
 
-                        /* Projection - center-specific */
-                        lg_gtt_centerp(
+                            /* Projection - elphel-specific */
+                            lg_gtt_elphelp(
 
-                            ( inter_C8_t * ) nroImage->imageData,
-                            nroImage->width,
-                            nroImage->height,
-                            nroImage->nChannels,
-                            ( inter_C8_t * ) nriImage->imageData,
-                            nriImage->width,
-                            nriImage->height,
-                            nriImage->nChannels,
-                            nrmWidth,
-                            nrmHeight,
-                            nrmCornerX,
-                            nrmCornerY,
-                            nrAzim * ( LG_PI / 180.0 ),
-                            nrElev * ( LG_PI / 180.0 ),
-                            nrRoll * ( LG_PI / 180.0 ),
-                            nrFocal,
-                            nrPixel,
-                            lc_method( nrMethod ),
-                            nrThread
+                                ( inter_C8_t * ) nroImage->imageData,
+                                nroImage->width,
+                                nroImage->height,
+                                nroImage->nChannels,
+                                ( inter_C8_t * ) nriImage->imageData,
+                                nriImage->width,
+                                nriImage->height,
+                                nriImage->nChannels,
+                                nrSightX,
+                                nrSightY,
+                                nrmWidth,
+                                nrmHeight,
+                                nrmCornerX,
+                                nrmCornerY,
+                                nrRoll * ( LG_PI / 180.0 ),
+                                nrAzim * ( LG_PI / 180.0 ),
+                                nrElev * ( LG_PI / 180.0 ),
+                                nrHead * ( LG_PI / 180.0 ),
+                                nrPixel,
+                                nrFocal,
+                                lc_method( nrMethod == NULL ? "bicubicf" : nrMethod ),
+                                nrThread
 
-                        );
+                            );
 
-                    } else
-                    if ( lc_stda( argc, argv, "--complete", "-P" ) ) {
+                        } else
+                        if ( lc_stda( argc, argv, "--center", "-T" ) ) {
 
-                        /* Projection - aperture-specific */
-                        lg_gte_apperturep( 
+                            /* Projection - center-specific */
+                            lg_gtt_centerp(
 
-                            ( inter_C8_t * ) nroImage->imageData,
-                            nroImage->width,
-                            nroImage->height,
-                            nroImage->nChannels,
-                            ( inter_C8_t * ) nriImage->imageData,
-                            nriImage->width,
-                            nriImage->height,
-                            nriImage->nChannels,
-                            nrAzim  * ( LG_PI / 180.0 ),
-                            nrElev  * ( LG_PI / 180.0 ),
-                            nrRoll  * ( LG_PI / 180.0 ),
-                            nrApper * ( LG_PI / 180.0 ),
-                            lc_method( nrMethod ),
-                            nrThread
+                                ( inter_C8_t * ) nroImage->imageData,
+                                nroImage->width,
+                                nroImage->height,
+                                nroImage->nChannels,
+                                ( inter_C8_t * ) nriImage->imageData,
+                                nriImage->width,
+                                nriImage->height,
+                                nriImage->nChannels,
+                                nrmWidth,
+                                nrmHeight,
+                                nrmCornerX,
+                                nrmCornerY,
+                                nrAzim * ( LG_PI / 180.0 ),
+                                nrElev * ( LG_PI / 180.0 ),
+                                nrRoll * ( LG_PI / 180.0 ),
+                                nrFocal,
+                                nrPixel,
+                                lc_method( nrMethod == NULL ? "bicubicf" : nrMethod ),
+                                nrThread
 
-                        );
+                            );
 
-                    }
+                        } else
+                        if ( lc_stda( argc, argv, "--complete", "-P" ) ) {
 
-                    /* Export output image */
-                    if ( lc_imwrite( nroPath, nroImage, nrOption ) == 0 ) {
+                            /* Projection - aperture-specific */
+                            lg_gte_apperturep( 
 
-                        /* Display message */
-                        fprintf( LC_ERR, "Error : Unable to write output image\n" );
+                                ( inter_C8_t * ) nroImage->imageData,
+                                nroImage->width,
+                                nroImage->height,
+                                nroImage->nChannels,
+                                ( inter_C8_t * ) nriImage->imageData,
+                                nriImage->width,
+                                nriImage->height,
+                                nriImage->nChannels,
+                                nrAzim  * ( LG_PI / 180.0 ),
+                                nrElev  * ( LG_PI / 180.0 ),
+                                nrRoll  * ( LG_PI / 180.0 ),
+                                nrApper * ( LG_PI / 180.0 ),
+                                lc_method( nrMethod == NULL ? "bicubicf" : nrMethod ),
+                                nrThread
 
-                    }
+                            );
+
+                        }
+
+                        /* Export output image */
+                        if ( lc_imwrite( nroPath, nroImage, nrOption ) == 0 ) {
+
+                            /* Display message */
+                            fprintf( LC_ERR, "Error : Unable to write output image\n" );
+
+                        }
+
+                        /* Release image memory */
+                        cvReleaseImage( & nroImage );
+
+                    /* Display message */
+                    } else { fprintf( LC_ERR, "Error : Unable to create output image or read output image seed\n" ); }
 
                     /* Release image memory */
-                    cvReleaseImage( & nroImage );
+                    cvReleaseImage( & nriImage );
 
                 /* Display message */
-                } else { fprintf( LC_ERR, "Error : Unable to create output image or read output image seed\n" ); }
-
-                /* Release image memory */
-                cvReleaseImage( & nriImage );
+                } else { fprintf( LC_ERR, "Error : Unable to read input image\n" ); }
 
             /* Display message */
-            } else { fprintf( LC_ERR, "Error : Unable to read input image\n" ); }
+            } else { fprintf( LC_ERR, "Error : Invalid path specification\n" ); }
 
         }
 
