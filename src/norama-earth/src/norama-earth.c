@@ -102,56 +102,62 @@
 
         } else {
 
-            /* Import input image */
-            nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_UNCHANGED );
+            /* Verify path strings */
+            if ( ( nriPath != NULL ) && ( nroPath != NULL ) && ( nrcPath != NULL ) ) {
 
-            /*  Verify input image reading */
-            if ( nriImage != NULL ) {
+                /* Import input image */
+                nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_UNCHANGED );
 
-                /* Create image allocation */
-                nroImage = cvCreateImage( cvSize( nriImage->width, nriImage->height ), IPL_DEPTH_8U , nriImage->nChannels );
+                /*  Verify input image reading */
+                if ( nriImage != NULL ) {
 
-                /* Verify allocation creation */
-                if ( nroImage != NULL ) {
+                    /* Create image allocation */
+                    nroImage = cvCreateImage( cvSize( nriImage->width, nriImage->height ), IPL_DEPTH_8U , nriImage->nChannels );
 
-                    /* Query rotation matrix */
-                    if ( nr_earth_matrix( nrcPath, nrcTag, nrcMod, nroTag, nroMod, nrtSec, nrtUse, nrMatrix ) == LC_TRUE ) {
+                    /* Verify allocation creation */
+                    if ( nroImage != NULL ) {
 
-                        /* Apply equirectangular transformation */
-                        lg_transform_matrixp( 
+                        /* Query rotation matrix */
+                        if ( nr_earth_matrix( nrcPath, nrcTag, nrcMod, nroTag, nroMod, nrtSec, nrtUse, nrMatrix ) == LC_TRUE ) {
 
-                            ( inter_C8_t * ) nriImage->imageData,
-                            ( inter_C8_t * ) nroImage->imageData,
-                            nriImage->width,
-                            nriImage->height,
-                            nriImage->nChannels,
-                            nrMatrix,
-                            lc_method( nrMethod ),
-                            nrThread
+                            /* Apply equirectangular transformation */
+                            lg_transform_matrixp( 
 
-                        );
+                                ( inter_C8_t * ) nriImage->imageData,
+                                ( inter_C8_t * ) nroImage->imageData,
+                                nriImage->width,
+                                nriImage->height,
+                                nriImage->nChannels,
+                                nrMatrix,
+                                lc_method( nrMethod == NULL ? "bicubicf" : nrMethod ),
+                                nrThread
 
-                        /* Export output image */
-                        if ( lc_imwrite( nroPath, nroImage, nrOption ) == 0 ) {
+                            );
 
-                            /* Display message */
-                            fprintf( LC_ERR, "Error : Unable to write output image\n" );
+                            /* Export output image */
+                            if ( lc_imwrite( nroPath, nroImage, nrOption ) == 0 ) {
+
+                                /* Display message */
+                                fprintf( LC_ERR, "Error : Unable to write output image\n" );
+
+                            }
 
                         }
 
-                    }
+                        /* Release image memory */
+                        cvReleaseImage( & nroImage );
+
+                    /* Display message */
+                    } else { fprintf( LC_ERR, "Error : Unable to create output image\n" ); }
 
                     /* Release image memory */
-                    cvReleaseImage( & nroImage );
+                    cvReleaseImage( & nriImage );
 
                 /* Display message */
-                } else { fprintf( LC_ERR, "Error : Unable to create output image\n" ); }
-
-                /* Release image memory */
-                cvReleaseImage( & nriImage );
+                } else { fprintf( LC_ERR, "Error : Unable to read input image\n" ); }
 
             /* Display message */
-            } else { fprintf( LC_ERR, "Error : Unable to read input image\n" ); }
+            } else { fprintf( LC_ERR, "Error : Invalid path specification\n" ); }
 
         }
 
@@ -184,67 +190,77 @@
         /* Returned value variables */
         int nrReturn = LC_FALSE;
 
-        /* Create query structure */
-        nrTrigger = lp_query_trigger_create( nrPath, nrCamTag, nrCamMod );
+        /* Verify switches */
+        if ( ( nrCamTag == NULL ) || ( nrCamMod == NULL ) || ( nrIMUTag == NULL ) || ( nrIMUMod == NULL ) ) {
 
-        /* Verify structure state */
-        if ( lp_query_trigger_state( & nrTrigger ) == LP_FALSE ) {
-
-            /* Display message */
-            fprintf( LC_ERR, "Error : unable to create query structure on trigger\n" );
+                /* Display message */
+                fprintf( LC_ERR, "Error : Invalid CSPS switch specification\n" );
 
         } else {
 
             /* Create query structure */
-            nrOrient = lp_query_orientation_create( nrPath, nrIMUTag, nrIMUMod );
+            nrTrigger = lp_query_trigger_create( nrPath, nrCamTag, nrCamMod );
 
             /* Verify structure state */
-            if ( lp_query_orientation_state( & nrOrient ) == LP_FALSE ) {
+            if ( lp_query_trigger_state( & nrTrigger ) == LP_FALSE ) {
 
                 /* Display message */
-                fprintf( LC_ERR, "Error : unable to create query structure on orientation\n" );
+                fprintf( LC_ERR, "Error : Unable to create query structure on trigger\n" );
 
             } else {
 
-                /* Query master/synchronization time-link */
-                lp_query_trigger_bymaster( & nrTrigger, lp_timestamp_compose( nrSecond, nrMicro ) );
+                /* Create query structure */
+                nrOrient = lp_query_orientation_create( nrPath, nrIMUTag, nrIMUMod );
 
-                /* Verify query status */
-                if ( lp_query_trigger_status( & nrTrigger ) == LP_FALSE ) {
+                /* Verify structure state */
+                if ( lp_query_orientation_state( & nrOrient ) == LP_FALSE ) {
 
                     /* Display message */
-                    fprintf( LC_ERR, "Error : unable to query trigger timestamp\n" );
+                    fprintf( LC_ERR, "Error : Unable to create query structure on orientation\n" );
 
                 } else {
 
-                    /* Query orientation by timestamp */
-                    lp_query_orientation( & nrOrient, nrTrigger.qrSynch );
+                    /* Query master/synchronization time-link */
+                    lp_query_trigger_bymaster( & nrTrigger, lp_timestamp_compose( nrSecond, nrMicro ) );
 
                     /* Verify query status */
-                    if ( lp_query_orientation_status( & nrOrient ) == LP_FALSE ) {
+                    if ( lp_query_trigger_status( & nrTrigger ) == LP_FALSE ) {
 
                         /* Display message */
-                        fprintf( LC_ERR, "Error : unable to query orientation\n" );
+                        fprintf( LC_ERR, "Error : Unable to query trigger timestamp\n" );
 
                     } else {
 
-                        /* Rotation matrix method */
-                        lp_query_orientation_matrix( & nrOrient, nrMatrix );
+                        /* Query orientation by timestamp */
+                        lp_query_orientation( & nrOrient, nrTrigger.qrSynch );
 
-                        /* Update status */
-                        nrReturn = LC_TRUE;
+                        /* Verify query status */
+                        if ( lp_query_orientation_status( & nrOrient ) == LP_FALSE ) {
+
+                            /* Display message */
+                            fprintf( LC_ERR, "Error : Unable to query orientation\n" );
+
+                        } else {
+
+                            /* Rotation matrix method */
+                            lp_query_orientation_matrix( & nrOrient, nrMatrix );
+
+                            /* Update status */
+                            nrReturn = LC_TRUE;
+
+                        }
 
                     }
+
+                    /* Release query structure */
+                    lp_query_orientation_delete( & nrOrient );
 
                 }
 
                 /* Release query structure */
-                lp_query_orientation_delete( & nrOrient );
+                lp_query_trigger_delete( & nrTrigger );
 
             }
-
-            /* Release query structure */
-            lp_query_trigger_delete( & nrTrigger );
 
         }
 
