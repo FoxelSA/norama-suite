@@ -1,6 +1,6 @@
 ## Changelog
 
-### Beta 0.3.2
+### Release 0.3.2 (September 17, 2015)
 
 - `Fixed` : String parameter management
 
