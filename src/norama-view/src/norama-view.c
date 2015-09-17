@@ -90,107 +90,113 @@
 
         } else {
 
-            /* Import input image */
-            nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_UNCHANGED );
+            /* Verify path strings */
+            if ( nriPath != NULL ) {
 
-            /*  Verify input image reading */
-            if ( nriImage != NULL ) {
+                /* Import input image */
+                nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_UNCHANGED );
 
-                /* Obtain screen resolution */
-                if ( ( nrWidth == 0 ) || ( nrHeight == 0 ) ) nr_view_display( & nrWidth, & nrHeight, nrScale );
+                /*  Verify input image reading */
+                if ( nriImage != NULL ) {
 
-                /* Store display dimenstion */
-                nrMouse.msWidth = nrWidth;
+                    /* Obtain screen resolution */
+                    if ( ( nrWidth == 0 ) || ( nrHeight == 0 ) ) nr_view_display( & nrWidth, & nrHeight, nrScale );
 
-                /* Create image allocation */
-                nrdImage = cvCreateImage( cvSize( nrWidth, nrHeight ), IPL_DEPTH_8U , nriImage->nChannels );
+                    /* Store display dimenstion */
+                    nrMouse.msWidth = nrWidth;
 
-                /* Verify allocation creation */
-                if ( nrdImage != NULL ) {
+                    /* Create image allocation */
+                    nrdImage = cvCreateImage( cvSize( nrWidth, nrHeight ), IPL_DEPTH_8U , nriImage->nChannels );
 
-                    /* Create display window */
-                    cvNamedWindow( nrName, CV_WINDOW_NORMAL );
+                    /* Verify allocation creation */
+                    if ( nrdImage != NULL ) {
 
-                    /* Setting window on full screen */
-                    cvSetWindowProperty( nrName, CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN );
+                        /* Create display window */
+                        cvNamedWindow( nrName, CV_WINDOW_NORMAL );
 
-                    /* Define window mouse event callback function */
-                    cvSetMouseCallback( nrName, & ( nr_view_mouse ), & ( nrMouse ) );
+                        /* Setting window on full screen */
+                        cvSetWindowProperty( nrName, CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN );
 
-                    /* Display pseudo-infinite loop */
-                    while ( ( nrEvent = ( unsigned char ) cvWaitKey( 1 ) ) != NR_KEY_ESCAPE ) {
+                        /* Define window mouse event callback function */
+                        cvSetMouseCallback( nrName, & ( nr_view_mouse ), & ( nrMouse ) );
 
-                        /* Boundaries management */
-                        if ( nrMouse.msAppe > NR_MAX_APPER ) {
+                        /* Display pseudo-infinite loop */
+                        while ( ( nrEvent = ( unsigned char ) cvWaitKey( 1 ) ) != NR_KEY_ESCAPE ) {
 
-                            /* Re-range field-of-view */
-                            nrMouse.msAppe = NR_MAX_APPER;
+                            /* Boundaries management */
+                            if ( nrMouse.msAppe > NR_MAX_APPER ) {
 
-                        } else
-                        if ( nrMouse.msAppe < NR_MIN_APPER ) {
+                                /* Re-range field-of-view */
+                                nrMouse.msAppe = NR_MAX_APPER;
 
-                            /* Re-range field-of-view */
-                            nrMouse.msAppe = NR_MIN_APPER;
+                            } else
+                            if ( nrMouse.msAppe < NR_MIN_APPER ) {
+
+                                /* Re-range field-of-view */
+                                nrMouse.msAppe = NR_MIN_APPER;
+
+                            }
+
+                            /* Keyevent management */
+                            if ( nrEvent == NR_KEY_F ) {
+
+                                /* Reset field-of-view */
+                                nrMouse.msAppe = NR_DFT_APPER;
+
+                            } else
+                            if ( nrEvent == NR_KEY_R ) {
+
+                                /* Reset angular position */
+                                nrMouse.msAzim = 0.0;
+                                nrMouse.msElev = 0.0;
+
+                                /* Reset field-of-view */
+                                nrMouse.msAppe = NR_DFT_APPER;
+
+                            }
+
+                            /* Compute gnomonic projection */
+                            lg_etg_apperturep(
+
+                                ( inter_C8_t * ) nriImage->imageData,
+                                nriImage->width,
+                                nriImage->height,
+                                nriImage->nChannels,
+                                ( inter_C8_t * ) nrdImage->imageData,
+                                nrdImage->width,
+                                nrdImage->height,
+                                nrdImage->nChannels,
+                                nrMouse.msAzim,
+                                nrMouse.msElev,
+                                0.0,
+                                nrMouse.msAppe,
+                                li_bilinearf,
+                                nrThread
+
+                            );
+
+                            /* Display image on screen */
+                            cvShowImage( nrName, nrdImage );
 
                         }
 
-                        /* Keyevent management */
-                        if ( nrEvent == NR_KEY_F ) {
+                        /* Destroy display window */
+                        cvDestroyWindow( nrName );
 
-                            /* Reset field-of-view */
-                            nrMouse.msAppe = NR_DFT_APPER;
+                        /* Release image memory */
+                        cvReleaseImage( & nrdImage );
 
-                        } else
-                        if ( nrEvent == NR_KEY_R ) {
-
-                            /* Reset angular position */
-                            nrMouse.msAzim = 0.0;
-                            nrMouse.msElev = 0.0;
-
-                            /* Reset field-of-view */
-                            nrMouse.msAppe = NR_DFT_APPER;
-
-                        }
-
-                        /* Compute gnomonic projection */
-                        lg_etg_apperturep(
-
-                            ( inter_C8_t * ) nriImage->imageData,
-                            nriImage->width,
-                            nriImage->height,
-                            nriImage->nChannels,
-                            ( inter_C8_t * ) nrdImage->imageData,
-                            nrdImage->width,
-                            nrdImage->height,
-                            nrdImage->nChannels,
-                            nrMouse.msAzim,
-                            nrMouse.msElev,
-                            0.0,
-                            nrMouse.msAppe,
-                            li_bilinearf,
-                            nrThread
-
-                        );
-
-                        /* Display image on screen */
-                        cvShowImage( nrName, nrdImage );
-
-                    }
-
-                    /* Destroy display window */
-                    cvDestroyWindow( nrName );
+                    /* Display message */
+                    } else { fprintf( LC_ERR, "Error : Unable to create display buffer\n" ); }
 
                     /* Release image memory */
-                    cvReleaseImage( & nrdImage );
+                    cvReleaseImage( & nriImage );
 
                 /* Display message */
-                } else { fprintf( LC_ERR, "Error : Unable to create display buffer\n" ); }
-
-                /* Release image memory */
-                cvReleaseImage( & nriImage );
+                } else { fprintf( LC_ERR, "Error : Unable to read input image\n" ); }
 
             /* Display message */
-            } else { fprintf( LC_ERR, "Error : Unable to read input image\n" ); }
+            } else { fprintf( LC_ERR, "Error : Invalid path specification\n" ); }
 
         }
 
