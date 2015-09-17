@@ -89,53 +89,59 @@
 
         } else {
 
-            /* Import input image */
-            nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_UNCHANGED );
+            /* Verify path strings */
+            if ( ( nriPath != NULL ) && ( nroPath != NULL ) ) {
 
-            /*  Verify input image reading */
-            if ( nriImage != NULL ) {
+                /* Import input image */
+                nriImage = cvLoadImage( nriPath, CV_LOAD_IMAGE_UNCHANGED );
 
-                /* Create image allocation */
-                nroImage = cvCreateImage( cvSize( nriImage->width, nriImage->height ), IPL_DEPTH_8U , nriImage->nChannels );
+                /*  Verify input image reading */
+                if ( nriImage != NULL ) {
 
-                /* Verify allocation creation */
-                if ( nroImage != NULL ) {
+                    /* Create image allocation */
+                    nroImage = cvCreateImage( cvSize( nriImage->width, nriImage->height ), IPL_DEPTH_8U , nriImage->nChannels );
 
-                    /* Apply equirectangular transform */
-                    lg_transform_rotatep( 
+                    /* Verify allocation creation */
+                    if ( nroImage != NULL ) {
 
-                        ( inter_C8_t * ) nriImage->imageData,
-                        ( inter_C8_t * ) nroImage->imageData,
-                        nriImage->width,
-                        nriImage->height,
-                        nriImage->nChannels,
-                        nrAzim * ( LG_PI / 180.0 ),
-                        nrElev * ( LG_PI / 180.0 ),
-                        nrRoll * ( LG_PI / 180.0 ),
-                        lc_method( nrMethod ),
-                        nrThread
+                        /* Apply equirectangular transform */
+                        lg_transform_rotatep( 
 
-                    );
+                            ( inter_C8_t * ) nriImage->imageData,
+                            ( inter_C8_t * ) nroImage->imageData,
+                            nriImage->width,
+                            nriImage->height,
+                            nriImage->nChannels,
+                            nrAzim * ( LG_PI / 180.0 ),
+                            nrElev * ( LG_PI / 180.0 ),
+                            nrRoll * ( LG_PI / 180.0 ),
+                            lc_method( nrMethod == NULL ? "bicubicf" : nrMethod ),
+                            nrThread
 
-                    /* Export output image */
-                    if ( lc_imwrite( nroPath, nroImage, nrOption ) == 0 ) {
+                        );
 
-                        /* Display message */
-                        fprintf( LC_ERR, "Error : Unable to write output image\n" );
+                        /* Export output image */
+                        if ( lc_imwrite( nroPath, nroImage, nrOption ) == 0 ) {
 
-                    }
+                            /* Display message */
+                            fprintf( LC_ERR, "Error : Unable to write output image\n" );
+
+                        }
+
+                        /* Release image memory */
+                        cvReleaseImage( & nroImage );
+
+                    /* Display message */
+                    } else { fprintf( LC_ERR, "Error : Unable to create output image\n" ); }
 
                     /* Release image memory */
-                    cvReleaseImage( & nroImage );
+                    cvReleaseImage( & nriImage );
 
                 /* Display message */
-                } else { fprintf( LC_ERR, "Error : Unable to create output image\n" ); }
-
-                /* Release image memory */
-                cvReleaseImage( & nriImage );
+                } else { fprintf( LC_ERR, "Error : Unable to read input image\n" ); }
 
             /* Display message */
-            } else { fprintf( LC_ERR, "Error : Unable to read input image\n" ); }
+            } else { fprintf( LC_ERR, "Error : Invalid path specification\n" ); }
 
         }
 
