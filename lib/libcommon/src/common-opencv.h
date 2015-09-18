@@ -36,7 +36,7 @@
  *      Attribution" section of <http://foxel.ch/license>.
  */
 
-    /*! \file   common-stdap.h
+    /*! \file   common-opencv.h
      *  \author Nils Hamel <n.hamel@foxel.ch>
      *
      *  OpenCV function interface
